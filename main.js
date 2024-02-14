@@ -35,7 +35,7 @@ var render = Render.create({
 },});
 
 // Create box and ground
-var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0.1, frictionAir : 0.05, frictionStatic : 0});
+var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
 player.timeScale = 1;
 var ground = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
 var collidableBodies = [ground];
@@ -62,44 +62,6 @@ Composite.add(engine.world, [player, ground, mouseConstraint]);
 // run the renderer
 Render.run(render);
 
-// Record of whether a key is currently being pressed
-var keysPressed = {"ArrowUp" : false, "ArrowDown" : false, "ArrowRight" : false, "ArrowLeft" : false};
-
-// Change the key's corresponding value (get it?) to be true when pressed
-window.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case "ArrowUp":
-            keysPressed["ArrowUp"] = true;
-            break;
-        case "ArrowDown":
-            keysPressed["ArrowDown"] = true;
-            break;
-        case "ArrowRight":
-            keysPressed["ArrowRight"] = true;
-            break;
-        case "ArrowLeft":
-            keysPressed["ArrowLeft"] = true;
-    }});
-
-// Change the key's corresponding value to be false when released
-window.addEventListener("keyup", (event) => {
-    switch (event.key) {
-        case "ArrowUp":
-            keysPressed["ArrowUp"] = false;
-            break;
-        case "ArrowDown":
-            keysPressed["ArrowDown"] = false;
-            break;
-        case "ArrowRight":
-            keysPressed["ArrowRight"] = false;
-            break;
-        case "ArrowLeft":
-            keysPressed["ArrowLeft"] = false;
-    }});
-
-
-
-
 (function mainLoop() {
     var _onGround = (Collision.collides(player, ground) != null);
 
@@ -117,19 +79,10 @@ window.addEventListener("keyup", (event) => {
         move('left');
     }
 
-    // Maximum velocity
-    if (player.velocity.x > horMax) {
-        Body.setVelocity(player, {x : horMax, y : player.velocity.y});
-    }
-    if (player.velocity.x < -horMax) {
-        Body.setVelocity(player, {x : -horMax, y : player.velocity.y});
-    }
-    if (player.velocity.y > verMax) {
-        Body.setVelocity(player, {x : player.velocity.x, y : verMax});
-    }
-    if (player.velocity.y < -verMax) {
-        Body.setVelocity(player, {x : player.velocity.x, y : -verMax});
-    }
+    decel();
+    
+    maxVel();
+
     
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
