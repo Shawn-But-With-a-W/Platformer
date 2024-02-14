@@ -94,44 +94,36 @@ window.addEventListener("keyup", (event) => {
             keysPressed["ArrowLeft"] = false;
     }});
 
-var tempAcc = 2;
-var tempSpeedCap = 10;
-var tempDec = 2;
+
 
 
 (function mainLoop() {
     // Move the box according to keyboard inputs
     if (keysPressed["ArrowUp"] == true) {
-        Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y-tempAcc});
+        jump();
     }
     if (keysPressed["ArrowDown"] == true) {
-        Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y+tempAcc});
+        fastFall();
     }
     if (keysPressed["ArrowRight"] == true) {
-        Body.setVelocity(player, {x : player.velocity.x+tempAcc, y : player.velocity.y});
-    }
-    else {
-        Body.setVelocity(player, {x : player.velocity.x-tempAcc, y : player.velocity.y});
+        move('right');
     }
     if (keysPressed["ArrowLeft"] == true) {
-        Body.setVelocity(player, {x : player.velocity.x-tempAcc, y : player.velocity.y});
-    }
-    else {
-        Body.setVelocity(player, {x : player.velocity.x+tempAcc, y : player.velocity.y});
+        move('left');
     }
 
     // Maximum velocity
-    if (player.velocity.x > tempSpeedCap) {
-        Body.setVelocity(player, {x : tempSpeedCap, y : player.velocity.y});
+    if (player.velocity.x > horMax) {
+        Body.setVelocity(player, {x : horMax, y : player.velocity.y});
     }
-    if (player.velocity.x < -tempSpeedCap) {
-        Body.setVelocity(player, {x : -tempSpeedCap, y : player.velocity.y});
+    if (player.velocity.x < -horMax) {
+        Body.setVelocity(player, {x : -horMax, y : player.velocity.y});
     }
-    if (player.velocity.y > tempSpeedCap) {
-        Body.setVelocity(player, {x : player.velocity.x, y : tempSpeedCap});
+    if (player.velocity.y > verMax) {
+        Body.setVelocity(player, {x : player.velocity.x, y : verMax});
     }
-    if (player.velocity.y < -tempSpeedCap) {
-        Body.setVelocity(player, {x : player.velocity.x, y : -tempSpeedCap});
+    if (player.velocity.y < -verMax) {
+        Body.setVelocity(player, {x : player.velocity.x, y : -verMax});
     }
     
 
