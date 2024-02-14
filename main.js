@@ -8,6 +8,7 @@ var Engine = Matter.Engine,
     Bodies = Matter.Bodies,
     Body = Matter.Body,
     Composite = Matter.Composite,
+    Collision = Matter.Collision,
     Mouse = Matter.Mouse,
     MouseConstraint = Matter.MouseConstraint;
 
@@ -34,8 +35,10 @@ var render = Render.create({
 },});
 
 // Create box and ground
-var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
+var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0.1, frictionAir : 0.05, frictionStatic : 0});
+player.timeScale = 1;
 var ground = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
+var collidableBodies = [ground];
 
 // add mouse control
 var mouse = Mouse.create(render.canvas),
@@ -98,17 +101,19 @@ window.addEventListener("keyup", (event) => {
 
 
 (function mainLoop() {
+    var _onGround = (Collision.collides(player, ground) != null);
+
     // Move the box according to keyboard inputs
-    if (keysPressed["ArrowUp"] == true) {
+    if (keysPressed["ArrowUp"] && _onGround) {
         jump();
     }
-    if (keysPressed["ArrowDown"] == true) {
+    if (keysPressed["ArrowDown"]) {
         fastFall();
     }
-    if (keysPressed["ArrowRight"] == true) {
+    if (keysPressed["ArrowRight"]) {
         move('right');
     }
-    if (keysPressed["ArrowLeft"] == true) {
+    if (keysPressed["ArrowLeft"]) {
         move('left');
     }
 
@@ -126,7 +131,6 @@ window.addEventListener("keyup", (event) => {
         Body.setVelocity(player, {x : player.velocity.x, y : -verMax});
     }
     
-
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
 })();

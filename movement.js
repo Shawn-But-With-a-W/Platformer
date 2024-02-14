@@ -2,10 +2,9 @@ var horAcc = 0.1;
 var horDec = 0.5;
 var horMax = 10;
 
-var jumpAcc = 5;
-var fallAcc = 5;
-var verMax = 20;
-var grav = 9.8;
+var jumpAcc = 7;
+var fallAcc = 2;
+var verMax = 15;
 
 
 
