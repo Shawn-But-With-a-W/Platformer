@@ -34,12 +34,6 @@ var render = Render.create({
         showVelocity : true,
 },});
 
-// Create box and ground
-var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
-player.timeScale = 1;
-var ground = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
-var collidableBodies = [ground];
-
 // add mouse control
 var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -54,18 +48,40 @@ var mouse = Mouse.create(render.canvas),
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
+// Create box and ground
+var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
+player.timeScale = 1;
+var floor = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
+var wall1 = Bodies.rectangle(0, 287, 30, 575, {isStatic : true});
+var wall2 = Bodies.rectangle(1280, 287, 30, 575, {isStatic : true});
+var grounds = [floor];
+var walls = [wall1, wall2];
+
 
 // add all of the bodies to the world
-Composite.add(engine.world, [player, ground, mouseConstraint]);
+Composite.add(engine.world, [player, floor, wall1, wall2, mouseConstraint]);
 
 // run the renderer
 Render.run(render);
 
 (function mainLoop() {
-    var _onGround = (Collision.collides(player, ground) != null);
+    var _onGround = false;
+    var type = "air";
+    for (let ground of grounds) {
+        if (Collision.collides(player, ground) != null) {
+            _onGround = true;
+            type = "hor";
+            break
+        }
+    }
 
-    let type;
-    (_onGround) ? (type="hor") : (type="air");
+    var _onWall = false;
+    for (let wall of walls) {
+        if (Collision.collides(player, wall) != null) {
+            _onWall = false;
+            break
+        }
+    }
     
 
     // Move the box according to keyboard inputs
