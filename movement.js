@@ -1,58 +1,48 @@
-var horAcc = 0.1;
-var horDec = 1;
-var horMax = 10;
+var PARAMETERS = {
+    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1.5 },
+    dec : { hor : 0.07, air : 0.05 },
+    max : { hor : 3, air : 5, ver : 15},
+}
 
-var jumpAcc = 7;
-var fallAcc = 2;
-var verMax = 15;
-
-
-
-function move(dir) {
+function move(dir,  type) {
     switch (dir) {
         case "right":
-            Body.setVelocity(player, {x : player.velocity.x + horAcc, y : player.velocity.y});
+            Body.setVelocity(player, {x : player.velocity.x + PARAMETERS.acc[type], y : player.velocity.y});
             break
         case "left":
-            Body.setVelocity(player, {x : player.velocity.x - horAcc, y : player.velocity.y});
-            break
+            Body.setVelocity(player, {x : player.velocity.x - PARAMETERS.acc[type], y : player.velocity.y});
     }
 }
 
 function jump() {
-    Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - jumpAcc});
+    Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - PARAMETERS.acc.jum});
 }
 
 function fastFall() {
-    Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + fallAcc});
+    Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + PARAMETERS.acc.fal});
 }
 
-function maxVel() {
-    if (player.velocity.x > horMax) {
-        Body.setVelocity(player, {x : horMax, y : player.velocity.y});
+function maxVel(type) {
+
+    if (player.velocity.x > PARAMETERS.max.hor) {
+        Body.setVelocity(player, {x : PARAMETERS.max[type], y : player.velocity.y});
     }
-    if (player.velocity.x < -horMax) {
-        Body.setVelocity(player, {x : -horMax, y : player.velocity.y});
+    if (player.velocity.x < -PARAMETERS.max.hor) {
+        Body.setVelocity(player, {x : -PARAMETERS.max[type], y : player.velocity.y});
     }
-    if (player.velocity.y > verMax) {
-        Body.setVelocity(player, {x : player.velocity.x, y : verMax});
+    if (player.velocity.y > PARAMETERS.max.ver) {
+        Body.setVelocity(player, {x : player.velocity.x, y : PARAMETERS.max.ver});
     }
-    if (player.velocity.y < -verMax) {
-        Body.setVelocity(player, {x : player.velocity.x, y : -verMax});
+    if (player.velocity.y < -PARAMETERS.max.ver) {
+        Body.setVelocity(player, {x : player.velocity.x, y : -PARAMETERS.max.ver});
     }
 }
 
-function decel() {
+function decel(type) {
     if (player.velocity.x > 0) {
-        Body.setVelocity(player, {x : player.velocity.x - horDec, y : player.velocity.y});
-        console.log("plus");
+        Body.setVelocity(player, {x : player.velocity.x - PARAMETERS.dec[type], y : player.velocity.y});
     }
     else if (player.velocity.x < 0) {
-        player.velocity.x += horDec;
-        console.log("minus");
+        Body.setVelocity(player, {x : player.velocity.x + PARAMETERS.dec[type], y : player.velocity.y})
     }
-    else {
-        console.log("idk ")
-    }
-
 }

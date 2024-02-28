@@ -51,7 +51,6 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
-
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
@@ -65,6 +64,10 @@ Render.run(render);
 (function mainLoop() {
     var _onGround = (Collision.collides(player, ground) != null);
 
+    let type;
+    (_onGround) ? (type="hor") : (type="air");
+    
+
     // Move the box according to keyboard inputs
     if (keysPressed["ArrowUp"] && _onGround) {
         jump();
@@ -73,15 +76,14 @@ Render.run(render);
         fastFall();
     }
     if (keysPressed["ArrowRight"]) {
-        move('right');
+        move('right', type);
     }
     if (keysPressed["ArrowLeft"]) {
-        move('left');
+        move('left', type);
     }
 
-    decel();
-    
-    maxVel();
+    decel(type);
+    maxVel(type);
 
     
     window.requestAnimationFrame(mainLoop);
