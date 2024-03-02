@@ -1,5 +1,6 @@
-// TODO: add acceleration and deceleration
 // TODO: add obstacles and test
+// TODO: switch gravity
+// TODO: scale time
 
 // module aliases
 var Engine = Matter.Engine,
@@ -49,7 +50,7 @@ var mouse = Mouse.create(render.canvas),
 render.mouse = mouse;
 
 // Create box and ground
-var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
+var player = Bodies.rectangle(640, 0, 40, 40, {friction : 0, frictionAir : 0, frictionStatic : 0});
 player.timeScale = 1;
 var floor = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
 var wall1 = Bodies.rectangle(0, 287, 30, 575, {isStatic : true});
