@@ -78,7 +78,13 @@ Render.run(render);
     var _onWall = false;
     for (let wall of walls) {
         if (Collision.collides(player, wall) != null) {
-            _onWall = false;
+            _onWall = true;
+            if (wall.position.x > player.position.x) {
+                var wallDir = "right";
+            }
+            else if (wall.position.x < player.position.x) {
+                var wallDir = "left"
+            }
             break
         }
     }
@@ -86,7 +92,7 @@ Render.run(render);
 
     // Move the box according to keyboard inputs
     if (keysPressed["ArrowUp"] && _onGround) {
-        jump();
+            jump();
     }
     if (keysPressed["ArrowDown"]) {
         fastFall();
@@ -96,6 +102,14 @@ Render.run(render);
     }
     if (keysPressed["ArrowLeft"]) {
         move('left', type);
+    }
+    if (keysPressed["ArrowUp"] && _onWall) {
+        if (wallDir == "right" && keysPressed["ArrowLeft"]) {
+            wallJump("left");
+        }
+        else if (wallDir == "left" && keysPressed["ArrowRight"]) {
+            wallJump("right");
+        }
     }
 
     decel(type);
