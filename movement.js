@@ -1,5 +1,5 @@
 var PARAMETERS = {
-    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1.5 , wal : 5},
+    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1.5 , wal : 5 },
     dec : { hor : 0.07, air : 0.05 },
     max : { hor : 3, air : 5, ver : 15},
 }
@@ -48,6 +48,5 @@ function decel(type) {
 }
 
 function wallJump() {
-    
     Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - PARAMETERS.acc.jum});
 }
