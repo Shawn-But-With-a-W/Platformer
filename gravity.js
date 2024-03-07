@@ -1,1 +1,1 @@
-var grav = "down";
+var gravDir = "down";

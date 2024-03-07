@@ -6,7 +6,6 @@
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
-    Bodies = Matter.Bodies,
     Body = Matter.Body,
     Composite = Matter.Composite,
     Collision = Matter.Collision,
@@ -49,18 +48,8 @@ var mouse = Mouse.create(render.canvas),
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
-// Create box and ground
-var player = Bodies.rectangle(640, 0, 40, 40, {friction : 0, frictionAir : 0, frictionStatic : 0});
-player.timeScale = 1;
-var floor = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
-var wall1 = Bodies.rectangle(0, 287, 30, 575, {isStatic : true});
-var wall2 = Bodies.rectangle(1280, 287, 30, 575, {isStatic : true});
-var grounds = [floor];
-var walls = [wall1, wall2];
-
-
 // add all of the bodies to the world
-Composite.add(engine.world, [player, floor, wall1, wall2, mouseConstraint]);
+Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight, mouseConstraint]);
 
 // run the renderer
 Render.run(render);
@@ -68,7 +57,7 @@ Render.run(render);
 (function mainLoop() {
     var _onGround = false;
     var type = "air";
-    for (let ground of grounds) {
+    for (let ground of downObst) {
         if (Collision.collides(player, ground) != null) {
             _onGround = true;
             type = "hor";
@@ -76,18 +65,20 @@ Render.run(render);
         }
     }
 
-    var _onWall = false;
-    for (let wall of walls) {
-        if (Collision.collides(player, wall) != null) {
-            _onWall = true;
-            if (wall.position.x > player.position.x) {
-                var wallDir = "right";
-            }
-            else if (wall.position.x < player.position.x) {
-                var wallDir = "left"
+    var _onLeftWall = false;
+    for (let leftWall of leftObst) {
+        if (Collision.collides(player, leftWall) != null) {
+            _onLeftWall = true;
             }
             break
-        }
+    }
+
+    var _onrightWall = false;
+    for (let rightWall of rightObst) {
+        if (Collision.collides(player, rightWall) != null) {
+            _onrightWall = true;
+            }
+            break
     }
     
 
@@ -104,14 +95,13 @@ Render.run(render);
     if (keysPressed["ArrowLeft"]) {
         move('left', type);
     }
-    if (keysPressed["ArrowUp"] && _onWall) {
-        if (wallDir == "right" && keysPressed["ArrowLeft"]) {
+    
+    if (keysPressed["ArrowUp"] && keysPressed["ArrowLeft"] && _onrightWall) {
             wallJump("left");
-        }
-        else if (wallDir == "left" && keysPressed["ArrowRight"]) {
+    }
+    else if (keysPressed["ArrowUp"] && keysPressed["ArrowRight"] && _onLeftWall) {
             wallJump("right");
         }
-    }
 
     decel(type);
     maxVel(type);

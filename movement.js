@@ -50,10 +50,8 @@ function decel(type) {
 function wallJump(dir) {
     if (dir == "left") {
         Body.setVelocity(player, {x : player.velocity.x - PARAMETERS.acc.wal , y : player.velocity.y - PARAMETERS.acc.jum});
-        console.log("walljump left");
     }
     else if (dir == "right") {
         Body.setVelocity(player, {x : player.velocity.x + PARAMETERS.acc.wal , y : player.velocity.y - PARAMETERS.acc.jum});
-        console.log("walljump right");
     }
 }
