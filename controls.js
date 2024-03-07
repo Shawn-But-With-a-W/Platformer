@@ -1,5 +1,6 @@
 // Record of whether a direction key is currently being pressed
-var keysPressed = {"ArrowUp" : false, "ArrowDown" : false, "ArrowRight" : false, "ArrowLeft" : false};
+var keysPressed = {"ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false};
+var directionsPressed = {"up" : false, "down" : false, "left" : false, "right" : false };
 
 // Change the key's corresponding value (get it?) to be true when pressed
 window.addEventListener("keydown", (event) => {
@@ -48,7 +49,8 @@ window.addEventListener("keydown", (event) => {
             engine.gravity = {x : 1, y : 0};
             gravDir = "right";
             break
-    }});
+    }
+});
 
 // Change the key's corresponding value to be false when released
 window.addEventListener("keyup", (event) => {

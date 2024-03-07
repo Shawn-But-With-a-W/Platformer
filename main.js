@@ -1,6 +1,7 @@
-// TODO: add obstacles and test
-// TODO: switch gravity
-// TODO: scale time
+// TODO: Implement changing keystroke to movement option in main.js detection
+// TODO: Implement changing direction to acutal axis in movement.js
+
+// TODO: Implement changing of KEYSTROKE_TO_DIRECTION in gravity.js and to affect control.js
 
 // module aliases
 var Engine = Matter.Engine,

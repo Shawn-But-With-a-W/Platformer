@@ -5,12 +5,12 @@ var PARAMETERS = {
 }
 
 function move(dir,  type) {
-    switch (dir) {
-        case "right":
-            Body.setVelocity(player, {x : player.velocity.x + PARAMETERS.acc[type], y : player.velocity.y});
-            break
-        case "left":
-            Body.setVelocity(player, {x : player.velocity.x - PARAMETERS.acc[type], y : player.velocity.y});
+    keyDir = DIRECTION_TO_VALUE[dir];
+    if (keyDir.axis == "x") {
+        Body.setVelocity(player, {x : player.velocity.x + keyDir.sign*PARAMETERS.acc[type], y : player.velocity.y});
+    }
+    else if (keyDir.axis == "y") {
+        Body.setVelocity(player, {x : player.velocity.x , y : player.velocity.y + keyDir.sign*PARAMETERS.acc[type]});
     }
 }
 
