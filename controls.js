@@ -16,23 +16,19 @@ window.addEventListener("keydown", (event) => {
         
         case "w":
         case "W":
-            engine.gravity = {x : 0, y : -1};
-            gravDir = "up";
+            changeGrav("up");
             break
         case "a":
         case "A":
-            engine.gravity = {x : -1, y : 0};
-            gravDir = "left";
+            changeGrav("left");
             break
         case "s":
         case "S":
-            engine.gravity = {x : 0, y : 1};
-            gravDir = "down";
+            changeGrav("down");
             break
         case "d":
         case "D":
-            engine.gravity = {x : 1, y : 0};
-            gravDir = "right";
+            changeGrav("right");
             break
     }
 });
