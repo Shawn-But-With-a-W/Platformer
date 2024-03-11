@@ -1,6 +1,8 @@
 // TODO: Implement changing keystroke to movement option in main.js detection
 // TODO: Implement changing direction to acutal axis in movement.js
 
+// TODO: can only change gravity on ground
+
 // TODO: Implement changing of KEYSTROKE_TO_DIRECTION in gravity.js and to affect control.js
 
 // module aliases
@@ -84,23 +86,23 @@ Render.run(render);
     
 
     // Move the box according to keyboard inputs
-    if (keysPressed["ArrowUp"] && _onGround) {
+    if (directionsPressed["up"] && _onGround) {
             jump();
     }
-    if (keysPressed["ArrowDown"]) {
+    if (directionsPressed["down"]) {
         fastFall();
     }
-    if (keysPressed["ArrowRight"]) {
+    if (directionsPressed["right"]) {
         move('right', type);
     }
-    if (keysPressed["ArrowLeft"]) {
+    if (directionsPressed["left"]) {
         move('left', type);
     }
     
-    if (keysPressed["ArrowUp"] && keysPressed["ArrowLeft"] && _onrightWall) {
+    if (directionsPressed["up"] && directionsPressed["left"] && _onrightWall) {
             wallJump("left");
     }
-    else if (keysPressed["ArrowUp"] && keysPressed["ArrowRight"] && _onLeftWall) {
+    else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
             wallJump("right");
         }
 

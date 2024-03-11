@@ -6,6 +6,7 @@ var PARAMETERS = {
 
 function move(dir,  type) {
     keyDir = DIRECTION_TO_VALUE[dir];
+    
     if (keyDir.axis == "x") {
         Body.setVelocity(player, {x : player.velocity.x + keyDir.sign*PARAMETERS.acc[type], y : player.velocity.y});
     }
