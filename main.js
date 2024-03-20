@@ -1,9 +1,8 @@
-// TODO: Implement changing keystroke to movement option in main.js detection
-// TODO: Implement changing direction to acutal axis in movement.js
-
 // TODO: can only change gravity on ground
 
-// TODO: Implement changing of KEYSTROKE_TO_DIRECTION in gravity.js and to affect control.js
+// TODO: no jump on side gravity
+
+// TODO: do the .axis thing on every movement option
 
 // module aliases
 var Engine = Matter.Engine,
@@ -60,36 +59,39 @@ Render.run(render);
 (function mainLoop() {
     var _onGround = false;
     var type = "air";
-    for (let ground of downObst) {
+    for (let ground of OBSTACLES.down) {
+        console.log(ground);
         if (Collision.collides(player, ground) != null) {
             _onGround = true;
             type = "hor";
             break
         }
     }
+    console.log(_onGround);
 
     var _onLeftWall = false;
-    for (let leftWall of leftObst) {
+    for (let leftWall of OBSTACLES.left) {
         if (Collision.collides(player, leftWall) != null) {
             _onLeftWall = true;
-            }
             break
+            }
     }
 
     var _onrightWall = false;
-    for (let rightWall of rightObst) {
+    for (let rightWall of OBSTACLES.right) {
         if (Collision.collides(player, rightWall) != null) {
             _onrightWall = true;
-            }
             break
+            }
     }
     
 
     // Move the box according to keyboard inputs
     if (directionsPressed["up"] && _onGround) {
             jump();
+            console.log("attempted to jump");
     }
-    if (directionsPressed["down"]) {
+    if (directionsPressed["down"] && !_onGround) {
         fastFall();
     }
     if (directionsPressed["right"]) {

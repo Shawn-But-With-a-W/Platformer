@@ -8,7 +8,14 @@ var ceiling = Bodies.rectangle(640, 0, 1280, 30, {isStatic: true});
 var wallLeft = Bodies.rectangle(0, 287, 30, 575, {isStatic : true});
 var wallRight = Bodies.rectangle(1280, 287, 30, 575, {isStatic : true});
 
-var upObst = [ceiling];
-var downObst = [floor];
-var leftObst = [wallLeft];
-var rightObst = [wallRight];
+const UPOBST = [ceiling];
+const DOWNOBST = [floor];
+const LEFTOBST = [wallLeft];
+const RIGHTOBST = [wallRight];
+
+var OBSTACLES = {
+    up : UPOBST,
+    down : DOWNOBST,
+    left : LEFTOBST,
+    right : RIGHTOBST,
+};

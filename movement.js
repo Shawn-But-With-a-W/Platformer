@@ -1,8 +1,9 @@
-var PARAMETERS = {
-    acc : { hor : 0.2, air : 0.2, jum : 7, fal : 1.5 , wal : 5 },
-    dec : { hor : 0.07, air : 0.07 },
-    max : { hor : 3, air : 3, ver : 20},
+const PARAMETERS = {
+    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1.5 , wal : 5 },
+    dec : { hor : 0.07, air : 0.05 },
+    max : { hor : 3, air : 5, ver : 20},
 }
+
 
 function move(dir,  type) {
     var keyDir = DIRECTION_TO_VALUE[dir];
@@ -17,6 +18,7 @@ function move(dir,  type) {
     }
 }
 
+
 function jump() {
     var keyDir = DIRECTION_TO_VALUE["up"];
 
@@ -28,8 +30,8 @@ function jump() {
     else if (keyDir.axis == "y") {
         Body.setVelocity(player, { x : player.velocity.x, y : player.velocity.y + keyDir.sign*PARAMETERS.acc.jum });
     }
-
 }
+
 
 function fastFall() {
     var keyDir = DIRECTION_TO_VALUE["down"];
@@ -43,6 +45,7 @@ function fastFall() {
         Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + keyDir.sign*PARAMETERS.acc.fal});
     }
 }
+
 
 function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
@@ -65,6 +68,7 @@ function wallJump(dir) {
     }
 }
 
+
 function maxVel(type) {
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
     var verAxis = DIRECTION_TO_VALUE["up"].axis;
@@ -84,6 +88,7 @@ function maxVel(type) {
     }
 }
 
+
 function decel(type) {
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
     var verAxis = DIRECTION_TO_VALUE["up"].axis;
@@ -94,13 +99,5 @@ function decel(type) {
     else if (player.velocity[horAxis] < 0) {
         Body.setVelocity(player, {[horAxis] : player.velocity[horAxis] + PARAMETERS.dec[type], [verAxis] : player.velocity[verAxis]});
     }
-
-    // else if (horAxis == "y") {
-    //     if (player.velocity.y > 0) {
-    //         Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - PARAMETERS.dec[type]});
-    //     }
-    //     if (player.velocity.y < 0) {
-    //         Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + PARAMETERS.dec[type]});
-    //     }}
 }
 

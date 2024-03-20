@@ -29,12 +29,21 @@ function changeGrav(dir) {
                 "left" : { "axis" : "x", "sign" : -1 },
                 "right" : { "axis" : "x", "sign" : 1 },
             };
+
             KEYSTROKE_TO_DIRECTION = {
                 "ArrowUp" : "up",
                 "ArrowDown" : "down",
                 "ArrowLeft" : "left",
                 "ArrowRight" : "right",
             };
+
+            OBSTACLES = {
+                up : UPOBST,
+                down : DOWNOBST,
+                left : LEFTOBST,
+                right: RIGHTOBST
+            };
+
             break
 
         case "up":
@@ -47,12 +56,21 @@ function changeGrav(dir) {
                 "left" : { "axis" : "x", "sign" : -1 },
                 "right" : { "axis" : "x", "sign" : 1 },
             };
+
             KEYSTROKE_TO_DIRECTION = {
                 "ArrowUp" : "down",
                 "ArrowDown" : "up",
                 "ArrowLeft" : "left",
                 "ArrowRight" : "right",
             };
+
+            OBSTACLES = {
+                up : DOWNOBST,
+                down : UPOBST,
+                left : LEFTOBST,
+                right: RIGHTOBST
+            };
+
             break
 
         case "left":
@@ -65,12 +83,21 @@ function changeGrav(dir) {
                 "left" : { "axis" : "y", "sign" : -1 },
                 "right" : { "axis" : "y", "sign" : 1 },
             };
+
             KEYSTROKE_TO_DIRECTION = {
                 "ArrowUp" : "left",
                 "ArrowDown" : "right",
                 "ArrowLeft" : "down",
                 "ArrowRight" : "up",
             };
+
+            OBSTACLES = {
+                up : RIGHTOBST,
+                down : LEFTOBST,
+                left : UPOBST,
+                right: DOWNOBST
+            };
+
             break
 
         case "right":
@@ -83,12 +110,21 @@ function changeGrav(dir) {
                 "left" : { "axis" : "y", "sign" : 1 },
                 "right" : { "axis" : "y", "sign" : -1 },
             };
+
             KEYSTROKE_TO_DIRECTION = {
                 "ArrowUp" : "right",
                 "ArrowDown" : "left",
                 "ArrowLeft" : "up",
                 "ArrowRight" : "down",
             };
+
+            OBSTACLES = {
+                up : LEFTOBST,
+                down : RIGHTOBST,
+                left : DOWNOBST,
+                right: UPOBST
+            };
+
             break
     }
 }
