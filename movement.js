@@ -1,7 +1,7 @@
 var PARAMETERS = {
-    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1.5 , wal : 5 },
-    dec : { hor : 0.07, air : 0.05 },
-    max : { hor : 3, air : 5, ver : 15},
+    acc : { hor : 0.2, air : 0.2, jum : 7, fal : 1.5 , wal : 5 },
+    dec : { hor : 0.07, air : 0.07 },
+    max : { hor : 3, air : 3, ver : 20},
 }
 
 function move(dir,  type) {
@@ -66,36 +66,41 @@ function wallJump(dir) {
 }
 
 function maxVel(type) {
-    if (player.velocity.x > PARAMETERS.max.hor) {
-        Body.setVelocity(player, {x : PARAMETERS.max[type], y : player.velocity.y});
+    var horAxis = DIRECTION_TO_VALUE["right"].axis;
+    var verAxis = DIRECTION_TO_VALUE["up"].axis;
+
+
+    if (player.velocity[horAxis] > PARAMETERS.max.hor) {
+        Body.setVelocity(player, {[horAxis] : PARAMETERS.max[type], [verAxis] : player.velocity[verAxis]});
     }
-    if (player.velocity.x < -PARAMETERS.max.hor) {
-        Body.setVelocity(player, {x : -PARAMETERS.max[type], y : player.velocity.y});
+    if (player.velocity[horAxis] < -PARAMETERS.max.hor) {
+        Body.setVelocity(player, {[horAxis] : -PARAMETERS.max[type], [verAxis] : player.velocity[verAxis]});
     }
-    if (player.velocity.y > PARAMETERS.max.ver) {
-        Body.setVelocity(player, {x : player.velocity.x, y : PARAMETERS.max.ver});
+    if (player.velocity[verAxis] > PARAMETERS.max.ver) {
+        Body.setVelocity(player, {[horAxis] : player.velocity[horAxis], [verAxis] : PARAMETERS.max.ver});
     }
-    if (player.velocity.y < -PARAMETERS.max.ver) {
-        Body.setVelocity(player, {x : player.velocity.x, y : -PARAMETERS.max.ver});
+    if (player.velocity[verAxis] < -PARAMETERS.max.ver) {
+        Body.setVelocity(player, {[horAxis] : player.velocity[horAxis], [verAxis] : -PARAMETERS.max.ver});
     }
 }
 
 function decel(type) {
-    var horAxis = DIRECTION_TO_VALUE["right"].axis
+    var horAxis = DIRECTION_TO_VALUE["right"].axis;
+    var verAxis = DIRECTION_TO_VALUE["up"].axis;
 
-    if (horAxis == "x") {
-        if (player.velocity.x > 0) {
-            Body.setVelocity(player, {x : player.velocity.x - PARAMETERS.dec[type], y : player.velocity.y});
-        }
-        else if (player.velocity.x < 0) {
-            Body.setVelocity(player, {x : player.velocity.x + PARAMETERS.dec[type], y : player.velocity.y});
-        }}
-    else if (horAxis == "y") {
-        if (player.velocity.y > 0) {
-            Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - PARAMETERS.dec[type]});
-        }
-        if (player.velocity.y < 0) {
-            Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + PARAMETERS.dec[type]});
-        }}
+    if (player.velocity[horAxis] > 0) {
+        Body.setVelocity(player, {[horAxis] : player.velocity[horAxis] - PARAMETERS.dec[type], [verAxis] : player.velocity[verAxis]});
+    }
+    else if (player.velocity[horAxis] < 0) {
+        Body.setVelocity(player, {[horAxis] : player.velocity[horAxis] + PARAMETERS.dec[type], [verAxis] : player.velocity[verAxis]});
+    }
+
+    // else if (horAxis == "y") {
+    //     if (player.velocity.y > 0) {
+    //         Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y - PARAMETERS.dec[type]});
+    //     }
+    //     if (player.velocity.y < 0) {
+    //         Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + PARAMETERS.dec[type]});
+    //     }}
 }
 
