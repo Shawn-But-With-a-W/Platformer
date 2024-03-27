@@ -1,8 +1,6 @@
 // TODO: can only change gravity on ground
 
-// TODO: no jump on side gravity
-
-// TODO: do the .axis thing on every movement option
+// TODO: hold down up, change grav mid air, land on wall fix
 
 // module aliases
 var Engine = Matter.Engine,

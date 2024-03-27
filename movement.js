@@ -7,43 +7,28 @@ const PARAMETERS = {
 
 function move(dir,  type) {
     var keyDir = DIRECTION_TO_VALUE[dir];
+    var horAxis = keyDir.axis;
+    var verAxis = DIRECTION_TO_VALUE["up"].axis;
 
-    console.log("move", dir);
-
-    if (keyDir.axis == "x") {
-        Body.setVelocity(player, { x : player.velocity.x + keyDir.sign*PARAMETERS.acc[type], y : player.velocity.y });
-    }
-    else if (keyDir.axis == "y") {
-        Body.setVelocity(player, { x : player.velocity.x , y : player.velocity.y + keyDir.sign*PARAMETERS.acc[type] });
-    }
+    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis] + keyDir.sign*PARAMETERS.acc[type], [verAxis] : player.velocity[verAxis] });
 }
 
 
 function jump() {
     var keyDir = DIRECTION_TO_VALUE["up"];
+    var verAxis = keyDir.axis;
+    var horAxis = DIRECTION_TO_VALUE["right"].axis;
 
-    console.log("jump");
-
-    if (keyDir.axis == "x") {
-        Body.setVelocity(player, { x : player.velocity.x + keyDir.sign*PARAMETERS.acc.jum, y : player.velocity.y });
-    }
-    else if (keyDir.axis == "y") {
-        Body.setVelocity(player, { x : player.velocity.x, y : player.velocity.y + keyDir.sign*PARAMETERS.acc.jum });
-    }
+    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.jum });
 }
 
 
 function fastFall() {
     var keyDir = DIRECTION_TO_VALUE["down"];
+    var verAxis = keyDir.axis;
+    var horAxis = DIRECTION_TO_VALUE["right"].axis;
 
-    console.log("fall");
-
-    if (keyDir.axis == "x") {
-        Body.setVelocity(player, { x : player.velocity.x + keyDir.sign*PARAMETERS.acc.fal, y : player.velocity.y });
-    }
-    else if (keyDir.axis == "y") {
-        Body.setVelocity(player, {x : player.velocity.x, y : player.velocity.y + keyDir.sign*PARAMETERS.acc.fal});
-    }
+    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.fal });
 }
 
 
@@ -51,28 +36,13 @@ function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
     var jumpKeyDir = DIRECTION_TO_VALUE["up"];
 
-    console.log("walljump");
-
-    if (jumpKeyDir.axis == "x") {
-        Body.setVelocity(player, { x : player.velocity.x + jumpKeyDir.sign*PARAMETERS.acc.jum, y : player.velocity.y });
-    }
-    else if (jumpKeyDir.axis == "y") {
-        Body.setVelocity(player, { x : player.velocity.x, y : player.velocity.y + jumpKeyDir.sign*PARAMETERS.acc.jum });
-    }
-
-    if (sideKeyDir.axis == "x") {
-        Body.setVelocity(player, { x : player.velocity.x + sideKeyDir.sign*PARAMETERS.acc.wal, y : player.velocity.y });
-    }
-    else if (sideKeyDir.axis == "y") {
-        Body.setVelocity(player, { x : player.velocity.x , y : player.velocity.y + sideKeyDir.sign*PARAMETERS.acc.wal });
-    }
+    Body.setVelocity(player, { [sideKeyDir.axis] : player.velocity[sideKeyDir.axis] + sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : player.velocity[jumpKeyDir.axis] + jumpKeyDir.sign*PARAMETERS.acc.jum });
 }
 
 
 function maxVel(type) {
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
     var verAxis = DIRECTION_TO_VALUE["up"].axis;
-
 
     if (player.velocity[horAxis] > PARAMETERS.max.hor) {
         Body.setVelocity(player, {[horAxis] : PARAMETERS.max[type], [verAxis] : player.velocity[verAxis]});
