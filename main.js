@@ -54,18 +54,22 @@ Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight, mouseC
 // run the renderer
 Render.run(render);
 
+var _changeGrav = false;
 (function mainLoop() {
+
+    // Check if it's on the ground
     var _onGround = false;
     var type = "air";
     for (let ground of OBSTACLES.down) {
-        console.log(ground);
         if (Collision.collides(player, ground) != null) {
             _onGround = true;
             type = "hor";
+            _changeGrav = true;
             break
         }
     }
-    console.log(_onGround);
+
+    // Check if it's on any walls
 
     var _onLeftWall = false;
     for (let leftWall of OBSTACLES.left) {
@@ -86,8 +90,7 @@ Render.run(render);
 
     // Move the box according to keyboard inputs
     if (directionsPressed["up"] && _onGround) {
-            jump();
-            console.log("attempted to jump");
+        jump();
     }
     if (directionsPressed["down"] && !_onGround) {
         fastFall();
@@ -104,12 +107,32 @@ Render.run(render);
     }
     else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
             wallJump("right");
-        }
+    }
 
     decel(type);
     maxVel(type);
 
-    
+    if (_changeGrav) {
+        if (gravPressed["W"]) {
+            changeGrav("up");
+            _changeGrav = false;
+        }
+        else if (gravPressed["S"]) {
+            changeGrav("down");
+            _changeGrav = false;
+        }
+        else if (gravPressed["A"]) {
+            changeGrav("left");
+            _changeGrav = false;
+        }
+        else if (gravPressed["D"]) {
+            changeGrav("right");
+            _changeGrav = false;
+        }
+    }
+
+    gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
+
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
 })();

@@ -1,6 +1,7 @@
 // Record of whether a direction key is currently being pressed
-var keysPressed = {"ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false};
-var directionsPressed = {"up" : false, "down" : false, "left" : false, "right" : false };
+var keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false };
+var directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };
+var gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
 
 // Change the key's corresponding value (get it?) to be true when pressed
 window.addEventListener("keydown", (event) => {
@@ -14,21 +15,18 @@ window.addEventListener("keydown", (event) => {
             directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = true;
             break
         
-        case "w":
         case "W":
-            changeGrav("up");
-            break
-        case "a":
         case "A":
-            changeGrav("left");
-            break
-        case "s":
         case "S":
-            changeGrav("down");
-            break
-        case "d":
         case "D":
-            changeGrav("right");
+            gravPressed[event.key] = true;
+            break
+
+        case "w":
+        case "a":
+        case "s":
+        case "d":
+            gravPressed[event.key.toUpperCase()] = true;
             break
     }
 });

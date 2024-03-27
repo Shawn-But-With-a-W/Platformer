@@ -17,7 +17,14 @@ var KEYSTROKE_TO_DIRECTION = {
     "ArrowRight" : "right",
 }
 
+
 function changeGrav(dir) {
+    // Reset the directions so it doesn't keep thinking to jump after grav change
+    keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false };
+    directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };
+    gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
+
+    
     switch (dir) {
         case "down":
             engine.gravity = {x : 0, y : 1};
