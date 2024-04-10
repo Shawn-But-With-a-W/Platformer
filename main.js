@@ -1,11 +1,11 @@
-// TODO: Add level storage
-
-// TODO: Design a level
+// TODO: add acceleration and deceleration
+// TODO: add obstacles and test
 
 // module aliases
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
     Body = Matter.Body,
     Composite = Matter.Composite,
     Collision = Matter.Collision,
@@ -34,6 +34,12 @@ var render = Render.create({
         showVelocity : true,
 },});
 
+// Create box and ground
+var player = Bodies.rectangle(640, 0, 80, 80, {friction : 0, frictionAir : 0, frictionStatic : 0});
+player.timeScale = 1;
+var ground = Bodies.rectangle(640, 575, 1280, 30, {isStatic: true});
+var collidableBodies = [ground];
+
 // add mouse control
 var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -45,119 +51,39 @@ var mouse = Mouse.create(render.canvas),
             }
         }
     });
+
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 
+
 // add all of the bodies to the world
-Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight, mouseConstraint]);
+Composite.add(engine.world, [player, ground, mouseConstraint]);
 
 // run the renderer
 Render.run(render);
 
-// Initialise a bunch of variables before the main loop
-var _grav = false;
-var gravTimer = 0;
-var _gravChanged = false;
-var gravRevert = gravDir;
-
 (function mainLoop() {
-    // Check if it's on the ground
-    var _onGround = false;
-    var type = "air";
-    for (let ground of OBSTACLES.down) {
-        if (Collision.collides(player, ground) != null) {
-            _onGround = true;
-            type = "hor";
-            _grav = true;
-            _gravChanged = false;
-            gravRevert = gravDir;
-            gravTimer = 0;
-            break
-        }
-    }
-
-    // Check if it's on any walls
-
-    var _onLeftWall = false;
-    for (let leftWall of OBSTACLES.left) {
-        if (Collision.collides(player, leftWall) != null) {
-            _onLeftWall = true;
-            break
-            }
-    }
-
-    var _onrightWall = false;
-    for (let rightWall of OBSTACLES.right) {
-        if (Collision.collides(player, rightWall) != null) {
-            _onrightWall = true;
-            break
-            }
-    }
-    
+    var _onGround = (Collision.collides(player, ground) != null);
 
     // Move the box according to keyboard inputs
-    if (directionsPressed["up"] && _onGround) {
+    if (keysPressed["ArrowUp"] && _onGround) {
         jump();
     }
-    if (directionsPressed["down"] && !_onGround) {
+    if (keysPressed["ArrowDown"]) {
         fastFall();
     }
-    if (directionsPressed["right"]) {
-        move('right', type);
+    if (keysPressed["ArrowRight"]) {
+        move('right');
     }
-    if (directionsPressed["left"]) {
-        move('left', type);
+    if (keysPressed["ArrowLeft"]) {
+        move('left');
     }
+
+    decel();
     
-    if (directionsPressed["up"] && directionsPressed["left"] && _onrightWall) {
-            wallJump("left");
-    }
-    else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
-            wallJump("right");
-    }
+    maxVel();
 
-    decel(type);
-    maxVel(type);
-
-    if (_grav) {
-        player.render.fillStyle = "#f5d259";
-        if (gravPressed["W"]) {
-            changeGrav("up");
-            _grav = false;
-            _gravChanged = true;
-        }
-        else if (gravPressed["S"]) {
-            changeGrav("down");
-            _grav = false;
-            _gravChanged = true;
-        }
-        else if (gravPressed["A"]) {
-            changeGrav("left");
-            _grav = false;
-            _gravChanged = true;
-        }
-        else if (gravPressed["D"]) {
-            changeGrav("right");
-            _grav = false;
-            _gravChanged = true;
-        }
-    }
-    else {
-        player.render.fillStyle = "#71b0f837";
-    }
-
-    if (_gravChanged) {
-        gravTimer++;
-        player.render.fillStyle = "#71aff8";
-        if (gravTimer >= 20) {
-            changeGrav(gravRevert);
-            gravTimer = 0;
-            _gravChanged = false;
-        }
-    }
-
-    gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
-
+    
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
 })();
