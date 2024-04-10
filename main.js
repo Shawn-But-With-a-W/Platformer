@@ -1,6 +1,6 @@
-// TODO: can only change gravity on ground
+// TODO: Add level storage
 
-// TODO: hold down up, change grav mid air, land on wall fix
+// TODO: Design a level
 
 // module aliases
 var Engine = Matter.Engine,
@@ -54,9 +54,13 @@ Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight, mouseC
 // run the renderer
 Render.run(render);
 
-var _changeGrav = false;
-(function mainLoop() {
+// Initialise a bunch of variables before the main loop
+var _grav = false;
+var gravTimer = 0;
+var _gravChanged = false;
+var gravRevert = gravDir;
 
+(function mainLoop() {
     // Check if it's on the ground
     var _onGround = false;
     var type = "air";
@@ -64,7 +68,10 @@ var _changeGrav = false;
         if (Collision.collides(player, ground) != null) {
             _onGround = true;
             type = "hor";
-            _changeGrav = true;
+            _grav = true;
+            _gravChanged = false;
+            gravRevert = gravDir;
+            gravTimer = 0;
             break
         }
     }
@@ -112,22 +119,40 @@ var _changeGrav = false;
     decel(type);
     maxVel(type);
 
-    if (_changeGrav) {
+    if (_grav) {
+        player.render.fillStyle = "#f5d259";
         if (gravPressed["W"]) {
             changeGrav("up");
-            _changeGrav = false;
+            _grav = false;
+            _gravChanged = true;
         }
         else if (gravPressed["S"]) {
             changeGrav("down");
-            _changeGrav = false;
+            _grav = false;
+            _gravChanged = true;
         }
         else if (gravPressed["A"]) {
             changeGrav("left");
-            _changeGrav = false;
+            _grav = false;
+            _gravChanged = true;
         }
         else if (gravPressed["D"]) {
             changeGrav("right");
-            _changeGrav = false;
+            _grav = false;
+            _gravChanged = true;
+        }
+    }
+    else {
+        player.render.fillStyle = "#71b0f837";
+    }
+
+    if (_gravChanged) {
+        gravTimer++;
+        player.render.fillStyle = "#71aff8";
+        if (gravTimer >= 20) {
+            changeGrav(gravRevert);
+            gravTimer = 0;
+            _gravChanged = false;
         }
     }
 
