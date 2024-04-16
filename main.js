@@ -2,9 +2,7 @@
 
 // TODO: Design a level
 
-// TODO: fix switching grav left or right when on down ground
-
-// TODO: Allow to cling on wall even in phase 2, with colour coding working
+// TODO: Add ground timer. When ground timer within set value, maximum velocity does not apply
 
 // module aliases
 var Engine = Matter.Engine,
@@ -60,6 +58,7 @@ Render.run(render);
 
 // Initialise a bunch of variables before the main loop
 var _grav = false;
+var groundTimer = 0
 var gravTimer = 0;
 var _gravChanged = false;
 var _gravReverted = false;
@@ -111,7 +110,7 @@ var gravRevert = gravDir;
     if (directionsPressed["up"] && _onGround) {
         jump();
     }
-    if (directionsPressed["down"] && !_onGround && !_gravChanged) {
+    if (directionsPressed["down"] && !_onGround && !_gravChanged ) {
         fastFall();
     }
     if (directionsPressed["right"]) {
@@ -122,10 +121,10 @@ var gravRevert = gravDir;
     }
 
     if (directionsPressed["up"] && directionsPressed["left"] && _onRightWall) {
-            wallJump("left");
+        wallJump("left");
     }
     else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
-            wallJump("right");
+        wallJump("right");
     }
 
     decel(type);
@@ -158,15 +157,16 @@ var gravRevert = gravDir;
 
 
     if (_gravChanged) {
+        engine.gravity.scale = 0.003;
         gravTimer++;
         player.render.fillStyle = "#71aff8";
 
-        if (gravTimer >= 20) {
+        if (gravTimer >= 10) {
             changeGrav(gravRevert);
             _gravReverted = true;
         }
 
-        if (_onGround && gravTimer >= 5) {
+        if (_onGround && gravTimer >= 2) {
             gravRevert = gravDir;
             changeGrav(gravRevert);
             _gravChanged = false;
@@ -176,8 +176,9 @@ var gravRevert = gravDir;
     }
 
     if (_gravReverted) {
+        engine.gravity.scale = 0.001;
         player.render.fillStyle = "#71b0f837";
-
+        
         if (_onCeiling) {
             switch (gravDir) {
                 case "down":
