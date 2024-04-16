@@ -62,6 +62,7 @@ Render.run(render);
 var _grav = false;
 var gravTimer = 0;
 var _gravChanged = false;
+var _gravReverted = false;
 var gravRevert = gravDir;
 
 (function mainLoop() {
@@ -73,11 +74,18 @@ var gravRevert = gravDir;
             _onGround = true;
             type = "hor";
             _grav = true;
-            _gravChanged = false;
-            gravRevert = gravDir;
-            gravTimer = 0;
             break
         }
+    }
+
+    // Check if on ceiling
+
+    var _onCeiling = false;
+    for (let ceiling of OBSTACLES.up) {
+        if (Collision.collides(player, ceiling) != null) {
+            _onCeiling = true;
+            break
+            }
     }
 
     // Check if it's on any walls
@@ -112,7 +120,7 @@ var gravRevert = gravDir;
     if (directionsPressed["left"]) {
         move('left', type);
     }
-    
+
     if (directionsPressed["up"] && directionsPressed["left"] && _onRightWall) {
             wallJump("left");
     }
@@ -145,29 +153,50 @@ var gravRevert = gravDir;
             _grav = false;
             _gravChanged = true;
         }
+
     }
-    else {
-        player.render.fillStyle = "#71b0f837";
-    }
+
 
     if (_gravChanged) {
         gravTimer++;
         player.render.fillStyle = "#71aff8";
+
         if (gravTimer >= 20) {
             changeGrav(gravRevert);
-            gravTimer = 0;
-            _gravChanged = false;
+            _gravReverted = true;
         }
 
-        if (_onLeftWall) {
-            changeGrav("left");
-            gravTimer = 0;
+        if (_onGround && gravTimer >= 5) {
+            gravRevert = gravDir;
+            changeGrav(gravRevert);
             _gravChanged = false;
+            _gravReverted = false;
+            gravTimer = 0;
         }
-        else if (_onRightWall) {
-            changeGrav("right");
-            gravTimer = 0;
+    }
+
+    if (_gravReverted) {
+        player.render.fillStyle = "#71b0f837";
+
+        if (_onCeiling) {
+            switch (gravDir) {
+                case "down":
+                    gravRevert = "up";
+                    break
+                case "up":
+                    gravRevert = "down";
+                    break
+                case "left":
+                    gravRevert = "right";
+                    break
+                case "right":
+                    gravRevert = "left";
+                    break
+            }
+
+            changeGrav(gravRevert);
             _gravChanged = false;
+            _gravReverted = false;
         }
     }
 
