@@ -1,8 +1,10 @@
-// TODO: Add level storage
+// TODO: Change gravity to key + direction activation
 
-// TODO: Design a level
+// TODO: Add crouch functionality
 
 // TODO: Add ground timer. When ground timer within set value, maximum velocity does not apply
+
+// TODO: Figure out how to properly resize the window
 
 // module aliases
 var Engine = Matter.Engine,
@@ -63,46 +65,24 @@ var gravTimer = 0;
 var _gravChanged = false;
 var _gravReverted = false;
 var gravRevert = gravDir;
+var changeGravDir = "";
 
 (function mainLoop() {
     // Check if it's on the ground
-    var _onGround = false;
+    _onGround = isOnGround();
+    _onCeiling = isOnCeiling();
+    _onLeftWall = isOnLeftWall();
+    _onRightWall = isOnRightWall();
+
     var type = "air";
-    for (let ground of OBSTACLES.down) {
-        if (Collision.collides(player, ground) != null) {
-            _onGround = true;
-            type = "hor";
-            _grav = true;
-            break
-        }
-    }
-
-    // Check if on ceiling
-
-    var _onCeiling = false;
-    for (let ceiling of OBSTACLES.up) {
-        if (Collision.collides(player, ceiling) != null) {
-            _onCeiling = true;
-            break
-            }
-    }
-
-    // Check if it's on any walls
-
-    var _onLeftWall = false;
-    for (let leftWall of OBSTACLES.left) {
-        if (Collision.collides(player, leftWall) != null) {
-            _onLeftWall = true;
-            break
-            }
-    }
-
-    var _onRightWall = false;
-    for (let rightWall of OBSTACLES.right) {
-        if (Collision.collides(player, rightWall) != null) {
-            _onRightWall = true;
-            break
-            }
+    if (_onGround) {
+        type = "hor";
+        _grav = true;
+        _gravReverted = false;
+        _gravChanged = false;
+        gravTimer = 0;
+        gravRevert = gravDir;
+        changeGravDir = "";
     }
     
 
@@ -127,8 +107,14 @@ var gravRevert = gravDir;
         wallJump("right");
     }
 
-    decel(type);
+    // Deceleration and capping max velocity
+    if (isNeutral()) {
+        decel(type);
+    }
     maxVel(type);
+
+
+    // Big mess of changing gravity below
 
     if (_grav) {
         player.render.fillStyle = "#f5d259";
@@ -136,25 +122,27 @@ var gravRevert = gravDir;
             changeGrav("up");
             _grav = false;
             _gravChanged = true;
+            changeGravDir = "up";
         }
         else if (gravPressed["S"]) {
             changeGrav("down");
             _grav = false;
             _gravChanged = true;
+            changeGravDir = "down";
         }
         else if (gravPressed["A"]) {
             changeGrav("left");
             _grav = false;
             _gravChanged = true;
+            changeGravDir = "left";
         }
         else if (gravPressed["D"]) {
             changeGrav("right");
             _grav = false;
             _gravChanged = true;
+            changeGravDir = "right";
         }
-
     }
-
 
     if (_gravChanged) {
         engine.gravity.scale = 0.003;
@@ -164,45 +152,58 @@ var gravRevert = gravDir;
         if (gravTimer >= 10) {
             changeGrav(gravRevert);
             _gravReverted = true;
+            _gravChanged = false;
         }
 
-        if (_onGround && gravTimer >= 2) {
+        // Sticking to the direction gravity changed in while going upwards
+        if (_onGround && gravTimer >= 3) {
             gravRevert = gravDir;
             changeGrav(gravRevert);
             _gravChanged = false;
             _gravReverted = false;
             gravTimer = 0;
+            neutral();
         }
+    }
+    else {
+        engine.gravity.scale = 0.001;
     }
 
     if (_gravReverted) {
-        engine.gravity.scale = 0.001;
         player.render.fillStyle = "#71b0f837";
         
-        if (_onCeiling) {
-            switch (gravDir) {
-                case "down":
-                    gravRevert = "up";
-                    break
-                case "up":
-                    gravRevert = "down";
-                    break
-                case "left":
-                    gravRevert = "right";
-                    break
-                case "right":
-                    gravRevert = "left";
-                    break
-            }
-
-            changeGrav(gravRevert);
-            _gravChanged = false;
-            _gravReverted = false;
+        // Sticking to the direction gravity changed in while falling back down
+        switch (changeGravDir) {
+            case "up":
+                if (isOnUpObst()) {
+                    changeGrav("up");
+                    console.log("hit ceiling");
+                    _gravReverted  = false;
+                }
+                break
+            case "down":
+                if (isOnDownObst()) {
+                    changeGrav("down");
+                    _gravReverted  = false;
+                }
+                break
+            case "left":
+                if (isOnLeftObst()) {
+                    changeGrav("left");
+                    _gravReverted  = false;
+                }
+                break
+            case "right":
+                if (isOnRightObst()) {
+                    changeGrav("right");
+                    _gravReverted  = false;
+                }
+                break
         }
-    }
 
-    gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
+    }
+    
 
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
-})();
+    })();

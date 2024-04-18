@@ -42,3 +42,25 @@ window.addEventListener("keyup", (event) => {
             directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = false;
             break
     }});
+
+
+function neutral() {
+    keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false };
+    directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };
+    gravPressed = { "W" : false, "A" : false, "S" : false, "D" : false };
+}
+
+
+function isNeutral() {
+    var directions = Object.keys(directionsPressed);
+    var _isNeutral = true;
+
+    for (let direction of directions) {
+        if (directionsPressed[direction] == true) {
+            _isNeutral = false;
+            break
+        }
+    }
+
+    return _isNeutral
+}

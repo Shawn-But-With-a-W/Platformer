@@ -1,6 +1,6 @@
 const PARAMETERS = {
-    acc : { hor : 0.2, air : 0.5, jum : 7, fal : 1 , wal : 5 },
-    dec : { hor : 0.07, air : 0.05 },
+    acc : { hor : 0.5, air : 0.7, jum : 7, fal : 1 , wal : 5 },
+    dec : { hor : 0.5, air : 1 },
     max : { hor : 3, air : 5, ver : 20},
 }
 
@@ -69,5 +69,8 @@ function decel(type) {
     else if (player.velocity[horAxis] < 0) {
         Body.setVelocity(player, {[horAxis] : player.velocity[horAxis] + PARAMETERS.dec[type], [verAxis] : player.velocity[verAxis]});
     }
-}
 
+    if ((-0.5 <= player.velocity[horAxis]) && (player.velocity[horAxis] <= 0.5)) {
+        Body.setVelocity(player, {[horAxis] : 0, [verAxis] : player.velocity[verAxis]});
+    }
+}
