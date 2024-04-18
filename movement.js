@@ -1,7 +1,7 @@
 const PARAMETERS = {
-    acc : { hor : 0.5, air : 0.7, jum : 7, fal : 1 , wal : 5 },
-    dec : { hor : 0.5, air : 1 },
-    max : { hor : 3, air : 5, ver : 20},
+    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 8 },
+    dec : { hor : 0.4, air : 0.6 },
+    max : { hor : 3, air : 6, ver : 15},
 }
 
 
@@ -36,7 +36,7 @@ function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
     var jumpKeyDir = DIRECTION_TO_VALUE["up"];
 
-    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : jumpKeyDir.sign*PARAMETERS.acc.jum });
+    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : player.velocity[jumpKeyDir.axis]*0.5 + jumpKeyDir.sign*PARAMETERS.acc.jum });
 }
 
 
@@ -44,10 +44,10 @@ function maxVel(type) {
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
     var verAxis = DIRECTION_TO_VALUE["up"].axis;
 
-    if (player.velocity[horAxis] > PARAMETERS.max.hor) {
+    if (player.velocity[horAxis] > PARAMETERS.max[type]) {
         Body.setVelocity(player, {[horAxis] : PARAMETERS.max[type], [verAxis] : player.velocity[verAxis]});
     }
-    if (player.velocity[horAxis] < -PARAMETERS.max.hor) {
+    if (player.velocity[horAxis] < -PARAMETERS.max[type]) {
         Body.setVelocity(player, {[horAxis] : -PARAMETERS.max[type], [verAxis] : player.velocity[verAxis]});
     }
     if (player.velocity[verAxis] > PARAMETERS.max.ver) {
