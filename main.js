@@ -82,7 +82,48 @@ var changeGravDir = "";
         gravRevert = gravDir;
         changeGravDir = "";
     }
-    
+
+    // Deceleration and capping max velocity
+    if (isNeutral()) {
+        decel(type);
+    }
+    maxVel(type);
+
+    // Gravity takes priority over other movement
+    if (_grav) {
+        player.render.fillStyle = "#f5d259";
+        if (keysPressed["ArrowLeft"] && _gravPressed) {
+            changeGrav("left");
+            _grav = false;
+            _gravChanged = true;
+            changeGravDir = "left";
+            engine.gravity.scale = 0.003;
+        }
+        else if (keysPressed["ArrowRight"] && _gravPressed) {
+            changeGrav("right");
+            _grav = false;
+            _gravChanged = true;
+            changeGravDir = "right";
+            engine.gravity.scale = 0.003;
+
+        }
+        else if (keysPressed["ArrowUp"] && _gravPressed && !_onGround) {
+            changeGrav("up");
+            _grav = false;
+            _gravChanged = true;
+            changeGravDir = "up";
+            engine.gravity.scale = 0.003;
+
+        }
+        else if (keysPressed["ArrowDown"] && _gravPressed) {
+            changeGrav("down");
+            _grav = false;
+            _gravChanged = true;
+            changeGravDir = "down";
+            engine.gravity.scale = 0.003;
+        }
+    }
+
 
     // Move the box according to keyboard inputs
     if (directionsPressed["up"] && _onGround) {
@@ -105,47 +146,22 @@ var changeGravDir = "";
         wallJump("right");
     }
 
-    // Deceleration and capping max velocity
-    if (isNeutral()) {
-        decel(type);
-    }
-    maxVel(type);
-
-
-    // Big mess of changing gravity below
-
-    if (_grav) {
-        player.render.fillStyle = "#f5d259";
-        if (gravPressed["W"]) {
-            changeGrav("up");
-            _grav = false;
-            _gravChanged = true;
-            changeGravDir = "up";
-        }
-        else if (gravPressed["S"]) {
-            changeGrav("down");
-            _grav = false;
-            _gravChanged = true;
-            changeGravDir = "down";
-        }
-        else if (gravPressed["A"]) {
-            changeGrav("left");
-            _grav = false;
-            _gravChanged = true;
-            changeGravDir = "left";
-        }
-        else if (gravPressed["D"]) {
-            changeGrav("right");
-            _grav = false;
-            _gravChanged = true;
-            changeGravDir = "right";
-        }
-    }
-
     if (_gravChanged) {
-        engine.gravity.scale = 0.003;
+
         gravTimer++;
         player.render.fillStyle = "#71aff8";
+        console.log(player.velocity);
+
+        switch (gravDir) {
+            case "up":
+            case "down":
+                cancelVel("x");
+                break
+            case "left":
+            case "right":
+                cancelVel("y");
+                break
+        }
 
         if (gravTimer >= 10) {
             changeGrav(gravRevert);

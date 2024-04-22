@@ -74,3 +74,16 @@ function decel(type) {
         Body.setVelocity(player, {[horAxis] : 0, [verAxis] : player.velocity[verAxis]});
     }
 }
+
+function cancelVel(axis) {
+    switch (axis) {
+        case "x":
+            Body.setVelocity(player, {x : 0, y : player.velocity.y});
+            break
+            case "y":
+                Body.setVelocity(player, {x : player.velocity.x, y : 0});
+                break
+                
+            }
+        console.log(player.velocity);
+}

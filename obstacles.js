@@ -75,7 +75,6 @@ function isOnUpObst() {
             break
         }
     }
-    console.log("Checked if on upobst", _onUpObst);
     return _onUpObst
 }
 

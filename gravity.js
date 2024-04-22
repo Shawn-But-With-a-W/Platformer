@@ -20,7 +20,7 @@ var KEYSTROKE_TO_DIRECTION = {
 
 function changeGrav(dir) {
     // Reset the directions so it doesn't keep thinking to jump after grav change
-    neutral();
+    // neutral();
     switch (dir) {
 
         case "down":
@@ -54,6 +54,7 @@ function changeGrav(dir) {
             engine.gravity = {x : 0, y : -1};
             gravDir = "up";
 
+
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "y", "sign" : 1 },
                 "down": { "axis" : "y", "sign" : -1 },
@@ -80,6 +81,7 @@ function changeGrav(dir) {
         case "left":
             engine.gravity = {x : -1, y : 0};
             gravDir = "left";
+
 
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "x", "sign" : 1 },
