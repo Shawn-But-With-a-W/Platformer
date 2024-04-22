@@ -1,6 +1,6 @@
 const PARAMETERS = {
-    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 8 },
-    dec : { hor : 0.4, air : 0.6 },
+    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 7.5 },
+    dec : { hor : 0.3, air : 0.4 },
     max : { hor : 3, air : 6, ver : 15},
 }
 

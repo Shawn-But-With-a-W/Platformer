@@ -1,7 +1,5 @@
 // TODO: Change gravity to key + direction activation
 
-// TODO: Add crouch functionality
-
 // TODO: Add ground timer. When ground timer within set value, maximum velocity does not apply
 
 // TODO: Figure out how to properly resize the window
@@ -177,26 +175,29 @@ var changeGravDir = "";
             case "up":
                 if (isOnUpObst()) {
                     changeGrav("up");
-                    console.log("hit ceiling");
                     _gravReverted  = false;
+                    neutral();
                 }
                 break
             case "down":
                 if (isOnDownObst()) {
                     changeGrav("down");
                     _gravReverted  = false;
+                    neutral();
                 }
                 break
             case "left":
                 if (isOnLeftObst()) {
                     changeGrav("left");
                     _gravReverted  = false;
+                    neutral();
                 }
                 break
             case "right":
                 if (isOnRightObst()) {
                     changeGrav("right");
                     _gravReverted  = false;
+                    neutral();
                 }
                 break
         }
