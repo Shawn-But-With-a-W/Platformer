@@ -1,5 +1,3 @@
-// TODO: Change gravity to key + direction activation
-
 // TODO: Add ground timer. When ground timer within set value, maximum velocity does not apply
 
 // TODO: Figure out how to properly resize the window
@@ -66,6 +64,7 @@ var gravRevert = gravDir;
 var changeGravDir = "";
 
 (function mainLoop() {
+
     // Check if it's on the ground
     _onGround = isOnGround();
     _onCeiling = isOnCeiling();
@@ -73,7 +72,7 @@ var changeGravDir = "";
     _onRightWall = isOnRightWall();
 
     var type = "air";
-    if (_onGround) {
+    if (_onGround  && !_gravChanged && !_gravReverted) {
         type = "hor";
         _grav = true;
         _gravReverted = false;
@@ -147,10 +146,8 @@ var changeGravDir = "";
     }
 
     if (_gravChanged) {
-
         gravTimer++;
         player.render.fillStyle = "#71aff8";
-        console.log(player.velocity);
 
         switch (gravDir) {
             case "up":
@@ -178,6 +175,7 @@ var changeGravDir = "";
             gravTimer = 0;
             neutral();
         }
+        
     }
     else {
         engine.gravity.scale = 0.001;
@@ -218,6 +216,16 @@ var changeGravDir = "";
                 break
         }
 
+        if (_onGround) {
+            type = "hor";
+            _grav = true;
+            _gravReverted = false;
+            _gravChanged = false;
+            gravTimer = 0;
+            gravRevert = gravDir;
+            changeGravDir = "";
+            neutral();
+        }
     }
     
 

@@ -44,6 +44,7 @@ window.addEventListener("keyup", (event) => {
 function neutral() {
     keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false };
     directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };
+    _gravPressed = false;
 }
 
 

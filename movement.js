@@ -85,5 +85,4 @@ function cancelVel(axis) {
                 break
                 
             }
-        console.log(player.velocity);
 }
