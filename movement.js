@@ -1,5 +1,5 @@
-const PARAMETERS = {
-    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 7.5 },
+var PARAMETERS = {
+    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 10 },
     dec : { hor : 0.3, air : 0.4 },
     max : { hor : 3, air : 6, ver : 15},
 }
@@ -36,7 +36,7 @@ function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
     var jumpKeyDir = DIRECTION_TO_VALUE["up"];
 
-    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : player.velocity[jumpKeyDir.axis]*0.5 + jumpKeyDir.sign*PARAMETERS.acc.jum });
+    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : 0.75 * jumpKeyDir.sign*PARAMETERS.acc.jum });
 }
 
 

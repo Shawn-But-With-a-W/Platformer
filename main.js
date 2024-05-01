@@ -1,5 +1,3 @@
-// TODO: Add ground timer. When ground timer within set value, maximum velocity does not apply
-
 // TODO: Figure out how to properly resize the window
 
 // module aliases
@@ -64,7 +62,6 @@ var gravRevert = gravDir;
 var changeGravDir = "";
 
 (function mainLoop() {
-
     // Check if it's on the ground
     _onGround = isOnGround();
     _onCeiling = isOnCeiling();
@@ -80,13 +77,27 @@ var changeGravDir = "";
         gravTimer = 0;
         gravRevert = gravDir;
         changeGravDir = "";
+        groundTimer--;
+    }
+
+    if (!_onGround) {
+        groundTimer--;
     }
 
     // Deceleration and capping max velocity
     if (isNeutral()) {
         decel(type);
     }
-    maxVel(type);
+
+    if (groundTimer < 0) {
+        maxVel(type);
+        PARAMETERS.acc.hor = 0.5;
+        PARAMETERS.acc.air = 0.6;
+    }
+    else {
+        PARAMETERS.acc.hor = 0.1;
+        PARAMETERS.acc.air = 1;
+    }
 
     // Gravity takes priority over other movement
     if (_grav) {
@@ -216,6 +227,12 @@ var changeGravDir = "";
                 break
         }
 
+        for (let key of Object.keys(keysPressed)) {
+            if (!keysPressed[key]) {
+                directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
+            }
+        }
+
         if (_onGround) {
             type = "hor";
             _grav = true;
@@ -224,7 +241,7 @@ var changeGravDir = "";
             gravTimer = 0;
             gravRevert = gravDir;
             changeGravDir = "";
-            neutral();
+            groundTimer = 11;
         }
     }
     
