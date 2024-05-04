@@ -1,5 +1,9 @@
 // TODO: Figure out how to properly resize the window
 
+// TODO: Can only gravity change when one direction key is pressed
+
+// TODO: Make wavedashes non-bufferable
+
 // module aliases
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -56,12 +60,15 @@ Render.run(render);
 var _grav = false;
 var groundTimer = 0
 var gravTimer = 0;
+var airTimer = 0;
 var _gravChanged = false;
 var _gravReverted = false;
 var gravRevert = gravDir;
 var changeGravDir = "";
 
 (function mainLoop() {
+    console.log(airTimer);
+
     // Check if it's on the ground
     _onGround = isOnGround();
     _onCeiling = isOnCeiling();
@@ -81,7 +88,11 @@ var changeGravDir = "";
     }
 
     if (!_onGround) {
+        airTimer++;
         groundTimer--;
+    }
+    else {
+        airTimer = 0;
     }
 
     // Deceleration and capping max velocity
@@ -100,29 +111,29 @@ var changeGravDir = "";
     }
 
     // Gravity takes priority over other movement
-    if (_grav) {
+    if (_grav && !_onGround && airTimer >= 15) {
         player.render.fillStyle = "#f5d259";
         if (keysPressed["ArrowLeft"] && _gravPressed) {
             changeGrav("left");
             _grav = false;
             _gravChanged = true;
             changeGravDir = "left";
-            engine.gravity.scale = 0.003;
+            engine.gravity.scale = 0.002;
         }
         else if (keysPressed["ArrowRight"] && _gravPressed) {
             changeGrav("right");
             _grav = false;
             _gravChanged = true;
             changeGravDir = "right";
-            engine.gravity.scale = 0.003;
+            engine.gravity.scale = 0.002;
 
         }
-        else if (keysPressed["ArrowUp"] && _gravPressed && !_onGround) {
+        else if (keysPressed["ArrowUp"] && _gravPressed) {
             changeGrav("up");
             _grav = false;
             _gravChanged = true;
             changeGravDir = "up";
-            engine.gravity.scale = 0.003;
+            engine.gravity.scale = 0.002;
 
         }
         else if (keysPressed["ArrowDown"] && _gravPressed) {
@@ -130,8 +141,11 @@ var changeGravDir = "";
             _grav = false;
             _gravChanged = true;
             changeGravDir = "down";
-            engine.gravity.scale = 0.003;
+            engine.gravity.scale = 0.002;
         }
+    }
+    else {
+        player.render.fillStyle = "#f5d35954";
     }
 
 
@@ -160,7 +174,7 @@ var changeGravDir = "";
         gravTimer++;
         player.render.fillStyle = "#71aff8";
 
-        switch (gravDir) {
+        switch (changeGravDir) {
             case "up":
             case "down":
                 cancelVel("x");
