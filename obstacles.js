@@ -1,6 +1,6 @@
 var Bodies = Matter.Bodies;
 
-var player = Bodies.rectangle(640, 0, 40, 40, {friction : 0, frictionAir : 0, frictionStatic : 0});
+var player = Bodies.rectangle(640, 0, 40, 40, {friction : 0, frictionAir : 0, frictionStatic : 0, inertia : Infinity});
 player.render.fillStyle = "#f5d259";
 player.timeScale = 1;
 
@@ -9,10 +9,10 @@ var ceiling = Bodies.rectangle(640, 0, 1280, 30, {isStatic: true});
 var wallLeft = Bodies.rectangle(0, 325, 30, 720, {isStatic : true});
 var wallRight = Bodies.rectangle(1280, 325, 30, 720, {isStatic : true});
 
-const UPOBST = [ceiling];
-const DOWNOBST = [floor];
-const LEFTOBST = [wallLeft];
-const RIGHTOBST = [wallRight];
+var UPOBST = [ceiling];
+var DOWNOBST = [floor];
+var LEFTOBST = [wallLeft];
+var RIGHTOBST = [wallRight];
 
 var OBSTACLES = {
     up : UPOBST,
@@ -22,91 +22,51 @@ var OBSTACLES = {
 };
 
 
-function isOnGround() {
-    var _onGround = false;
-    for (let ground of OBSTACLES.down) {
-        if (Collision.collides(player, ground) != null) {
-            _onGround = true;
-            break
+// add mouse control
+var mouse = Mouse.create(render.canvas),
+    mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: false
+            }
         }
-    }
-    return _onGround
-}
-
-function isOnCeiling() {
-    var _onCeiling = false;
-    for (let ceiling of OBSTACLES.up) {
-        if (Collision.collides(player, ceiling) != null) {
-            _onCeiling = true;
-            break
-        }
-    }
-    return _onCeiling
-}
-
-function isOnLeftWall() {
-    var _onLeftWall = false;
-    for (let leftWall of OBSTACLES.left) {
-        if (Collision.collides(player, leftWall) != null) {
-            _onLeftWall = true;
-            break
-        }
-    }
-    return _onLeftWall
-}
-
-function isOnRightWall() {
-    var _onRightWall = false;
-    for (let rightWall of OBSTACLES.right) {
-        if (Collision.collides(player, rightWall) != null) {
-            _onRightWall = true;
-            break
-        }
-    }
-    return _onRightWall
-}
+    });
+// keep the mouse in sync with rendering
+render.mouse = mouse;
 
 
-function isOnUpObst() {
-    var _onUpObst = false;
-    for (let upObst of UPOBST) {
-        if (Collision.collides(player, upObst) != null) {
-            _onUpObst = true;
-            break
-        }
+// add all of the bodies to the world
+Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight, mouseConstraint]);
+
+class Platform {
+    constructor(x, y, width, height) { // TODO: add default values for dimensions
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.maxX = this.x + this.width/2;
+        this.minX = this.x - this.width/2;
+        this.maxY = this.y + this.height/2;
+        this.minY = this.y - this.height/2;
+        
+        // Trace out the platform with 4 individual rectangles
+        this.top = Bodies.rectangle(this.x, this.minY, width, 2, {isStatic: true});
+        this.bottom = Bodies.rectangle(this.x, this.maxY, width, 2, {isStatic: true});
+        this.left = Bodies.rectangle(this.minX, y, 2, height, {isStatic: true});
+        this.right = Bodies.rectangle(this.maxX, y, 2, height, {isStatic: true});
+
+        Matter.Composite.add(engine.world, [this.top, this.bottom, this.left, this.right]);
+
+        // Update obstacles
+        UPOBST.push(this.bottom);
+        DOWNOBST.push(this.top);
+        LEFTOBST.push(this.right);
+        RIGHTOBST.push(this.left);
+
+        changeGrav(gravDir);
     }
-    return _onUpObst
 }
 
-function isOnDownObst() {
-    var _onDownObst = false;
-    for (let downObst of DOWNOBST) {
-        if (Collision.collides(player, downObst) != null) {
-            _onDownObst = true;
-            break
-        }
-    }
-    return _onDownObst
-}
-
-function isOnLeftObst() {
-    var _onLeftObst = false;
-    for (let leftObst of LEFTOBST) {
-        if (Collision.collides(player, leftObst) != null) {
-            _onLeftObst = true;
-            break
-        }
-    }
-    return _onLeftObst
-}
-
-function isOnRightObst() {
-    var _onRightObst = false;
-    for (let rightObst of RIGHTOBST) {
-        if (Collision.collides(player, rightObst) != null) {
-            _onRightObst = true;
-            break
-        }
-    }
-    return _onRightObst
-}
+var testPlatform = new Platform(500, 500, 100, 50);

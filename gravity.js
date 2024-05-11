@@ -19,8 +19,6 @@ var KEYSTROKE_TO_DIRECTION = {
 
 
 function changeGrav(dir) {
-    // Reset the directions so it doesn't keep thinking to jump after grav change
-    // neutral();
     switch (dir) {
 
         case "down":

@@ -1,4 +1,4 @@
-// TODO: Figure out how to properly resize the window
+// TODO: Create obstacle class
 
 // TODO: Can only gravity change when one direction key is pressed
 
