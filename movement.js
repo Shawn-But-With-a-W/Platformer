@@ -36,7 +36,7 @@ function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
     var jumpKeyDir = DIRECTION_TO_VALUE["up"];
 
-    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : 0.75 * jumpKeyDir.sign*PARAMETERS.acc.jum });
+    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : 0.8*jumpKeyDir.sign*PARAMETERS.acc.jum });
 }
 
 
