@@ -100,8 +100,7 @@ class Spike {
         var _hitSpikes = false;
         for (let spike of this.spikes) {
             if (Collision.collides(player, spike) != null) {
-                hitSpikes = true;
-                console.log("dead");
+                _hitSpikes = true;
                 break
             }
         }

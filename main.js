@@ -45,6 +45,12 @@ var changeGravDir = "";
         airTimer = 0;
     }
 
+    for (let spikeObj of SPIKES) {
+        if (spikeObj.hitSpikes()) {
+                console.log("dead");
+        }
+    }
+
     // Deceleration and capping max velocity
     if (isNeutral()) {
         decel(type);
