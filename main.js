@@ -1,5 +1,9 @@
 // TODO: Create obstacle class
 
+// TODO: Add Spikes
+
+// TODO: Add Death
+
 // TODO: Can only gravity change when one direction key is pressed
 
 // TODO: Make wavedashes non-bufferable
