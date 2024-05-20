@@ -25,6 +25,11 @@ function changeGrav(dir) {
             engine.gravity = {x : 0, y : 1};
             gravDir = "down";
 
+            cancelVel("x");
+            if (player.velocity.y < PARAMETERS.acc.grav) {
+                player.velocity.y = PARAMETERS.acc.grav;
+            }
+
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "y", "sign" : -1 },
                 "down": { "axis" : "y", "sign" : 1 },
@@ -52,6 +57,10 @@ function changeGrav(dir) {
             engine.gravity = {x : 0, y : -1};
             gravDir = "up";
 
+            cancelVel("x");
+            if (player.velocity.y > -PARAMETERS.acc.grav) {
+                player.velocity.y = -PARAMETERS.acc.grav;
+            }
 
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "y", "sign" : 1 },
@@ -80,6 +89,11 @@ function changeGrav(dir) {
             engine.gravity = {x : -1, y : 0};
             gravDir = "left";
 
+            cancelVel("y");
+            if (player.velocity.x > -PARAMETERS.acc.grav) {
+                player.velocity.x = -PARAMETERS.acc.grav;
+            }
+
 
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "x", "sign" : 1 },
@@ -107,6 +121,11 @@ function changeGrav(dir) {
         case "right":
             engine.gravity = {x : 1, y : 0};
             gravDir = "right";
+
+            cancelVel("y");
+            if (player.velocity.x < PARAMETERS.acc.grav) {
+                player.velocity.x = PARAMETERS.acc.grav;
+            }
 
             DIRECTION_TO_VALUE = {
                 "up" : { "axis" : "x", "sign" : -1 },

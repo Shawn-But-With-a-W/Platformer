@@ -1,5 +1,5 @@
 var PARAMETERS = {
-    acc : { hor : 0.5, air : 0.6, jum : 7, fal : 1 , wal : 10 },
+    acc : { hor : 0.5, air : 0.6, jump : 7, fall : 1 , wall : 10, grav : 0.5},
     dec : { hor : 0.3, air : 0.4 },
     max : { hor : 3, air : 6, ver : 15},
 }
@@ -19,7 +19,7 @@ function jump() {
     var verAxis = keyDir.axis;
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
 
-    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.jum });
+    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.jump });
 }
 
 
@@ -28,7 +28,7 @@ function fastFall() {
     var verAxis = keyDir.axis;
     var horAxis = DIRECTION_TO_VALUE["right"].axis;
 
-    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.fal });
+    Body.setVelocity(player, { [horAxis] : player.velocity[horAxis], [verAxis] : player.velocity[verAxis] + keyDir.sign*PARAMETERS.acc.fall });
 }
 
 
@@ -36,7 +36,7 @@ function wallJump(dir) {
     var sideKeyDir = DIRECTION_TO_VALUE[dir];
     var jumpKeyDir = DIRECTION_TO_VALUE["up"];
 
-    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wal, [jumpKeyDir.axis] : 0.8*jumpKeyDir.sign*PARAMETERS.acc.jum });
+    Body.setVelocity(player, { [sideKeyDir.axis] : sideKeyDir.sign*PARAMETERS.acc.wall, [jumpKeyDir.axis] : 0.8*jumpKeyDir.sign*PARAMETERS.acc.jump });
 }
 
 
