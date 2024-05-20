@@ -59,3 +59,53 @@ class Platform {
 }
 
 var testPlatform = new Platform(500, 500, 100, 50);
+
+class Spike {
+    constructor (start, end, dir, axis) {
+        this.radius = 20;
+        this.dir = dir;
+        this.start = start;
+        this.end = end;
+        this.axis = axis;
+        this.spikes = [];
+
+        // Angles obtained through trial and error
+        const DIRECTION_TO_ANGLE = {
+            "up" : -1/6 * Math.PI,
+            "down" : 1/6 * Math.PI,
+            "left" : 0,
+            "right" : Math.PI
+        }
+
+        // Only designed for spikes to be horizontally or vertically spread out
+        for (let i=this.start[axis]; i<this.end[axis]; i+=this.radius * 2) {
+            // Check axis to repeat in
+            if (this.axis == "x" ) {
+                var spike = Bodies.polygon(i, this.start.y, 3, this.radius, {isStatic : true, angle : DIRECTION_TO_ANGLE[this.dir]});
+            }
+            else if (this.axis == "y") {
+                var spike = Bodies.polygon(this.start.x, i, 3, this.radius, {isStatic : true, angle : DIRECTION_TO_ANGLE[this.dir]});
+            }
+
+            this.spikes.push(spike);
+        }
+
+        Matter.Composite.add(engine.world, this.spikes);
+        SPIKES.push(this);
+    }
+
+
+    // Checking if the player hits the spikes
+    hitSpikes() {
+        var _hitSpikes = false;
+        for (let spike of this.spikes) {
+            if (Collision.collides(player, spike) != null) {
+                _hitSpikes = true;
+                break
+            }
+        }
+        return _hitSpikes
+    }
+}
+
+var testSpike = new Spike({x:750, y:500}, {x:1000, y:500}, "up", "x");

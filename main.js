@@ -45,6 +45,7 @@ var changeGravDir = "";
         airTimer = 0;
     }
 
+    // Detecting if hit a spike
     for (let spikeObj of SPIKES) {
         if (spikeObj.hitSpikes()) {
                 console.log("dead");
