@@ -1,7 +1,3 @@
-// TODO: Create obstacle class
-
-// TODO: Add Spikes
-
 // TODO: Add Death
 
 // TODO: Can only gravity change when one direction key is pressed
@@ -17,6 +13,8 @@ var _gravChanged = false;
 var _gravReverted = false;
 var gravRevert = gravDir;
 var changeGravDir = "";
+var _isAlive = true;
+var respawnTimer = 0;
 
 (function mainLoop() {
     // Check if it's on the ground
@@ -46,9 +44,25 @@ var changeGravDir = "";
     }
 
     // Detecting if hit a spike
-    for (let spikeObj of SPIKES) {
-        if (spikeObj.hitSpikes()) {
-                console.log("dead");
+    if (_isAlive) {
+        respawnTimer = 0;
+        for (let spikeObj of SPIKES) {
+            if (spikeObj.hitSpikes()) {
+                    death();
+                    _isAlive = false;
+            }
+        }
+    }
+    else {
+        respawnTimer++;
+        if (respawnTimer >= 15) {
+            engine.timing.timeScale = 1;
+        }
+        else if (respawnTimer >= 5) {
+            engine.timing.timeScale = 0.5;
+        }
+        else if (respawnTimer >= 60) {
+            console.log("respawn");
         }
     }
 

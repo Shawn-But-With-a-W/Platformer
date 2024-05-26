@@ -28,7 +28,7 @@ var OBSTACLES = {
 Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight]);
 
 class Platform {
-    constructor(x, y, width, height) { // TODO: add default values for dimensions
+    constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -90,7 +90,7 @@ class Spike {
             this.spikes.push(spike);
         }
 
-        Matter.Composite.add(engine.world, this.spikes);
+        Composite.add(engine.world, this.spikes);
         SPIKES.push(this);
     }
 
