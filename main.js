@@ -22,6 +22,7 @@ var respawnTimer = 0;
     _onRightWall = isOnRightWall();
 
     var type = "air";
+    // Reset all variables when landed on ground
     if (_onGround  && !_gravChanged && !_gravReverted) {
         type = "hor";
         _grav = true;
@@ -33,6 +34,7 @@ var respawnTimer = 0;
         groundTimer--;
     }
 
+    // Start air timer when in air
     if (!_onGround) {
         airTimer++;
         groundTimer--;
@@ -53,14 +55,16 @@ var respawnTimer = 0;
     }
     else {
         respawnTimer++;
-        if (respawnTimer >= 70) {
+        // Respawn after set amount of time
+        if (respawnTimer >= 100) {
             respawn();
             _isAlive = true;
         }
-        else if (respawnTimer >= 15) {
+        // Change speed of death animation depending on amount of time after death
+        else if (respawnTimer >= 20) {
             engine.timing.timeScale = 1;
         }
-        else if (respawnTimer >= 5) {
+        else if (respawnTimer >= 10) {
             engine.timing.timeScale = 0.5;
         }
     }
@@ -75,6 +79,7 @@ var respawnTimer = 0;
         PARAMETERS.acc.hor = 0.5;
         PARAMETERS.acc.air = 0.6;
     }
+    // Modifying values for wavedashing
     else {
         PARAMETERS.acc.hor = 0.1;
         PARAMETERS.acc.air = 1;
@@ -115,7 +120,7 @@ var respawnTimer = 0;
         }
     }
     else {
-        player.render.fillStyle = "#f5d35954";
+        player.render.fillStyle = "#f5d35987";
     }
 
 
@@ -144,6 +149,7 @@ var respawnTimer = 0;
         gravTimer++;
         player.render.fillStyle = "#71aff8";
 
+        // Cancel velocity on secondary axis to not move diagonally
         switch (changeGravDir) {
             case "up":
             case "down":
@@ -155,6 +161,7 @@ var respawnTimer = 0;
                 break
         }
 
+        // Switching gravity back after 10 ticks
         if (gravTimer >= 10) {
             changeGrav(gravRevert);
             _gravReverted = true;
@@ -179,7 +186,7 @@ var respawnTimer = 0;
     if (_gravReverted) {
         player.render.fillStyle = "#71b0f837";
         
-        // Sticking to the direction gravity changed in while falling back down
+        // Still sticking to the direction gravity previously changed in after revert
         switch (changeGravDir) {
             case "up":
                 if (isOnUpObst()) {
@@ -211,12 +218,14 @@ var respawnTimer = 0;
                 break
         }
 
+        // Updating keysPressed record so keys/directions aren't incorrectly buffered after gravity change
         for (let key of Object.keys(keysPressed)) {
             if (!keysPressed[key]) {
                 directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
             }
         }
 
+        // Resetting values specifically after gravity change
         if (_onGround) {
             type = "hor";
             _grav = true;

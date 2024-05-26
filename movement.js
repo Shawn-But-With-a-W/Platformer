@@ -80,16 +80,16 @@ function cancelVel(axis) {
         case "x":
             Body.setVelocity(player, {x : 0, y : player.velocity.y});
             break
-            case "y":
-                Body.setVelocity(player, {x : player.velocity.x, y : 0});
-                break
+        case "y":
+            Body.setVelocity(player, {x : player.velocity.x, y : 0});
+            break
                 
             }
 }
 
 var particles = [];
 function death() {
-    engine.timing.timeScale = 0.05;
+    engine.timing.timeScale = 0.025;
     Composite.remove(engine.world, player);
     let particle;
     particles = [];
@@ -97,7 +97,6 @@ function death() {
     for (let i=0; i<20; i++) {
         particle = Bodies.rectangle(player.position.x, player.position.y, 8, 8, {friction : 0.1, frictionAir : 0.004, frictionStatic : 0});
         Body.setVelocity(particle, {x : Math.random()*25 * (-1) **Math.floor(2*Math.random()), y : Math.random()*25 * (-1)**Math.floor(2*Math.random())});
-        particle.render.fillStyle = "#f5d259";
         particles.push(particle);
     }
     Composite.add(engine.world, particles);

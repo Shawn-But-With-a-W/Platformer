@@ -1,5 +1,6 @@
 // Record of whether a direction key is currently being pressed
 var keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false };
+// Record of whether a direction is being pressed (converted from keysPressed)
 var directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };
 var _gravPressed = false;
 
@@ -41,6 +42,7 @@ window.addEventListener("keyup", (event) => {
     }});
 
 
+// Removes all keystrokes and directions
 function neutral() {
     keysPressed = { "ArrowUp" : false, "ArrowDown" : false,  "ArrowLeft" : false, "ArrowRight" : false };
     directionsPressed = { "up" : false, "down" : false, "left" : false, "right" : false };

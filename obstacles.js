@@ -2,6 +2,7 @@ var Bodies = Matter.Bodies;
 
 var player = Bodies.rectangle(640, 0, 40, 40, {friction : 0, frictionAir : 0, frictionStatic : 0, inertia : Infinity});
 player.render.fillStyle = "#f5d259";
+player.render.lineWidth = 2;
 player.timeScale = 1;
 
 var floor = Bodies.rectangle(640, 650, 1280, 30, {isStatic: true});
@@ -13,7 +14,7 @@ var UPOBST = [ceiling];
 var DOWNOBST = [floor];
 var LEFTOBST = [wallLeft];
 var RIGHTOBST = [wallRight];
-var PLATOFORMS = [];
+var PLATFORMS = [];
 var SPIKES = [];
 
 var OBSTACLES = {
@@ -54,7 +55,7 @@ class Platform {
 
         changeGrav(gravDir);
 
-        PLATOFORMS.push(this);
+        PLATFORMS.push(this);
     }
 }
 
