@@ -87,11 +87,12 @@ function cancelVel(axis) {
             }
 }
 
+var particles = [];
 function death() {
     engine.timing.timeScale = 0.05;
     Composite.remove(engine.world, player);
     let particle;
-    let particles = [];
+    particles = [];
 
     for (let i=0; i<20; i++) {
         particle = Bodies.rectangle(player.position.x, player.position.y, 8, 8, {friction : 0.1, frictionAir : 0.004, frictionStatic : 0});
@@ -100,4 +101,13 @@ function death() {
         particles.push(particle);
     }
     Composite.add(engine.world, particles);
+}
+
+function respawn(spawnpoint={x:640, y:100}, defaultGravDir="down") {
+    Composite.remove(engine.world, particles);
+
+    Body.setPosition(player, spawnpoint);
+    Composite.add(engine.world, player);
+
+    changeGrav(defaultGravDir);
 }

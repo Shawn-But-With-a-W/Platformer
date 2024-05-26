@@ -1,5 +1,3 @@
-// TODO: Add Death
-
 // TODO: Can only gravity change when one direction key is pressed
 
 // TODO: Make wavedashes non-bufferable
@@ -55,14 +53,15 @@ var respawnTimer = 0;
     }
     else {
         respawnTimer++;
-        if (respawnTimer >= 15) {
+        if (respawnTimer >= 70) {
+            respawn();
+            _isAlive = true;
+        }
+        else if (respawnTimer >= 15) {
             engine.timing.timeScale = 1;
         }
         else if (respawnTimer >= 5) {
             engine.timing.timeScale = 0.5;
-        }
-        else if (respawnTimer >= 60) {
-            console.log("respawn");
         }
     }
 
