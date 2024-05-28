@@ -19,7 +19,7 @@ var render = Render.create({
     options : {
         width : 1280, 
         height : 650, 
-        background : "#9ab1c6", 
+        background : "#b5b5b5", 
         pixelRatio : 'auto',
         wireframes : false,
         // showAngleIndicator : true,

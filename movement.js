@@ -89,12 +89,12 @@ function cancelVel(axis) {
 
 var particles = [];
 function death() {
-    engine.timing.timeScale = 0.025;
+    engine.timing.timeScale = 0.075;
     Composite.remove(engine.world, player);
     let particle;
     particles = [];
 
-    for (let i=0; i<20; i++) {
+    for (let i=0; i<50; i++) {
         particle = Bodies.rectangle(player.position.x, player.position.y, 8, 8, {friction : 0.1, frictionAir : 0.004, frictionStatic : 0});
         Body.setVelocity(particle, {x : Math.random()*25 * (-1) **Math.floor(2*Math.random()), y : Math.random()*25 * (-1)**Math.floor(2*Math.random())});
         particles.push(particle);

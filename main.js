@@ -1,7 +1,3 @@
-// TODO: Can only gravity change when one direction key is pressed
-
-// TODO: Make wavedashes non-bufferable
-
 // Initialise a bunch of variables before the main loop
 var _grav = false;
 var groundTimer = 0
@@ -13,6 +9,7 @@ var gravRevert = gravDir;
 var changeGravDir = "";
 var _isAlive = true;
 var respawnTimer = 0;
+var _waveDash = false;
 
 (function mainLoop() {
     // Check if it's on the ground
@@ -61,11 +58,11 @@ var respawnTimer = 0;
             _isAlive = true;
         }
         // Change speed of death animation depending on amount of time after death
-        else if (respawnTimer >= 20) {
+        else if (respawnTimer >= 30) {
             engine.timing.timeScale = 1;
         }
-        else if (respawnTimer >= 10) {
-            engine.timing.timeScale = 0.5;
+        else if (respawnTimer >= 15) {
+            engine.timing.timeScale = 0.75;
         }
     }
 
@@ -74,28 +71,39 @@ var respawnTimer = 0;
         decel(type);
     }
 
+    // When on ground for long enough
     if (groundTimer < 0) {
         maxVel(type);
+        _waveDash = false;
         PARAMETERS.acc.hor = 0.5;
         PARAMETERS.acc.air = 0.6;
     }
-    // Modifying values for wavedashing
+    // Modifying values for wavedashing for short period of time on ground
     else {
-        PARAMETERS.acc.hor = 0.1;
-        PARAMETERS.acc.air = 1;
+        if (directionsPressed["up"] == false) {
+            _waveDash = true;
+        }
+
+        if (_waveDash) {
+            PARAMETERS.acc.hor = 0.1;
+            PARAMETERS.acc.air = 1;
+        }
+        else {
+            maxVel(type);
+        }
     }
 
     // Gravity takes priority over other movement
     if (_grav && !_onGround && airTimer >= 15) {
         player.render.fillStyle = "#f5d259";
-        if (keysPressed["ArrowLeft"] && _gravPressed) {
+        if (keysPressed["ArrowLeft"] && _gravPressed && !(keysPressed["ArrowRight"] || keysPressed["ArrowUp"] || keysPressed["ArrowDown"])) {
             changeGrav("left");
             _grav = false;
             _gravChanged = true;
             changeGravDir = "left";
             engine.gravity.scale = 0.002;
         }
-        else if (keysPressed["ArrowRight"] && _gravPressed) {
+        else if (keysPressed["ArrowRight"] && _gravPressed && !(keysPressed["ArrowLeft"] || keysPressed["ArrowUp"] || keysPressed["ArrowDown"])) {
             changeGrav("right");
             _grav = false;
             _gravChanged = true;
@@ -103,7 +111,7 @@ var respawnTimer = 0;
             engine.gravity.scale = 0.002;
 
         }
-        else if (keysPressed["ArrowUp"] && _gravPressed) {
+        else if (keysPressed["ArrowUp"] && _gravPressed && !(keysPressed["ArrowRight"] || keysPressed["ArrowLeft"] || keysPressed["ArrowDown"])) {
             changeGrav("up");
             _grav = false;
             _gravChanged = true;
@@ -111,7 +119,7 @@ var respawnTimer = 0;
             engine.gravity.scale = 0.002;
 
         }
-        else if (keysPressed["ArrowDown"] && _gravPressed) {
+        else if (keysPressed["ArrowDown"] && _gravPressed && !(keysPressed["ArrowRight"] || keysPressed["ArrowUp"] || keysPressed["ArrowLeft"])) {
             changeGrav("down");
             _grav = false;
             _gravChanged = true;
@@ -120,7 +128,7 @@ var respawnTimer = 0;
         }
     }
     else {
-        player.render.fillStyle = "#f5d35987";
+        player.render.fillStyle = "#f5d3598f";
     }
 
 
@@ -234,7 +242,7 @@ var respawnTimer = 0;
             gravTimer = 0;
             gravRevert = gravDir;
             changeGravDir = "";
-            groundTimer = 11;
+            groundTimer = 17;
         }
     }
     
