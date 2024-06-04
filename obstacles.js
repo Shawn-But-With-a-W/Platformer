@@ -7,7 +7,7 @@ player.timeScale = 1;
 
 var floor = Bodies.rectangle(640, 650, 1280, 30, {isStatic: true});
 var ceiling = Bodies.rectangle(640, 0, 1280, 30, {isStatic: true});
-var wallLeft = Bodies.rectangle(0, 325, 30, 720, {isStatic : true});
+var wallLeft = Bodies.rectangle(0, 500, 30, 720, {isStatic : true});
 var wallRight = Bodies.rectangle(1280, 325, 30, 720, {isStatic : true});
 
 var UPOBST = [ceiling];
@@ -27,6 +27,7 @@ var OBSTACLES = {
 
 // add all of the bodies to the world
 Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight]);
+
 
 class Platform {
     constructor(x, y, width, height) {

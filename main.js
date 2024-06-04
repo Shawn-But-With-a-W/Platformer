@@ -1,8 +1,14 @@
 // TODO: Add level storage
 
+// TODO: Figure out how to use the camera
+
+// TODO: Add screenshake
+
+// TODO: Add level transition
+
 // Initialise a bunch of variables before the main loop
 var _grav = false;
-var groundTimer = 0
+var groundTimer = 0;
 var gravTimer = 0;
 var airTimer = 0;
 var _gravChanged = false;
@@ -13,7 +19,36 @@ var _isAlive = true;
 var respawnTimer = 0;
 var _waveDash = false;
 
+
+// add mouse control (I have no idea how this works)
+var mouse = Mouse.create(),
+    mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: true
+            }
+        }
+    });
+// keep the mouse in sync with rendering
+render.mouse = mouse;
+Composite.add(engine.world, [mouseConstraint]);
+
+
 (function mainLoop() {
+    // Render.lookAt(render, player, {x:400, y:400});
+
+    // Bounds.translate(render.bounds, {x:2, y:2});
+
+    // if (player.position.x >= 640) {
+    //     Bounds.shift(render.bounds, {x:640, y:0});
+    // }
+    // else {
+    //     Bounds.shift(render.bounds, {x:-640, y:0})
+    // }
+
+
     // Check if it's on the ground
     _onGround = isOnGround();
     _onCeiling = isOnCeiling();
@@ -247,7 +282,8 @@ var _waveDash = false;
             groundTimer = 17;
         }
     }
-    
+
+    var end = currentLevel.checkLevelComplete();
 
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
