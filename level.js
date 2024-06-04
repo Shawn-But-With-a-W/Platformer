@@ -1,14 +1,15 @@
 class Level {
-    constructor(xMin, yMin, xMax, yMax, spawn, start, ends) {
-        this.xMax = xMax;
-        this.xMin = xMin;
-        this.yMax = yMax;
-        this.yMin = yMin;
+    constructor(min, max, spawn, start, ends) {
+        this.min = min;
+        this.max = max;
+        this.spawn = spawn;
         this.start = start;
         this.ends = ends;
 
-        this.start = start;
-        this.spawn = spawn;
+        this.xMin = min.x;
+        this.xMax = max.x;
+        this.yMin = min.y;
+        this.yMax = max.y;
     }
 
 
@@ -35,7 +36,7 @@ class Level {
 
     checkLevelComplete() {
         for (let end of this.ends) {
-            if ((end.x-50 <= player.position.x) && (player.position.x <= end.x+50) && (end.y-50 <= player.position.y) && (player.position.y <= end.y+50)) {
+            if ((end.x-75 <= player.position.x) && (player.position.x <= end.x+75) && (end.y-75 <= player.position.y) && (player.position.y <= end.y+75)) {
                 console.log("level ended");
                 return end;
             }
@@ -43,19 +44,19 @@ class Level {
                 console.log("end not found");
             }
         }
+        return false;
     }
 
 
     nextLevel(end) {
-        for (let level of LEVELS) {
-            if (level.start == end) {
-                return level
-            }
-        }
+        return LEVELS[end.next];
     }
 }
 
 
-var LEVELS  = [new Level(0, 0, 1280, 650, {x:640, y:100}, {x:640, y:100}, [{x:0, y:50}])];
+var LEVELS  = [
+    new Level({x:0, y:0}, {x:1280, y:650}, {x:640, y:100}, {x:640, y:100}, [{x:0, y:50, next:1}]),
+    new Level({x:-1080, y:-450}, {x:200, y:200}, {x:0, y:0}, {x:100, y:50}, [{x:999, y:999, next:0}]),
+];
 var levelIndex = 0;
 var currentLevel = LEVELS[levelIndex]

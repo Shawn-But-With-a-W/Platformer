@@ -285,6 +285,12 @@ Composite.add(engine.world, [mouseConstraint]);
 
     var end = currentLevel.checkLevelComplete();
 
+    if (end) {
+        currentLevel = currentLevel.nextLevel(end);
+        render.bounds.max = currentLevel.max;
+        render.bounds.min = currentLevel.min;
+    }
+
     window.requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
     })();
