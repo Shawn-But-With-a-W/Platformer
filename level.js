@@ -25,7 +25,7 @@ class Level {
 
 
     isOutOfBounds() {
-        if ((player.position.x > xMax) || (player.position.x < xMin) || (player.position.y > yMax) || (player.position.y < yMin)) {
+        if ((player.position.x > this.xMax) || (player.position.x < this.xMin) || (player.position.y > this.yMax) || (player.position.y < this.yMin)) {
             return true;
         }
         else {
@@ -59,4 +59,4 @@ var LEVELS  = [
     new Level({x:-1080, y:-450}, {x:200, y:200}, {x:0, y:0}, {x:100, y:50}, [{x:999, y:999, next:0}]),
 ];
 var levelIndex = 0;
-var currentLevel = LEVELS[levelIndex]
+var currentLevel = LEVELS[levelIndex];

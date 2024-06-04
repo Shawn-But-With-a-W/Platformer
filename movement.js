@@ -89,6 +89,7 @@ function cancelVel(axis) {
 
 var particles = [];
 function death() {
+    _isAlive = false;
     engine.timing.timeScale = 0.075;
     Composite.remove(engine.world, player);
     let particle;
@@ -100,10 +101,14 @@ function death() {
         particles.push(particle);
     }
     Composite.add(engine.world, particles);
+
 }
 
 function respawn(spawnpoint={x:640, y:100}, defaultGravDir="down") {
+    _isAlive = true;
+
     Composite.remove(engine.world, particles);
+    console.log("attempted to clear particles");
 
     Body.setPosition(player, spawnpoint);
     Composite.add(engine.world, player);

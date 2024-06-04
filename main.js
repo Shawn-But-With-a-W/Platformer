@@ -18,6 +18,7 @@ var changeGravDir = "";
 var _isAlive = true;
 var respawnTimer = 0;
 var _waveDash = false;
+var end = false;
 
 
 // add mouse control (I have no idea how this works)
@@ -77,22 +78,28 @@ Composite.add(engine.world, [mouseConstraint]);
         airTimer = 0;
     }
 
-    // Detecting if hit a spike
+
+    // Dumb ways to die (and some less dumb ones)
     if (_isAlive) {
         respawnTimer = 0;
+        // Hitting a spike
         for (let spikeObj of SPIKES) {
             if (spikeObj.hitSpikes()) {
                     death();
-                    _isAlive = false;
             }
         }
+
+        // Falling out of bounds
+        if (currentLevel.isOutOfBounds()) {
+            death();
+        }
     }
+
     else {
         respawnTimer++;
         // Respawn after set amount of time
         if (respawnTimer >= 100) {
             respawn();
-            _isAlive = true;
         }
         // Change speed of death animation depending on amount of time after death
         else if (respawnTimer >= 30) {
@@ -283,7 +290,7 @@ Composite.add(engine.world, [mouseConstraint]);
         }
     }
 
-    var end = currentLevel.checkLevelComplete();
+    end = currentLevel.checkLevelComplete();
 
     if (end) {
         currentLevel = currentLevel.nextLevel(end);
