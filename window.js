@@ -24,16 +24,33 @@ var render = Render.create({
         wireframes : false,
         hasBounds : true,
         showDebug : true,
-        showAngleIndicator : true,
-        showAxes : true,
-        showBounds : true,
-        showCollisions : true,
-        showIds : true,
-        showPositions : true,
-        showVelocity : true,
+        // showAngleIndicator : true,
+        // showAxes : true,
+        // showBounds : true,
+        // showCollisions : true,
+        // showIds : true,
+        // showPositions : true,
+        // showVelocity : true,
 },});
-
 
 
 // Run the renderer
 Render.run(render);
+
+
+function screenShake(t, type) {
+    switch (type) {
+        case "death":
+            if (t <= 30) {
+                Bounds.translate(render.bounds, {
+                    x : 0.75 * Math.sin(2 * Math.PI / 15 * t), 
+                    y : 0.75 * Math.sin(2 * Math.PI / 15 * (t - 1))});
+            }
+
+            break
+
+        default:
+
+        break
+    }
+}

@@ -1,10 +1,8 @@
-// TODO: Add level storage
-
-// TODO: Figure out how to use the camera
-
 // TODO: Add screenshake
 
 // TODO: Add level transition
+
+// TODO: High FPS support by manually calculating time between consecutive updates
 
 // Initialise a bunch of variables before the main loop
 var _grav = false;
@@ -19,6 +17,7 @@ var _isAlive = true;
 var respawnTimer = 0;
 var _waveDash = false;
 var end = false;
+var shakeTimer = 0;
 
 
 // add mouse control (I have no idea how this works)
@@ -96,6 +95,7 @@ Composite.add(engine.world, [mouseConstraint]);
     }
 
     else {
+        screenShake(respawnTimer, "death");
         respawnTimer++;
         // Respawn after set amount of time
         if (respawnTimer >= 100) {
