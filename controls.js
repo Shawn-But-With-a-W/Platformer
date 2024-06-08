@@ -50,7 +50,7 @@ function isNeutral() {
 	var directions = Object.keys(directionsPressed);
 	var _isNeutral = true;
 
-	for (let direction of directions) {
+	for (const direction of directions) {
 		if (directionsPressed[direction] == true) {
 			_isNeutral = false;
 			break;

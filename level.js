@@ -1,24 +1,14 @@
 class Level {
-	constructor(min, max, spawn, start, ends) {
+	constructor(min, max, spawn, ends) {
 		this.min = min;
 		this.max = max;
 		this.spawn = spawn;
-		this.start = start;
 		this.ends = ends;
 
 		this.xMin = min.x;
 		this.xMax = max.x;
 		this.yMin = min.y;
 		this.yMax = max.y;
-	}
-
-	getSpawn() {
-		return this.spawn;
-	}
-
-	changeSpawn(newSpawn) {
-		this.spawn = newSpawn;
-		this.getSpawn();
 	}
 
 	isOutOfBounds() {
@@ -54,10 +44,8 @@ class Level {
 }
 
 var LEVELS = [
-	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, { x: 640, y: 100 }, [{ x: 0, y: 50, next: 1 }]),
-	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, { x: 100, y: 50 }, [
-		{ x: 999, y: 999, next: 0 },
-	]),
+	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, [{ x: 0, y: 50, next: 1 }]),
+	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, [{ x: -9999, y: 9999, next: 0 }]),
 ];
 var levelIndex = 0;
 var currentLevel = LEVELS[levelIndex];

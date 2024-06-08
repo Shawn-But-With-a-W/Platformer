@@ -115,7 +115,7 @@ class Spike {
 	// Checking if the player hits the spikes
 	hitSpikes() {
 		var _hitSpikes = false;
-		for (let spike of this.spikes) {
+		for (const spike of this.spikes) {
 			if (Collision.collides(player, spike) != null) {
 				_hitSpikes = true;
 				break;

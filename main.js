@@ -38,7 +38,7 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 function mainLoop() {
-	// Render.lookAt(render, player, {x:400, y:400});
+	// Render.lookAt(render, player, { x: 400, y: 400 });
 
 	// Bounds.translate(render.bounds, {x:2, y:2});
 
@@ -80,7 +80,7 @@ function mainLoop() {
 	if (_isAlive) {
 		respawnTimer = 0;
 		// Hitting a spike
-		for (let spikeObj of SPIKES) {
+		for (const spikeObj of SPIKES) {
 			if (spikeObj.hitSpikes()) {
 				death();
 			}
@@ -91,6 +91,11 @@ function mainLoop() {
 			death();
 		}
 	} else {
+		({
+			min: { x: lmx, y: lmy },
+			max: { x: lxx, y: lxy },
+		} = render.bounds);
+
 		screenShake(respawnTimer, "death");
 		respawnTimer++;
 		// Respawn after set amount of time
@@ -271,7 +276,7 @@ function mainLoop() {
 		}
 
 		// Updating keysPressed record so keys/directions aren't incorrectly buffered after gravity change
-		for (let key of Object.keys(keysPressed)) {
+		for (const key of Object.keys(keysPressed)) {
 			if (!keysPressed[key]) {
 				directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
 			}
