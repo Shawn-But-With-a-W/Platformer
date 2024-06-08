@@ -35,13 +35,9 @@ class Level {
 
 
     checkLevelComplete() {
-        for (let end of this.ends) {
+        for (const end of this.ends) {
             if ((end.x-75 <= player.position.x) && (player.position.x <= end.x+75) && (end.y-75 <= player.position.y) && (player.position.y <= end.y+75)) {
-                console.log("level ended");
                 return end;
-            }
-            else {
-                console.log("end not found");
             }
         }
         return false;

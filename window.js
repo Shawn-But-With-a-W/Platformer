@@ -43,8 +43,14 @@ function screenShake(t, type) {
         case "death":
             if (t <= 30) {
                 Bounds.translate(render.bounds, {
-                    x : 0.75 * Math.sin(2 * Math.PI / 15 * t), 
-                    y : 0.75 * Math.sin(2 * Math.PI / 15 * (t - 1))});
+                    x : (30-t)/5 * Math.sin(2 * Math.PI / 10 * t), 
+                    y : (30-t)/5 * Math.sin(2 * Math.PI / 10 * (t - 1))});
+            }
+            else {
+                render.bounds.min.x = currentLevel.min.x;
+                render.bounds.min.y = currentLevel.min.y;
+                render.bounds.max.x = currentLevel.max.x;
+                render.bounds.max.y = currentLevel.max.y;
             }
 
             break
@@ -53,4 +59,28 @@ function screenShake(t, type) {
 
         break
     }
+}
+
+
+function tween(t, tMax, xDisp, yDisp, fn) { // Jarrett wrote this
+    if (t <= tMax) {
+        const pos = typeof fn === "function" ? fn(t / tMax) : t / tMax;
+        render.bounds.min.x = lmx + xDisp * pos;
+        render.bounds.min.y = lmy + yDisp * pos;
+        render.bounds.max.x = lxx + xDisp * pos;
+        render.bounds.max.y = lxy + yDisp * pos;
+        console.log(render.bounds);
+    }
+
+    else {
+        render.bounds.min.x = currentLevel.min.x;
+        render.bounds.min.y = currentLevel.min.y;
+        render.bounds.max.x = currentLevel.max.x;
+        render.bounds.max.y = currentLevel.max.y;
+    }
+}
+
+
+function easeInOutSine(t) {
+    return -(Math.cos(Math.PI * t) - 1) / 2;
 }

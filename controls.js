@@ -16,8 +16,8 @@ window.addEventListener("keydown", (event) => {
             directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = true;
             break
 
-        case "C":
-        case "c":
+        case " ":
+        // case "c":
                 _gravPressed = true;
                 break
     }
@@ -34,8 +34,8 @@ window.addEventListener("keyup", (event) => {
             directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = false;
             break
 
-        case "C":
-        case "c":
+        case " ":
+        // case "c":
             _gravPressed = false;
             break
 

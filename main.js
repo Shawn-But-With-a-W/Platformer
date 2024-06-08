@@ -18,6 +18,9 @@ var respawnTimer = 0;
 var _waveDash = false;
 var end = false;
 var shakeTimer = 0;
+var _transition = false;
+var transitionTimer = 0;
+var xDisp, yDisp, lmx, lmy, lxx, lxy;
 
 
 // add mouse control (I have no idea how this works)
@@ -36,7 +39,7 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 
-(function mainLoop() {
+function mainLoop() {
     // Render.lookAt(render, player, {x:400, y:400});
 
     // Bounds.translate(render.bounds, {x:2, y:2});
@@ -57,7 +60,7 @@ Composite.add(engine.world, [mouseConstraint]);
 
     var type = "air";
     // Reset all variables when landed on ground
-    if (_onGround  && !_gravChanged && !_gravReverted) {
+   if (_onGround  && !_gravChanged && !_gravReverted) {
         type = "hor";
         _grav = true;
         _gravReverted = false;
@@ -84,7 +87,7 @@ Composite.add(engine.world, [mouseConstraint]);
         // Hitting a spike
         for (let spikeObj of SPIKES) {
             if (spikeObj.hitSpikes()) {
-                    death();
+                death();
             }
         }
 
@@ -294,10 +297,29 @@ Composite.add(engine.world, [mouseConstraint]);
 
     if (end) {
         currentLevel = currentLevel.nextLevel(end);
-        render.bounds.max = currentLevel.max;
-        render.bounds.min = currentLevel.min;
+        _transition = true;
+        transitionTimer = 0;
+
+        end = false;
+
+        ({min: {x: lmx, y: lmy}, max: {x: lxx, y: lxy}} = render.bounds)
+        xDisp = currentLevel.max.x - render.bounds.max.x;
+        yDisp = currentLevel.max.y - render.bounds.max.y;
     }
 
-    window.requestAnimationFrame(mainLoop);
+    if (_transition) {
+        engine.timing.timeScale = 0;
+        tween(transitionTimer, 40, xDisp, yDisp, easeInOutSine);
+        transitionTimer++;
+
+        if (transitionTimer >= 40) {
+            end = true;
+            _transition = false;
+            engine.timing.timeScale = 1;
+        }
+    }
+
+    requestAnimationFrame(mainLoop);
     Engine.update(engine, 1000 / 60);
-    })();
+};
+requestAnimationFrame(mainLoop);
