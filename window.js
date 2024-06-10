@@ -46,12 +46,12 @@ function screenShake(t, type) {
 					y: ((30 - t) / 5) * Math.sin(((2 * Math.PI) / 10) * (t - 1)),
 				});
 			} else {
-				tween(t - 30, 5, currentLevel.max.x - render.bounds.max.x, currentLevel.max.y - render.bounds.max.y);
+				tween(t - 30, 3, currentLevel.max.x - render.bounds.max.x, currentLevel.max.y - render.bounds.max.y);
 
-				render.bounds.min.x = currentLevel.min.x;
-				render.bounds.min.y = currentLevel.min.y;
-				render.bounds.max.x = currentLevel.max.x;
-				render.bounds.max.y = currentLevel.max.y;
+				// render.bounds.min.x = currentLevel.min.x;
+				// render.bounds.min.y = currentLevel.min.y;
+				// render.bounds.max.x = currentLevel.max.x;
+				// render.bounds.max.y = currentLevel.max.y;
 			}
 
 			break;

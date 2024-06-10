@@ -1,8 +1,6 @@
-// TODO: Add screenshake
+// TODO: Collision detection without stopping movement?
 
-// TODO: Add level transition
-
-// TODO: High FPS support by manually calculating time between consecutive updates
+// TODO: Figure out bounding boxes for level transition so doesn't get stuck in infinite loop
 
 // Initialise a bunch of variables before the main loop
 var _grav = false;
@@ -21,6 +19,8 @@ var shakeTimer = 0;
 var _transition = false;
 var transitionTimer = 0;
 var xDisp, yDisp, lmx, lmy, lxx, lxy;
+var timeCurrent = null;
+var timePrev, timeDiff;
 
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(),
@@ -324,7 +324,12 @@ function mainLoop() {
 		}
 	}
 
+	timePrev = timeCurrent;
+	timeCurrent = new Date().getTime();
+	timeDiff = timeCurrent - timePrev;
+	timeDiff = typeof timePrev === "number" ? timeCurrent - timePrev : 1000 / 60;
+
+	Engine.update(engine, timeDiff);
 	requestAnimationFrame(mainLoop);
-	Engine.update(engine, 1000 / 60);
 }
 requestAnimationFrame(mainLoop);
