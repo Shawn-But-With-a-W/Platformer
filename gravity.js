@@ -19,6 +19,7 @@ var KEYSTROKE_TO_DIRECTION = {
 
 function changeGrav(dir) {
 	// This is the most efficient way I could think of to do this...
+	shakeTimer = 0;
 	switch (dir) {
 		case "down":
 			engine.gravity = { x: 0, y: 1 };

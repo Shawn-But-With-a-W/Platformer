@@ -122,6 +122,7 @@ function death() {
 
 function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	_isAlive = true;
+	respawnTimer = 0;
 
 	Composite.remove(engine.world, particles);
 	console.log("attempted to clear particles");

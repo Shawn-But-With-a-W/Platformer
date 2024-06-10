@@ -37,27 +37,55 @@ var render = Render.create({
 // Run the renderer
 Render.run(render);
 
-function screenShake(t, type) {
-	switch (type) {
-		case "death":
-			if (t <= 30) {
+function screenShakeDeath(t) {
+	if (t <= 30) {
+		Bounds.translate(render.bounds, {
+			x: ((30 - t) / 4) * Math.sin(((2 * Math.PI) / 7) * t),
+			y: ((30 - t) / 4) * Math.sin(((2 * Math.PI) / 7) * (t - 1)),
+		});
+	} else {
+		tween(t - 30, 2, currentLevel.max.x - render.bounds.max.x, currentLevel.max.y - render.bounds.max.y);
+
+		// render.bounds.min.x = currentLevel.min.x;
+		// render.bounds.min.y = currentLevel.min.y;
+		// render.bounds.max.x = currentLevel.max.x;
+		// render.bounds.max.y = currentLevel.max.y;
+	}
+}
+
+function screenShakeGrav(t, dir) {
+	if (t <= 1) {
+		switch (dir) {
+			case "up":
 				Bounds.translate(render.bounds, {
-					x: ((30 - t) / 5) * Math.sin(((2 * Math.PI) / 10) * t),
-					y: ((30 - t) / 5) * Math.sin(((2 * Math.PI) / 10) * (t - 1)),
+					x: 0,
+					y: -8 * Math.sin(((2 * Math.PI) / 20) * t),
 				});
-			} else {
-				tween(t - 30, 3, currentLevel.max.x - render.bounds.max.x, currentLevel.max.y - render.bounds.max.y);
-
-				// render.bounds.min.x = currentLevel.min.x;
-				// render.bounds.min.y = currentLevel.min.y;
-				// render.bounds.max.x = currentLevel.max.x;
-				// render.bounds.max.y = currentLevel.max.y;
-			}
-
-			break;
-
-		default:
-			break;
+				break;
+			case "down":
+				Bounds.translate(render.bounds, {
+					x: 0,
+					y: 8 * Math.sin(((2 * Math.PI) / 20) * t),
+				});
+				break;
+			case "left":
+				Bounds.translate(render.bounds, {
+					x: -8 * Math.sin(((2 * Math.PI) / 20) * t),
+					y: 0,
+				});
+				break;
+			case "right":
+				Bounds.translate(render.bounds, {
+					x: 8 * Math.sin(((2 * Math.PI) / 20) * t),
+					y: 0,
+				});
+				break;
+		}
+	} else {
+		render.bounds.min.x = currentLevel.min.x;
+		render.bounds.min.y = currentLevel.min.y;
+		render.bounds.max.x = currentLevel.max.x;
+		render.bounds.max.y = currentLevel.max.y;
 	}
 }
 

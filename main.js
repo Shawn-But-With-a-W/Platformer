@@ -15,13 +15,12 @@ var _isAlive = true;
 var respawnTimer = 0;
 var _waveDash = false;
 var end = false;
-var shakeTimer = 0;
+var shakeTimer;
 var _transition = false;
 var transitionTimer = 0;
 var xDisp, yDisp, lmx, lmy, lxx, lxy;
 var timeCurrent = null;
 var timePrev, timeDiff;
-
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(),
 	mouseConstraint = MouseConstraint.create(engine, {
@@ -96,11 +95,12 @@ function mainLoop() {
 			max: { x: lxx, y: lxy },
 		} = render.bounds);
 
-		screenShake(respawnTimer, "death");
+		screenShakeDeath(respawnTimer, "death");
 		respawnTimer++;
 		// Respawn after set amount of time
 		if (respawnTimer >= 100) {
 			respawn();
+			respawnTimer = 0;
 		}
 		// Change speed of death animation depending on amount of time after death
 		else if (respawnTimer >= 30) {
@@ -297,7 +297,7 @@ function mainLoop() {
 
 	end = currentLevel.checkLevelComplete();
 
-	if (end) {
+	if (typeof end === "object") {
 		currentLevel = currentLevel.nextLevel(end);
 		_transition = true;
 		transitionTimer = 0;
@@ -322,6 +322,11 @@ function mainLoop() {
 			_transition = false;
 			engine.timing.timeScale = 1;
 		}
+	}
+
+	if (typeof shakeTimer === "number" && _isAlive && !_transition) {
+		shakeTimer++;
+		screenShakeGrav(shakeTimer, changeGravDir);
 	}
 
 	timePrev = timeCurrent;
