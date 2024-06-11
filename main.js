@@ -10,7 +10,7 @@ var airTimer = 0;
 var _gravChanged = false;
 var _gravReverted = false;
 var gravRevert = gravDir;
-var changeGravDir = "";
+var changeGravDir = null;
 var _isAlive = true;
 var respawnTimer = 0;
 var _waveDash = false;
@@ -21,6 +21,8 @@ var transitionTimer = 0;
 var xDisp, yDisp, lmx, lmy, lxx, lxy;
 var timeCurrent = null;
 var timePrev, timeDiff;
+var _boundsSet = false;
+
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(),
 	mouseConstraint = MouseConstraint.create(engine, {
@@ -37,6 +39,7 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 function mainLoop() {
+	console.log(_boundsSet);
 	// Render.lookAt(render, player, { x: 400, y: 400 });
 
 	// Bounds.translate(render.bounds, {x:2, y:2});
@@ -63,7 +66,7 @@ function mainLoop() {
 		_gravChanged = false;
 		gravTimer = 0;
 		gravRevert = gravDir;
-		changeGravDir = "";
+		changeGravDir = null;
 		groundTimer--;
 	}
 
@@ -90,10 +93,7 @@ function mainLoop() {
 			death();
 		}
 	} else {
-		({
-			min: { x: lmx, y: lmy },
-			max: { x: lxx, y: lxy },
-		} = render.bounds);
+		setBounds();
 
 		screenShakeDeath(respawnTimer, "death");
 		respawnTimer++;
@@ -290,7 +290,7 @@ function mainLoop() {
 			_gravChanged = false;
 			gravTimer = 0;
 			gravRevert = gravDir;
-			changeGravDir = "";
+			changeGravDir = null;
 			groundTimer = 17;
 		}
 	}
@@ -304,12 +304,9 @@ function mainLoop() {
 
 		end = false;
 
-		({
-			min: { x: lmx, y: lmy },
-			max: { x: lxx, y: lxy },
-		} = render.bounds);
-		xDisp = currentLevel.max.x - render.bounds.max.x;
-		yDisp = currentLevel.max.y - render.bounds.max.y;
+		setBounds();
+		xDisp = currentLevel.max.x - lxx;
+		yDisp = currentLevel.max.y - lxy;
 	}
 
 	if (_transition) {
@@ -324,9 +321,10 @@ function mainLoop() {
 		}
 	}
 
-	if (typeof shakeTimer === "number" && _isAlive && !_transition) {
-		shakeTimer++;
+	// Allow other viewport animations to take priority
+	if (_isAlive && !_transition && shakeTimer <= 40) {
 		screenShakeGrav(shakeTimer, changeGravDir);
+		shakeTimer++;
 	}
 
 	timePrev = timeCurrent;

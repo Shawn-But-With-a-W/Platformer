@@ -54,56 +54,70 @@ function screenShakeDeath(t) {
 }
 
 function screenShakeGrav(t, dir) {
-	if (t <= 1) {
+	if (t <= 2) {
 		switch (dir) {
 			case "up":
 				Bounds.translate(render.bounds, {
 					x: 0,
-					y: -8 * Math.sin(((2 * Math.PI) / 20) * t),
+					y: -0.5,
 				});
 				break;
 			case "down":
 				Bounds.translate(render.bounds, {
 					x: 0,
-					y: 8 * Math.sin(((2 * Math.PI) / 20) * t),
+					y: 0.5,
 				});
 				break;
 			case "left":
 				Bounds.translate(render.bounds, {
-					x: -8 * Math.sin(((2 * Math.PI) / 20) * t),
+					x: -0.5,
 					y: 0,
 				});
 				break;
 			case "right":
 				Bounds.translate(render.bounds, {
-					x: 8 * Math.sin(((2 * Math.PI) / 20) * t),
+					x: 0.5,
 					y: 0,
 				});
 				break;
 		}
 	} else {
-		render.bounds.min.x = currentLevel.min.x;
-		render.bounds.min.y = currentLevel.min.y;
-		render.bounds.max.x = currentLevel.max.x;
-		render.bounds.max.y = currentLevel.max.y;
+		if (!_boundsSet) {
+			setBounds();
+		}
+		console.log(currentLevel.max.x - lxx, currentLevel.max.y - lxy);
+		// console.log("I was here");
+		tween(t - 8, 4, currentLevel.max.x - lxx, currentLevel.max.y - lxy);
 	}
 }
 
 function tween(t, tMax, xDisp, yDisp, fn) {
 	// Jarrett wrote this
+	// console.log(t, tMax);
 	if (t <= tMax) {
 		const pos = typeof fn === "function" ? fn(t / tMax) : t / tMax;
 		render.bounds.min.x = lmx + xDisp * pos;
 		render.bounds.min.y = lmy + yDisp * pos;
 		render.bounds.max.x = lxx + xDisp * pos;
 		render.bounds.max.y = lxy + yDisp * pos;
+		console.log(xDisp, yDisp);
 		// console.log(render.bounds);
 	} else {
 		render.bounds.min.x = currentLevel.min.x;
 		render.bounds.min.y = currentLevel.min.y;
 		render.bounds.max.x = currentLevel.max.x;
 		render.bounds.max.y = currentLevel.max.y;
+		_boundsSet = false;
 	}
+}
+
+function setBounds() {
+	({
+		min: { x: lmx, y: lmy },
+		max: { x: lxx, y: lxy },
+	} = render.bounds);
+	_boundsSet = true;
+	console.log("bound set");
 }
 
 function easeInOutSine(t) {
