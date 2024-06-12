@@ -7,7 +7,8 @@ var Engine = Matter.Engine,
 	Composite = Matter.Composite,
 	Collision = Matter.Collision,
 	Mouse = Matter.Mouse,
-	MouseConstraint = Matter.MouseConstraint;
+	MouseConstraint = Matter.MouseConstraint,
+	Events = Matter.Events;
 
 // Create an engine
 var engine = Engine.create();
@@ -85,7 +86,7 @@ function screenShakeGrav(t, dir) {
 		if (!_boundsSet) {
 			setBounds();
 		}
-		console.log(currentLevel.max.x - lxx, currentLevel.max.y - lxy);
+		// console.log(currentLevel.max.x - lxx, currentLevel.max.y - lxy);
 		// console.log("I was here");
 		tween(t - 8, 4, currentLevel.max.x - lxx, currentLevel.max.y - lxy);
 	}
@@ -100,7 +101,7 @@ function tween(t, tMax, xDisp, yDisp, fn) {
 		render.bounds.min.y = lmy + yDisp * pos;
 		render.bounds.max.x = lxx + xDisp * pos;
 		render.bounds.max.y = lxy + yDisp * pos;
-		console.log(xDisp, yDisp);
+		// console.log(xDisp, yDisp);
 		// console.log(render.bounds);
 	} else {
 		render.bounds.min.x = currentLevel.min.x;
@@ -117,7 +118,7 @@ function setBounds() {
 		max: { x: lxx, y: lxy },
 	} = render.bounds);
 	_boundsSet = true;
-	console.log("bound set");
+	// console.log("bound set");
 }
 
 function easeInOutSine(t) {

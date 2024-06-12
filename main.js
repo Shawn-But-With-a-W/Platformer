@@ -39,7 +39,8 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 function mainLoop() {
-	console.log(_boundsSet);
+	console.log(transitioner.checkCollision());
+	// console.log(_boundsSet);
 	// Render.lookAt(render, player, { x: 400, y: 400 });
 
 	// Bounds.translate(render.bounds, {x:2, y:2});
@@ -295,7 +296,8 @@ function mainLoop() {
 		}
 	}
 
-	end = currentLevel.checkLevelComplete();
+	// end = currentLevel.checkLevelComplete();
+	//* Uncomment this later
 
 	if (typeof end === "object") {
 		currentLevel = currentLevel.nextLevel(end);

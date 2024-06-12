@@ -126,3 +126,37 @@ class Spike {
 }
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
+
+class Transitioner {
+	constructor(x, y, width, height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+
+	create() {
+		this.transitioner = Bodies.rectangle(this.x, this.y, this.width, this.height, {
+			isSensor: true,
+			isStatic: true,
+		});
+		Composite.add(engine.world, this.transitioner);
+		this.transitioner.render.fillStyle = "#ff5733";
+	}
+
+	remove() {
+		Composite.remove(engine.world, this.transitioner);
+	}
+
+	checkCollision() {
+		if (Collision.collides(player, this.transitioner) != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+var transitioner = new Transitioner(0, 50, 75, 75);
+transitioner.create();
+console.log(transitioner);
