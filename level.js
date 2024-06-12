@@ -24,18 +24,19 @@ class Level {
 		}
 	}
 
+	/**
+	 *
+	 * @returns end object or null if not colliding
+	 */
 	checkLevelComplete() {
-		for (const end of this.ends) {
-			if (
-				end.x - 75 <= player.position.x &&
-				player.position.x <= end.x + 75 &&
-				end.y - 75 <= player.position.y &&
-				player.position.y <= end.y + 75
-			) {
-				return end;
+		for (const endObj of this.ends) {
+			// console.log(range);
+			if (endObj.range.checkCollision()) {
+				// console.log(endObj.next);
+				return endObj;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	nextLevel(end) {
@@ -44,8 +45,8 @@ class Level {
 }
 
 var LEVELS = [
-	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, [{ x: 0, y: 50, next: 1 }]),
-	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, [{ x: -9999, y: 9999, next: 0 }]),
+	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, [{ range: transitioner, next: 1 }]),
+	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, [{ range: nonExistentTransitioner, next: 0 }]),
 ];
 var levelIndex = 0;
 var currentLevel = LEVELS[levelIndex];

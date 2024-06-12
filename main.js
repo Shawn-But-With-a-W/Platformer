@@ -24,7 +24,7 @@ var timePrev, timeDiff;
 var _boundsSet = false;
 
 // add mouse control (I have no idea how this works)
-var mouse = Mouse.create(),
+var mouse = Mouse.create(document.body),
 	mouseConstraint = MouseConstraint.create(engine, {
 		mouse: mouse,
 		constraint: {
@@ -39,7 +39,6 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 function mainLoop() {
-	console.log(transitioner.checkCollision());
 	// console.log(_boundsSet);
 	// Render.lookAt(render, player, { x: 400, y: 400 });
 
@@ -296,15 +295,11 @@ function mainLoop() {
 		}
 	}
 
-	// end = currentLevel.checkLevelComplete();
-	//* Uncomment this later
-
-	if (typeof end === "object") {
-		currentLevel = currentLevel.nextLevel(end);
+	const endObj = currentLevel.checkLevelComplete();
+	if (endObj !== null) {
+		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
 		transitionTimer = 0;
-
-		end = false;
 
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;

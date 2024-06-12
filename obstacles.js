@@ -149,9 +149,11 @@ class Transitioner {
 	}
 
 	checkCollision() {
-		if (Collision.collides(player, this.transitioner) != null) {
+		if (this.transitioner && Collision.collides(player, this.transitioner) !== null) {
+			console.log("true");
 			return true;
 		} else {
+			console.log("false");
 			return false;
 		}
 	}
@@ -159,4 +161,8 @@ class Transitioner {
 
 var transitioner = new Transitioner(0, 50, 75, 75);
 transitioner.create();
-console.log(transitioner);
+
+var nonExistentTransitioner = new Transitioner(-9999, -99999, 20, 20);
+transitioner.create();
+
+// console.log(transitioner);
