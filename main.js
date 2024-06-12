@@ -297,6 +297,8 @@ function mainLoop() {
 
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
+		console.log(endObj.range);
+		// endObj.range.remove();
 		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
 		transitionTimer = 0;

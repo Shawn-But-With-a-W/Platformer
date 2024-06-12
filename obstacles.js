@@ -128,24 +128,29 @@ class Spike {
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
 class Transitioner {
-	constructor(x, y, width, height) {
+	constructor(x, y, width, height, colour = "#ff5733") {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+
+		this.create(colour);
 	}
 
-	create() {
+	create(colour) {
 		this.transitioner = Bodies.rectangle(this.x, this.y, this.width, this.height, {
 			isSensor: true,
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
-		this.transitioner.render.fillStyle = "#ff5733";
+		this.transitioner.render.fillStyle = colour;
 	}
 
 	remove() {
+		console.log(this.transitioner);
+		this.transitioner.render.fillStyle = "#71aff8";
 		Composite.remove(engine.world, this.transitioner);
+		console.log("attempted to remove");
 	}
 
 	checkCollision() {
@@ -159,10 +164,10 @@ class Transitioner {
 	}
 }
 
-var transitioner = new Transitioner(0, 50, 75, 75);
+var transitioner = new Transitioner(-20, 75, 25, 100);
 transitioner.create();
 
-var nonExistentTransitioner = new Transitioner(-9999, -99999, 20, 20);
-transitioner.create();
+var existentTransitioner = new Transitioner(50, 75, 25, 100);
+existentTransitioner.create("#71aff8");
 
 // console.log(transitioner);

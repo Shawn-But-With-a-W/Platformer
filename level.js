@@ -46,7 +46,7 @@ class Level {
 
 var LEVELS = [
 	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, [{ range: transitioner, next: 1 }]),
-	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, [{ range: nonExistentTransitioner, next: 0 }]),
+	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: 0, y: 0 }, [{ range: existentTransitioner, next: 0 }]),
 ];
 var levelIndex = 0;
 var currentLevel = LEVELS[levelIndex];
