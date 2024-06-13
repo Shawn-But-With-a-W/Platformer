@@ -125,7 +125,7 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	respawnTimer = 0;
 
 	Composite.remove(engine.world, particles);
-	console.log("attempted to clear particles");
+	// console.log("attempted to clear particles");
 
 	Body.setPosition(player, spawnpoint);
 	Composite.add(engine.world, player);

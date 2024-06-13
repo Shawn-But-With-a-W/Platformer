@@ -15,9 +15,14 @@ var ceiling = Bodies.rectangle(640, 0, 1280, 30, { isStatic: true });
 var wallLeft = Bodies.rectangle(0, 500, 30, 720, { isStatic: true });
 var wallRight = Bodies.rectangle(1280, 325, 30, 720, { isStatic: true });
 
+var room1Floor = Bodies.rectangle(-640, 200, 1280, 30, { isStatic: true });
+var room1Ceiling;
+var room1WallLeft = Bodies.rectangle(-1000, 200, 30, 500, { isStatic: true });
+var room1WallRight;
+
 var UPOBST = [ceiling];
-var DOWNOBST = [floor];
-var LEFTOBST = [wallLeft];
+var DOWNOBST = [floor, room1Floor];
+var LEFTOBST = [wallLeft, room1WallLeft];
 var RIGHTOBST = [wallRight];
 var PLATFORMS = [];
 var SPIKES = [];
@@ -30,7 +35,11 @@ var OBSTACLES = {
 };
 
 // add all of the bodies to the world
-Composite.add(engine.world, [player, floor, ceiling, wallLeft, wallRight]);
+Composite.add(engine.world, player);
+Composite.add(engine.world, UPOBST);
+Composite.add(engine.world, DOWNOBST);
+Composite.add(engine.world, LEFTOBST);
+Composite.add(engine.world, RIGHTOBST);
 
 class Platform {
 	constructor(x, y, width, height) {
@@ -147,18 +156,18 @@ class Transitioner {
 	}
 
 	remove() {
-		console.log(this.transitioner);
+		// console.log(this.transitioner);
 		this.transitioner.render.fillStyle = "#71aff8";
 		Composite.remove(engine.world, this.transitioner);
-		console.log("attempted to remove");
+		// console.log("attempted to remove");
 	}
 
 	checkCollision() {
 		if (this.transitioner && Collision.collides(player, this.transitioner) !== null) {
-			console.log("true");
+			// console.log("true");
 			return true;
 		} else {
-			console.log("false");
+			// console.log("false");
 			return false;
 		}
 	}

@@ -297,7 +297,7 @@ function mainLoop() {
 
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
-		console.log(endObj.range);
+		// console.log(endObj.range);
 		// endObj.range.remove();
 		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
@@ -313,10 +313,10 @@ function mainLoop() {
 		tween(transitionTimer, 40, xDisp, yDisp, easeInOutSine);
 		transitionTimer++;
 
-		if (transitionTimer >= 40) {
-			end = true;
+		if (transitionTimer >= 42) {
 			_transition = false;
 			engine.timing.timeScale = 1;
+			console.log("switched rooms", _boundsSet);
 		}
 	}
 
