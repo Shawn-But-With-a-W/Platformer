@@ -1,6 +1,6 @@
-// TODO: Collision detection without stopping movement?
+// TODO: fix transitioners being too thin and glitching out of bounds during screen transition
 
-// TODO: Figure out bounding boxes for level transition so doesn't get stuck in infinite loop
+// TODO: make level
 
 // Initialise a bunch of variables before the main loop
 var _grav = false;
@@ -99,7 +99,7 @@ function mainLoop() {
 		respawnTimer++;
 		// Respawn after set amount of time
 		if (respawnTimer >= 100) {
-			respawn();
+			respawn(currentLevel.spawn);
 			respawnTimer = 0;
 		}
 		// Change speed of death animation depending on amount of time after death

@@ -16,14 +16,15 @@ var wallLeft = Bodies.rectangle(0, 500, 30, 720, { isStatic: true });
 var wallRight = Bodies.rectangle(1280, 325, 30, 720, { isStatic: true });
 
 var room1Floor = Bodies.rectangle(-640, 200, 1280, 30, { isStatic: true });
-var room1Ceiling;
-var room1WallLeft = Bodies.rectangle(-1000, 200, 30, 500, { isStatic: true });
-var room1WallRight;
+var room1Ceiling1 = Bodies.rectangle(-578, -190, 875, 30, { isStatic: true });
+var room1WallLeft = Bodies.rectangle(-1000, 200, 30, 750, { isStatic: true });
+var room1WallRight1 = Bodies.rectangle(-15, 175, 30, 70, { isStatic: true });
+var room1WallRight2 = Bodies.rectangle(-15, -235, 30, 500, { isStatic: true });
 
-var UPOBST = [ceiling];
+var UPOBST = [ceiling, room1Ceiling1];
 var DOWNOBST = [floor, room1Floor];
 var LEFTOBST = [wallLeft, room1WallLeft];
-var RIGHTOBST = [wallRight];
+var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2];
 var PLATFORMS = [];
 var SPIKES = [];
 
@@ -80,8 +81,6 @@ class Platform {
 	}
 }
 
-var testPlatform = new Platform(500, 500, 100, 50);
-
 class Spike {
 	constructor(start, end, dir, axis) {
 		this.radius = 20;
@@ -134,8 +133,6 @@ class Spike {
 	}
 }
 
-var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
-
 class Transitioner {
 	constructor(x, y, width, height, colour = "#ff5733") {
 		this.x = x;
@@ -173,10 +170,14 @@ class Transitioner {
 	}
 }
 
-var transitioner = new Transitioner(-20, 75, 25, 100);
-transitioner.create();
+var testPlatform = new Platform(500, 500, 100, 50);
 
-var existentTransitioner = new Transitioner(50, 75, 25, 100);
-existentTransitioner.create("#71aff8");
+var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
+
+var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
+
+var transitioner = new Transitioner(-20, 77, 25, 125);
+
+var existentTransitioner = new Transitioner(50, 77, 25, 125, "#71aff8");
 
 // console.log(transitioner);

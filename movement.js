@@ -131,4 +131,5 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	Composite.add(engine.world, player);
 
 	changeGrav(defaultGravDir);
+	console.log("changed grav maybe");
 }
