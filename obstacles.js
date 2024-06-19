@@ -27,6 +27,7 @@ var LEFTOBST = [wallLeft, room1WallLeft];
 var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2];
 var PLATFORMS = [];
 var SPIKES = [];
+var FALLING_PLATFORMS = [];
 
 var OBSTACLES = {
 	up: UPOBST,
@@ -78,6 +79,36 @@ class Platform {
 		changeGrav(gravDir);
 
 		PLATFORMS.push(this);
+	}
+}
+
+class FallingPlatform {
+	constructor(x, y, width, height, colour = "#ececd188") {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.colour = colour;
+
+		this.create();
+
+		FALLING_PLATFORMS.push(this);
+	}
+
+	create() {
+		this.platform = Bodies.rectangle(this.x, this.y, this.width, this.height, {
+			inertia: Infinity,
+			frictionStatic: 0,
+			friction: 0.0012,
+		});
+
+		this.platform.render.fillStyle = this.colour;
+
+		Composite.add(engine.world, this.platform);
+	}
+
+	reset() {
+		Body.setPosition(this.platform, { x: this.x, y: this.y });
 	}
 }
 
@@ -134,7 +165,7 @@ class Spike {
 }
 
 class Transitioner {
-	constructor(x, y, width, height, colour = "#ff5733") {
+	constructor(x, y, width, height, colour = "transparent") {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -150,6 +181,7 @@ class Transitioner {
 		});
 		Composite.add(engine.world, this.transitioner);
 		this.transitioner.render.fillStyle = colour;
+		this.transitioner.render.lineWidth = 0;
 	}
 
 	remove() {
@@ -172,12 +204,14 @@ class Transitioner {
 
 var testPlatform = new Platform(500, 500, 100, 50);
 
+var testFallPlat = new FallingPlatform(640, 100, 100, 30);
+
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
 var transitioner = new Transitioner(-20, 77, 25, 125);
 
-var existentTransitioner = new Transitioner(50, 77, 25, 125, "#71aff8");
+var existentTransitioner = new Transitioner(50, 77, 25, 125);
 
 // console.log(transitioner);

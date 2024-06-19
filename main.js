@@ -2,6 +2,8 @@
 
 // TODO: make level
 
+// TODO: Add falling objects
+
 // Initialise a bunch of variables before the main loop
 var _grav = false;
 var groundTimer = 0;
@@ -317,6 +319,9 @@ function mainLoop() {
 			_transition = false;
 			engine.timing.timeScale = 1;
 			console.log("switched rooms", _boundsSet);
+			_grav = true;
+			_gravChanged = false;
+			_gravReverted = false;
 		}
 	}
 
