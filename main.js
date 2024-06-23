@@ -1,7 +1,3 @@
-// TODO: fix transitioners being too thin and glitching out of bounds during screen transition
-
-// TODO: make level
-
 // TODO: Add falling objects
 
 // Initialise a bunch of variables before the main loop
@@ -86,6 +82,12 @@ function mainLoop() {
 		// Hitting a spike
 		for (const spikeObj of SPIKES) {
 			if (spikeObj.hitSpikes()) {
+				death();
+			}
+		}
+
+		for (const fallSpikeObj of FALLING_SPIKES) {
+			if (fallSpikeObj.hitSpikes()) {
 				death();
 			}
 		}
@@ -308,6 +310,14 @@ function mainLoop() {
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;
 		yDisp = currentLevel.max.y - lxy;
+
+		for (const fallPlat of FALLING_PLATFORMS) {
+			fallPlat.reset();
+		}
+
+		for (const fallSpike of FALLING_SPIKES) {
+			fallSpike.reset();
+		}
 	}
 
 	if (_transition) {

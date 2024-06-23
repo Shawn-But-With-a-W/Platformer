@@ -28,6 +28,7 @@ var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2];
 var PLATFORMS = [];
 var SPIKES = [];
 var FALLING_PLATFORMS = [];
+var FALLING_SPIKES = [];
 
 var OBSTACLES = {
 	up: UPOBST,
@@ -83,7 +84,7 @@ class Platform {
 }
 
 class FallingPlatform {
-	constructor(x, y, width, height, colour = "#ececd188") {
+	constructor(x, y, width, height, colour = "#7a71f89a") {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -121,6 +122,10 @@ class Spike {
 		this.axis = axis;
 		this.spikes = [];
 
+		this.create();
+	}
+
+	create() {
 		// Angles obtained through trial and error
 		const DIRECTION_TO_ANGLE = {
 			up: (-1 / 6) * Math.PI,
@@ -130,7 +135,7 @@ class Spike {
 		};
 
 		// Only designed for spikes to be horizontally or vertically spread out
-		for (let i = this.start[axis]; i < this.end[axis]; i += this.radius * 2) {
+		for (let i = this.start[this.axis]; i < this.end[this.axis]; i += this.radius * 2) {
 			// Check axis to repeat in
 			if (this.axis == "x") {
 				var spike = Bodies.polygon(i, this.start.y, 3, this.radius, {
@@ -143,7 +148,6 @@ class Spike {
 					angle: DIRECTION_TO_ANGLE[this.dir],
 				});
 			}
-
 			this.spikes.push(spike);
 		}
 
@@ -164,23 +168,63 @@ class Spike {
 	}
 }
 
+class FallingSpike {
+	constructor(x, y, dir, colour = "#f55b3cc5") {
+		this.radius = 20;
+		this.x = x;
+		this.y = y;
+		this.dir = dir;
+		this.colour = colour;
+
+		this.DIRECTION_TO_ANGLE = {
+			up: (-1 / 6) * Math.PI,
+			down: (1 / 6) * Math.PI,
+			left: 0,
+			right: Math.PI,
+		};
+
+		this.create();
+	}
+
+	create() {
+		this.spike = Bodies.polygon(this.x, this.y, 3, this.radius, {
+			isStatic: false,
+			angle: this.DIRECTION_TO_ANGLE[this.dir],
+		});
+
+		this.spike.render.fillStyle = this.colour;
+		Composite.add(engine.world, this.spike);
+		FALLING_SPIKES.push(this);
+	}
+
+	hitSpikes() {
+		return Collision.collides(player, this.spike) != null;
+	}
+
+	reset() {
+		Body.setPosition(this.spike, { x: this.x, y: this.y });
+		Body.setAngle(this.spike, this.DIRECTION_TO_ANGLE[this.dir]);
+	}
+}
+
 class Transitioner {
 	constructor(x, y, width, height, colour = "transparent") {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.colour = colour;
 
-		this.create(colour);
+		this.create();
 	}
 
-	create(colour) {
+	create() {
 		this.transitioner = Bodies.rectangle(this.x, this.y, this.width, this.height, {
 			isSensor: true,
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
-		this.transitioner.render.fillStyle = colour;
+		this.transitioner.render.fillStyle = this.colour;
 		this.transitioner.render.lineWidth = 0;
 	}
 
@@ -207,6 +251,8 @@ var testPlatform = new Platform(500, 500, 100, 50);
 var testFallPlat = new FallingPlatform(640, 100, 100, 30);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
+
+var testFallSpike = new FallingSpike(1000, 50, "down");
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
