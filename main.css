@@ -1,5 +1,6 @@
 body {
-    margin: 0;
-    text-align: center;
-    overflow: hidden;
+	margin: 0;
+	/* text-align: center; */
+	overflow: hidden;
+	color: #f55b3cc5;
 }
