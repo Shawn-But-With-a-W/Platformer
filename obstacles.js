@@ -108,8 +108,13 @@ class FallingPlatform {
 		Composite.add(engine.world, this.platform);
 	}
 
+	remove() {
+		Composite.remove(engine.world, this.platform);
+	}
+
 	reset() {
 		Body.setPosition(this.platform, { x: this.x, y: this.y });
+		// Composite.add(engine.world, this.platform);
 	}
 }
 
@@ -204,6 +209,7 @@ class FallingSpike {
 	reset() {
 		Body.setPosition(this.spike, { x: this.x, y: this.y });
 		Body.setAngle(this.spike, this.DIRECTION_TO_ANGLE[this.dir]);
+		// Composite.add(engine.world, this.spike);
 	}
 }
 

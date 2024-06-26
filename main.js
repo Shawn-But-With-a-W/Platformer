@@ -1,4 +1,6 @@
-// TODO: Add falling objects
+// TODO: Detect level and sleep falling objects accordingly
+
+// TODO: fix gravity multiply for falling objects on death
 
 // Initialise a bunch of variables before the main loop
 var _grav = false;

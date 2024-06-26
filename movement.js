@@ -140,4 +140,5 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	for (const fallSpike of FALLING_SPIKES) {
 		fallSpike.reset();
 	}
+	engine.gravity.scale = 0.001;
 }
