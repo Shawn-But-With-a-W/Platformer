@@ -4,149 +4,131 @@ var gravDir = "down";
 // Initialise directions
 
 var DIRECTION_TO_VALUE = {
-	up: { axis: "y", sign: -1 },
-	down: { axis: "y", sign: 1 },
-	left: { axis: "x", sign: -1 },
-	right: { axis: "x", sign: 1 },
-};
+    "up" : { "axis" : "y", "sign" : -1 },
+    "down": { "axis" : "y", "sign" : 1 },
+    "left" : { "axis" : "x", "sign" : -1 },
+    "right" : { "axis" : "x", "sign" : 1 },
+}
 
 var KEYSTROKE_TO_DIRECTION = {
-	ArrowUp: "up",
-	ArrowDown: "down",
-	ArrowLeft: "left",
-	ArrowRight: "right",
-};
+    "ArrowUp" : "up",
+    "ArrowDown" : "down",
+    "ArrowLeft" : "left",
+    "ArrowRight" : "right",
+}
+
 
 function changeGrav(dir) {
-	// This is the most efficient way I could think of to do this...
-	shakeTimer = 0;
-	switch (dir) {
-		case "down":
-			engine.gravity = { x: 0, y: 1 };
-			gravDir = "down";
+    switch (dir) {
 
-			cancelVel("x");
-			if (player.velocity.y < PARAMETERS.acc.grav) {
-				player.velocity.y = PARAMETERS.acc.grav;
-			}
+        case "down":
+            engine.gravity = {x : 0, y : 1};
+            gravDir = "down";
 
-			DIRECTION_TO_VALUE = {
-				up: { axis: "y", sign: -1 },
-				down: { axis: "y", sign: 1 },
-				left: { axis: "x", sign: -1 },
-				right: { axis: "x", sign: 1 },
-			};
+            DIRECTION_TO_VALUE = {
+                "up" : { "axis" : "y", "sign" : -1 },
+                "down": { "axis" : "y", "sign" : 1 },
+                "left" : { "axis" : "x", "sign" : -1 },
+                "right" : { "axis" : "x", "sign" : 1 },
+            };
 
-			KEYSTROKE_TO_DIRECTION = {
-				ArrowUp: "up",
-				ArrowDown: "down",
-				ArrowLeft: "left",
-				ArrowRight: "right",
-			};
+            KEYSTROKE_TO_DIRECTION = {
+                "ArrowUp" : "up",
+                "ArrowDown" : "down",
+                "ArrowLeft" : "left",
+                "ArrowRight" : "right",
+            };
 
-			OBSTACLES = {
-				up: UPOBST,
-				down: DOWNOBST,
-				left: LEFTOBST,
-				right: RIGHTOBST,
-			};
+            OBSTACLES = {
+                up : UPOBST,
+                down : DOWNOBST,
+                left : LEFTOBST,
+                right: RIGHTOBST
+            };
 
-			break;
+            break
 
-		case "up":
-			engine.gravity = { x: 0, y: -1 };
-			gravDir = "up";
+        case "up":
+            engine.gravity = {x : 0, y : -1};
+            gravDir = "up";
 
-			cancelVel("x");
-			if (player.velocity.y > -PARAMETERS.acc.grav) {
-				player.velocity.y = -PARAMETERS.acc.grav;
-			}
 
-			DIRECTION_TO_VALUE = {
-				up: { axis: "y", sign: 1 },
-				down: { axis: "y", sign: -1 },
-				left: { axis: "x", sign: -1 },
-				right: { axis: "x", sign: 1 },
-			};
+            DIRECTION_TO_VALUE = {
+                "up" : { "axis" : "y", "sign" : 1 },
+                "down": { "axis" : "y", "sign" : -1 },
+                "left" : { "axis" : "x", "sign" : -1 },
+                "right" : { "axis" : "x", "sign" : 1 },
+            };
 
-			KEYSTROKE_TO_DIRECTION = {
-				ArrowUp: "down",
-				ArrowDown: "up",
-				ArrowLeft: "left",
-				ArrowRight: "right",
-			};
+            KEYSTROKE_TO_DIRECTION = {
+                "ArrowUp" : "down",
+                "ArrowDown" : "up",
+                "ArrowLeft" : "left",
+                "ArrowRight" : "right",
+            };
 
-			OBSTACLES = {
-				up: DOWNOBST,
-				down: UPOBST,
-				left: LEFTOBST,
-				right: RIGHTOBST,
-			};
+            OBSTACLES = {
+                up : DOWNOBST,
+                down : UPOBST,
+                left : LEFTOBST,
+                right: RIGHTOBST
+            };
 
-			break;
+            break
 
-		case "left":
-			engine.gravity = { x: -1, y: 0 };
-			gravDir = "left";
+        case "left":
+            engine.gravity = {x : -1, y : 0};
+            gravDir = "left";
 
-			cancelVel("y");
-			if (player.velocity.x > -PARAMETERS.acc.grav) {
-				player.velocity.x = -PARAMETERS.acc.grav;
-			}
 
-			DIRECTION_TO_VALUE = {
-				up: { axis: "x", sign: 1 },
-				down: { axis: "x", sign: -1 },
-				left: { axis: "y", sign: -1 },
-				right: { axis: "y", sign: 1 },
-			};
+            DIRECTION_TO_VALUE = {
+                "up" : { "axis" : "x", "sign" : 1 },
+                "down": { "axis" : "x", "sign" : -1 },
+                "left" : { "axis" : "y", "sign" : -1 },
+                "right" : { "axis" : "y", "sign" : 1 },
+            };
 
-			KEYSTROKE_TO_DIRECTION = {
-				ArrowUp: "left",
-				ArrowDown: "right",
-				ArrowLeft: "down",
-				ArrowRight: "up",
-			};
+            KEYSTROKE_TO_DIRECTION = {
+                "ArrowUp" : "left",
+                "ArrowDown" : "right",
+                "ArrowLeft" : "down",
+                "ArrowRight" : "up",
+            };
 
-			OBSTACLES = {
-				up: RIGHTOBST,
-				down: LEFTOBST,
-				left: UPOBST,
-				right: DOWNOBST,
-			};
+            OBSTACLES = {
+                up : RIGHTOBST,
+                down : LEFTOBST,
+                left : UPOBST,
+                right: DOWNOBST
+            };
 
-			break;
+            break
 
-		case "right":
-			engine.gravity = { x: 1, y: 0 };
-			gravDir = "right";
+        case "right":
+            engine.gravity = {x : 1, y : 0};
+            gravDir = "right";
 
-			cancelVel("y");
-			if (player.velocity.x < PARAMETERS.acc.grav) {
-				player.velocity.x = PARAMETERS.acc.grav;
-			}
+            DIRECTION_TO_VALUE = {
+                "up" : { "axis" : "x", "sign" : -1 },
+                "down": { "axis" : "x", "sign" : 1 },
+                "left" : { "axis" : "y", "sign" : 1 },
+                "right" : { "axis" : "y", "sign" : -1 },
+            };
 
-			DIRECTION_TO_VALUE = {
-				up: { axis: "x", sign: -1 },
-				down: { axis: "x", sign: 1 },
-				left: { axis: "y", sign: 1 },
-				right: { axis: "y", sign: -1 },
-			};
+            KEYSTROKE_TO_DIRECTION = {
+                "ArrowUp" : "right",
+                "ArrowDown" : "left",
+                "ArrowLeft" : "up",
+                "ArrowRight" : "down",
+            };
 
-			KEYSTROKE_TO_DIRECTION = {
-				ArrowUp: "right",
-				ArrowDown: "left",
-				ArrowLeft: "up",
-				ArrowRight: "down",
-			};
+            OBSTACLES = {
+                up : LEFTOBST,
+                down : RIGHTOBST,
+                left : DOWNOBST,
+                right: UPOBST
+            };
 
-			OBSTACLES = {
-				up: LEFTOBST,
-				down: RIGHTOBST,
-				left: DOWNOBST,
-				right: UPOBST,
-			};
-
-			break;
-	}
+            break
+    }
 }
