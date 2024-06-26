@@ -88,7 +88,7 @@ function mainLoop() {
 			}
 		}
 
-		for (const fallSpikeObj of FALLING_SPIKES) {
+		for (const fallSpikeObj of FALLING_SPIKES[levelIndex]) {
 			if (fallSpikeObj.hitSpikes()) {
 				death();
 			}
@@ -303,23 +303,36 @@ function mainLoop() {
 
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
+		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
+			fallPlat.reset();
+			Sleeping.set(fallPlat.platform, true);
+		}
+
+		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
+			fallSpike.reset();
+			Sleeping.set(fallPlat.platform, true);
+		}
+
 		// console.log(endObj.range);
 		// endObj.range.remove();
+		levelIndex = currentLevel.nextLevelIndex(endObj);
 		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
 		transitionTimer = 0;
 
+		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
+			// fallPlat.reset();
+			Sleeping.set(fallPlat.platform, false);
+		}
+
+		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
+			// fallSpike.reset();
+			Sleeping.set(fallPlat.platform, false);
+		}
+
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;
 		yDisp = currentLevel.max.y - lxy;
-
-		for (const fallPlat of FALLING_PLATFORMS) {
-			fallPlat.reset();
-		}
-
-		for (const fallSpike of FALLING_SPIKES) {
-			fallSpike.reset();
-		}
 	}
 
 	if (_transition) {

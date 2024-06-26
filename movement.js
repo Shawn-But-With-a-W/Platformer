@@ -133,11 +133,11 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	changeGrav(defaultGravDir);
 	console.log("changed grav maybe");
 
-	for (const fallPlat of FALLING_PLATFORMS) {
+	for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
 		fallPlat.reset();
 	}
 
-	for (const fallSpike of FALLING_SPIKES) {
+	for (const fallSpike of FALLING_SPIKES[levelIndex]) {
 		fallSpike.reset();
 	}
 	engine.gravity.scale = 0.001;

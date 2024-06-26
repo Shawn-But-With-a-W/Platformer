@@ -24,8 +24,8 @@ class Level {
 		}
 	}
 
+	// Jarrett wrote this comment can you tell?
 	/**
-	 *
 	 * @returns end object or null if not colliding
 	 */
 	checkLevelComplete() {
@@ -37,6 +37,10 @@ class Level {
 			}
 		}
 		return null;
+	}
+
+	nextLevelIndex(end) {
+		return end.next;
 	}
 
 	nextLevel(end) {

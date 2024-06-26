@@ -8,7 +8,8 @@ var Engine = Matter.Engine,
 	Collision = Matter.Collision,
 	Mouse = Matter.Mouse,
 	MouseConstraint = Matter.MouseConstraint,
-	Events = Matter.Events;
+	Events = Matter.Events,
+	Sleeping = Matter.Sleeping;
 
 // Create an engine
 var engine = Engine.create();

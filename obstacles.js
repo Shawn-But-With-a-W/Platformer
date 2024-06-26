@@ -27,8 +27,8 @@ var LEFTOBST = [wallLeft, room1WallLeft];
 var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2];
 var PLATFORMS = [];
 var SPIKES = [];
-var FALLING_PLATFORMS = [];
-var FALLING_SPIKES = [];
+var FALLING_PLATFORMS = [[], []];
+var FALLING_SPIKES = [[], []];
 
 var OBSTACLES = {
 	up: UPOBST,
@@ -84,16 +84,15 @@ class Platform {
 }
 
 class FallingPlatform {
-	constructor(x, y, width, height, colour = "#7a71f89a") {
+	constructor(x, y, width, height, level = 0, colour = "#7a71f89a") {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.level = level;
 		this.colour = colour;
 
 		this.create();
-
-		FALLING_PLATFORMS.push(this);
 	}
 
 	create() {
@@ -106,6 +105,7 @@ class FallingPlatform {
 		this.platform.render.fillStyle = this.colour;
 
 		Composite.add(engine.world, this.platform);
+		FALLING_PLATFORMS[this.level].push(this);
 	}
 
 	remove() {
@@ -174,11 +174,12 @@ class Spike {
 }
 
 class FallingSpike {
-	constructor(x, y, dir, colour = "#f55b3cc5") {
+	constructor(x, y, dir, level = 0, colour = "#f55b3cc5") {
 		this.radius = 20;
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.level = level;
 		this.colour = colour;
 
 		this.DIRECTION_TO_ANGLE = {
@@ -198,8 +199,9 @@ class FallingSpike {
 		});
 
 		this.spike.render.fillStyle = this.colour;
+
 		Composite.add(engine.world, this.spike);
-		FALLING_SPIKES.push(this);
+		FALLING_SPIKES[this.level].push(this);
 	}
 
 	hitSpikes() {
