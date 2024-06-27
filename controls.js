@@ -19,6 +19,9 @@ window.addEventListener("keydown", (event) => {
 		case " ":
 			_gravPressed = true;
 			break;
+		case "Escape":
+			pause();
+			break;
 	}
 });
 

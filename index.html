@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 		<script src="libraries/matter.js" defer></script>
 		<script src="window.js" defer></script>
+		<script src="menu.js"></script>
 		<script src="movement.js" defer></script>
 		<script src="gravity.js" defer></script>
 		<script src="obstacles.js" defer></script>
@@ -17,6 +18,15 @@
 		<script src="main.js" defer></script>
 	</head>
 	<body>
-		<canvas id="game-screen" width="1280" height="720"></canvas>
+		<div id="pause">
+			<button id="resume" onclick="pause()"><span>RESUME</span></button>
+			<button id="wireframe" onclick="wireframe()"><span>WIREFRAMES: OFF</span></button>
+
+			<h1>CONTROLS</h1>
+			<p>Arrow keys to move</p>
+			<p>Space + single arrow key to change gravity</p>
+			<p>Change gravity in direction of wall to stick to wall</p>
+		</div>
+		<canvas id="game-screen" width="1280" height="650"></canvas>
 	</body>
 </html>

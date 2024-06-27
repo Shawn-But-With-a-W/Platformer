@@ -1,5 +1,7 @@
 // TODO: fix key buffer after death (it's a feature now)
 
+// TODO: Add pause menu
+
 // TODO: build a new level
 
 // Initialise a bunch of variables before the main loop
@@ -23,6 +25,8 @@ var timeCurrent = null;
 var timePrev, timeDiff;
 var _boundsSet = false;
 
+var animationFrame;
+
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(document.body),
 	mouseConstraint = MouseConstraint.create(engine, {
@@ -39,18 +43,6 @@ render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
 
 function mainLoop() {
-	// console.log(_boundsSet);
-	// Render.lookAt(render, player, { x: 400, y: 400 });
-
-	// Bounds.translate(render.bounds, {x:2, y:2});
-
-	// if (player.position.x >= 640) {
-	//     Bounds.shift(render.bounds, {x:640, y:0});
-	// }
-	// else {
-	//     Bounds.shift(render.bounds, {x:-640, y:0})
-	// }
-
 	// Check if it's on the ground
 	_onGround = isOnGround();
 	_onCeiling = isOnCeiling();
@@ -362,6 +354,6 @@ function mainLoop() {
 	timeDiff = typeof timePrev === "number" ? timeCurrent - timePrev : 1000 / 60;
 
 	Engine.update(engine, timeDiff);
-	requestAnimationFrame(mainLoop);
+	animationFrame = requestAnimationFrame(mainLoop);
 }
-requestAnimationFrame(mainLoop);
+animationFrame = requestAnimationFrame(mainLoop);
