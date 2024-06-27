@@ -232,6 +232,7 @@ class Transitioner {
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
+		this.transitioner.render.visible = false;
 		this.transitioner.render.fillStyle = this.colour;
 		this.transitioner.render.lineWidth = 0;
 	}

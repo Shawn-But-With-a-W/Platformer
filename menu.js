@@ -6,12 +6,19 @@ function pause() {
 			document.getElementById("pause").style.display = "none";
 			_paused = false;
 			engine.timing.timeScale = 1;
-			// requestAnimationFrame(mainLoop);
 		} else {
 			document.getElementById("pause").style.display = "block";
 			_paused = true;
 			engine.timing.timeScale = 0;
-			// cancelAnimationFrame(animationFrame);
 		}
+	}
+}
+
+function wireframe() {
+	render.options.wireframes = !render.options.wireframes;
+	if (render.options.wireframes) {
+		document.getElementById("wireframe-text").innerText = "WIREFRAMES: ON";
+	} else {
+		document.getElementById("wireframe-text").innerText = "WIREFRAMES: OFF";
 	}
 }

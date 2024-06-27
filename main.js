@@ -87,9 +87,9 @@ function mainLoop() {
 		}
 
 		// Falling out of bounds
-		if (currentLevel.isOutOfBounds()) {
-			death();
-		}
+		// if (currentLevel.isOutOfBounds()) {
+		// 	death();
+		// }
 	} else {
 		setBounds();
 
