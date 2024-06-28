@@ -1,6 +1,4 @@
-// TODO: fix key buffer after death (it's a feature now)
-
-// TODO: Add pause menu
+// TODO: fix key buffer after death (mvm it's a feature now)
 
 // TODO: build a new level
 
