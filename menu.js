@@ -9,6 +9,7 @@ function pause() {
 		document.getElementById("resume-text").innerText = "RESUME";
 	}
 	if (_isAlive && !_transition) {
+		_pausePressed = !_pausePressed;
 		if (_paused) {
 			document.getElementById("pause").style.display = "none";
 			_paused = false;

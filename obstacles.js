@@ -1,6 +1,6 @@
 var Bodies = Matter.Bodies;
 
-var player = Bodies.rectangle(640, 0, 40, 40, {
+var player = Bodies.rectangle(640, 100, 40, 40, {
 	friction: 0,
 	frictionAir: 0,
 	frictionStatic: 0,

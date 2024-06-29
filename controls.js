@@ -3,6 +3,7 @@ var keysPressed = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRig
 // Record of whether a direction is being pressed (converted from keysPressed)
 var directionsPressed = { up: false, down: false, left: false, right: false };
 var _gravPressed = false;
+var _pausePressed = false;
 
 // Change the key's corresponding value (get it?) to be true when pressed
 window.addEventListener("keydown", (event) => {
@@ -20,6 +21,7 @@ window.addEventListener("keydown", (event) => {
 			_gravPressed = true;
 			break;
 		case "Escape":
+			_pausePressed = true;
 			pause();
 			break;
 	}

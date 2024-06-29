@@ -95,6 +95,10 @@ function mainLoop() {
 		if (respawnTimer >= 100) {
 			respawn(currentLevel.spawn);
 			respawnTimer = 0;
+			console.log(_pausePressed);
+			if (_pausePressed) {
+				pause();
+			}
 		}
 		// Change speed of death animation depending on amount of time after death
 		else if (respawnTimer >= 30) {
@@ -336,6 +340,10 @@ function mainLoop() {
 			_grav = true;
 			_gravChanged = false;
 			_gravReverted = false;
+
+			if (_pausePressed) {
+				pause();
+			}
 		}
 	}
 
@@ -346,7 +354,7 @@ function mainLoop() {
 	}
 
 	if (document.hasFocus() == false && _paused == false) {
-		console.log(document.hasFocus());
+		_pausePressed = true;
 		pause();
 	}
 
