@@ -90,7 +90,7 @@ function screenShakeGrav(t, dir) {
 		// console.log(currentLevel.max.x - lxx, currentLevel.max.y - lxy);
 		// console.log("I was here");
 		// console.log(currentLevel.max.x, currentLevel.max.y);
-		console.log(_boundsSet, lxx, lxy, currentLevel.max.x, currentLevel.max.y);
+		// console.log(_boundsSet, lxx, lxy, currentLevel.max.x, currentLevel.max.y);
 		tween(t - 8, 4, currentLevel.max.x - lxx, currentLevel.max.y - lxy);
 	}
 }
@@ -112,7 +112,7 @@ function tween(t, tMax, xDisp, yDisp, fn) {
 		render.bounds.max.x = currentLevel.max.x;
 		render.bounds.max.y = currentLevel.max.y;
 		_boundsSet = false;
-		console.log(_boundsSet);
+		// console.log(_boundsSet);
 		// setBounds();
 	}
 }

@@ -209,8 +209,9 @@ class FallingSpike {
 	}
 
 	reset() {
-		Body.setPosition(this.spike, { x: this.x, y: this.y });
 		Body.setAngle(this.spike, this.DIRECTION_TO_ANGLE[this.dir]);
+		console.log("reset at", this.x, this.y);
+		Body.setPosition(this.spike, { x: this.x, y: this.y });
 		// Composite.add(engine.world, this.spike);
 	}
 }
@@ -261,12 +262,12 @@ var testFallPlat = new FallingPlatform(640, 100, 100, 30);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
-var testFallSpike = new FallingSpike(1000, 50, "down");
+var testFallSpike = new FallingSpike(-980, 100, "down", (level = 1));
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
-var transitioner = new Transitioner(-20, 77, 25, 125);
+var transitioner0To1 = new Transitioner(-20, 77, 25, 125);
 
-var existentTransitioner = new Transitioner(50, 77, 25, 125);
+var transitioner1To0 = new Transitioner(50, 77, 25, 125);
 
 // console.log(transitioner);

@@ -1,5 +1,3 @@
-// TODO: fix key buffer after death (mvm it's a feature now)
-
 // TODO: build a new level
 
 // Initialise a bunch of variables before the main loop
@@ -301,6 +299,7 @@ function mainLoop() {
 		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
 			fallSpike.reset();
 			Sleeping.set(fallSpike.spike, true);
+			console.log("should be sleeping now");
 		}
 
 		// console.log(endObj.range);
@@ -311,12 +310,12 @@ function mainLoop() {
 		transitionTimer = 0;
 
 		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
-			// fallPlat.reset();
+			fallPlat.reset();
 			Sleeping.set(fallPlat.platform, false);
 		}
 
 		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
-			// fallSpike.reset();
+			fallSpike.reset();
 			Sleeping.set(fallSpike.spike, false);
 		}
 
