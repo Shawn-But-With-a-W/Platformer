@@ -1,6 +1,13 @@
 var _paused = false;
+var _initialBoot = true;
 
 function pause() {
+	if (_initialBoot) {
+		document.getElementById("resume-text").innerText = "START GAME";
+		_initialBoot = false;
+	} else {
+		document.getElementById("resume-text").innerText = "RESUME";
+	}
 	if (_isAlive && !_transition) {
 		if (_paused) {
 			document.getElementById("pause").style.display = "none";

@@ -125,7 +125,7 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	respawnTimer = 0;
 
 	changeGrav(defaultGravDir);
-	console.log("changed grav maybe");
+	neutral();
 
 	Composite.remove(engine.world, particles);
 	// console.log("attempted to clear particles");

@@ -32,14 +32,14 @@ var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
 var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
 var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
 var room2Floor3 = Bodies.rectangle(-155, -580, 30, 30, { isStatic: true });
-var room2Floor4 = Bodies.rectangle(-155, -715, 30, 30, { isStatic: true });
-var room2Floor5 = Bodies.rectangle(-840, -550, 30, 30, { isStatic: true });
-var room2Floor6 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
-var room2WallLeft4 = Bodies.rectangle(-100, -810, 10, 60, { isStatic: true });
+var room2Ceiling3 = Bodies.rectangle(-155, -715, 30, 30, { isStatic: true });
+var room2Floor4 = Bodies.rectangle(-840, -550, 30, 30, { isStatic: true });
+var room2Ceiling4 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
+// var room2WallLeft4 = Bodies.rectangle(-100, -810, 2, 60, { isStatic: true });
 
-var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2];
-var DOWNOBST = [floor, room1Floor, room2Floor1, room2Floor2, room2Floor3, room2Floor4, room2Floor5, room2Floor6];
-var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1, room2WallLeft2, room2WallLeft3, room2WallLeft4];
+var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2, room2Ceiling3, room2Ceiling4];
+var DOWNOBST = [floor, room1Floor, room2Floor1, room2Floor2, room2Floor3, room2Floor4];
+var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1, room2WallLeft2, room2WallLeft3];
 var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1, room2WallRight2, room2WallRight3];
 
 var PLATFORMS = [];
@@ -250,7 +250,7 @@ class Transitioner {
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
-		// this.transitioner.render.visible = false; // TODO: uncomment this later
+		this.transitioner.render.visible = false;
 		this.transitioner.render.fillStyle = this.colour;
 		this.transitioner.render.lineWidth = 0;
 	}

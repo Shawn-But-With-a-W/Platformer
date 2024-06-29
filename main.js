@@ -21,8 +21,6 @@ var timeCurrent = null;
 var timePrev, timeDiff;
 var _boundsSet = false;
 
-var animationFrame;
-
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(document.body),
 	mouseConstraint = MouseConstraint.create(engine, {
@@ -37,6 +35,8 @@ var mouse = Mouse.create(document.body),
 // keep the mouse in sync with rendering
 render.mouse = mouse;
 Composite.add(engine.world, [mouseConstraint]);
+
+pause();
 
 function mainLoop() {
 	// Check if it's on the ground
