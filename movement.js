@@ -124,20 +124,22 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	_isAlive = true;
 	respawnTimer = 0;
 
+	changeGrav(defaultGravDir);
+	console.log("changed grav maybe");
+
 	Composite.remove(engine.world, particles);
 	// console.log("attempted to clear particles");
 
 	Body.setPosition(player, spawnpoint);
 	Composite.add(engine.world, player);
 
-	changeGrav(defaultGravDir);
-	console.log("changed grav maybe");
-
 	for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
+		Body.setVelocity(fallPlat.platform, { x: 0, y: 0 });
 		fallPlat.reset();
 	}
 
 	for (const fallSpike of FALLING_SPIKES[levelIndex]) {
+		Body.setVelocity(fallSpike.spike, { x: 0, y: 0 });
 		fallSpike.reset();
 	}
 	engine.gravity.scale = 0.001;

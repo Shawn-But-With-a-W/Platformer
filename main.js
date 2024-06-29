@@ -83,9 +83,9 @@ function mainLoop() {
 		}
 
 		// Falling out of bounds
-		// if (currentLevel.isOutOfBounds()) {
-		// 	death();
-		// }
+		if (currentLevel.isOutOfBounds()) {
+			death();
+		}
 	} else {
 		setBounds();
 
@@ -343,6 +343,11 @@ function mainLoop() {
 	if (_isAlive && !_transition && shakeTimer <= 40) {
 		screenShakeGrav(shakeTimer, changeGravDir);
 		shakeTimer++;
+	}
+
+	if (document.hasFocus() == false && _paused == false) {
+		console.log(document.hasFocus());
+		pause();
 	}
 
 	timePrev = timeCurrent;
