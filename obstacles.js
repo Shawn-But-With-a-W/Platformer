@@ -26,7 +26,12 @@ var room2WallRight1 = Bodies.rectangle(-15, -700, 30, 600, { isStatic: true });
 var room2Ceiling1 = Bodies.rectangle(-100, -1000, 200, 30, { isStatic: true });
 var room2WallLeft1 = Bodies.rectangle(-185, -900, 30, 180, { isStatic: true });
 // var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
-var room2Ceiling2 = Bodies.rectangle(-750, -795, 1150, 30, { isStatic: true });
+var room2Ceiling2 = Bodies.rectangle(-490, -795, 700, 30, { isStatic: true });
+var room2Ceiling3 = Bodies.rectangle(-1200, -795, 430, 30, { isStatic: true });
+var room2WallLeft2 = Bodies.rectangle(-1280, -650, 30, 700, { isStatic: true });
+
+var room2WallLeft3 = Bodies.rectangle(-1000, -1060, 30, 500, { isStatic: true });
+var room2WallRight2 = Bodies.rectangle(-825, -1060, 30, 500, { isStatic: true });
 
 // var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
 // var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
@@ -39,10 +44,10 @@ var room2Ceiling2 = Bodies.rectangle(-750, -795, 1150, 30, { isStatic: true });
 // var room2Ceiling4 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
 // var room2WallLeft4 = Bodies.rectangle(-100, -810, 2, 60, { isStatic: true });
 
-var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2];
+var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2, room2Ceiling3];
 var DOWNOBST = [floor, room1Floor, room2Floor1];
-var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1];
-var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1];
+var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1, room2WallLeft2, room2WallLeft3];
+var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1, room2WallRight2];
 
 var PLATFORMS = [];
 var SPIKES = [];
@@ -252,7 +257,7 @@ class Transitioner {
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
-		// this.transitioner.render.visible = false; //* Uncomment later
+		this.transitioner.render.visible = false;
 		this.transitioner.render.fillStyle = this.colour;
 		this.transitioner.render.lineWidth = 0;
 	}
@@ -277,7 +282,7 @@ class Transitioner {
 
 var testPlatform = new Platform(500, 500, 100, 50);
 
-var testFallPlat = new FallingPlatform(-1000, -540, 250, 30, (level = 2));
+var testFallPlat = new FallingPlatform(-1000, -540, 250, 15, (level = 2));
 Sleeping.set(testFallPlat.platform, true);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
@@ -298,11 +303,19 @@ var transitioner1To2 = new Transitioner(-90, -450, 150, 25, (colour = "red"));
 
 var transitioner2To1 = new Transitioner(-90, -350, 150, 25, (colour = "blue"));
 
-var transitionerEnd = new Transitioner(-1050, -650, 25, 300, (colour = "blue"));
+var transitionerEnd = new Transitioner(-900, -1000, 200, 30, (colour = "blue"));
 
-var room2BottomSpikes = new Spike({ x: -800, y: -525 }, { x: -185, y: -525 }, "up", "x");
+var room2BottomSpikes = new Spike({ x: -1200, y: -525 }, { x: -185, y: -525 }, "up", "x");
 
-var room2TopSpikes = new Spike({ x: -800, y: -770 }, { x: -185, y: -770 }, "down", "x");
+var room2TopSpikes1 = new Spike({ x: -800, y: -770 }, { x: -185, y: -770 }, "down", "x");
+
+var room2TopSpikes2 = new Spike({ x: -1200, y: -770 }, { x: -975, y: -770 }, "down", "x");
+
+var room2LeftSpikes1 = new Spike({ x: -1255, y: -770 }, { x: -1255, y: -525 }, "right", "y");
+
+var room2LeftSpikes2 = new Spike({ x: -985, y: -1000 }, { x: -985, y: -780 }, "right", "y");
+
+var room2RightSpikes1 = new Spike({ x: -840, y: -1000 }, { x: -840, y: -780 }, "left", "y");
 
 // var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
 // var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
@@ -310,8 +323,8 @@ var room2TopSpikes = new Spike({ x: -800, y: -770 }, { x: -185, y: -770 }, "down
 // var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
 // var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
 
-var room2Platform1 = new Platform(-840, -540, 30, 50);
-var room2Platform2 = new Platform(-840, -755, 30, 50);
+var room2Platform1 = new Platform(-840, -545, 3, 60);
+var room2Platform2 = new Platform(-840, -750, 3, 60);
 var room2Platform3 = new Platform(-155, -535, 30, 100);
 var room2Platform4 = new Platform(-155, -760, 30, 100);
 var room2Platform5 = new Platform(-150, -825, 100, 30);

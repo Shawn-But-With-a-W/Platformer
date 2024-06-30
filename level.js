@@ -62,7 +62,7 @@ var LEVELS = [
 		{ range: transitioner1To0, next: 0 },
 		{ range: transitioner1To2, next: 2 },
 	]),
-	new Level({ x: -1080, y: -1000 }, { x: 200, y: -350 }, { x: -120, y: -900 }, [
+	new Level({ x: -1280, y: -1000 }, { x: 0, y: -350 }, { x: -120, y: -900 }, [
 		{ range: transitioner2To1, next: 1 },
 		{ range: transitionerEnd, next: 0 },
 	]),

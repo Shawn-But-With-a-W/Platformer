@@ -1,6 +1,6 @@
 var PARAMETERS = {
 	acc: { hor: 0.5, air: 0.6, jump: 7, fall: 1, wall: 10, grav: 0.5 },
-	dec: { hor: 0.3, air: 0.4 },
+	dec: { hor: 0.4, air: 0.5 },
 	max: { hor: 3, air: 6, ver: 15 },
 };
 
