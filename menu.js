@@ -11,7 +11,9 @@ function pause() {
 		document.getElementById("resume-text").innerText = "RESUME";
 	}
 	if (_isAlive && !_transition) {
-		_pausePressed = !_pausePressed;
+		if (_pausePressed) {
+			_pausePressed = false;
+		}
 		_gameComplete = false;
 
 		if (_paused) {

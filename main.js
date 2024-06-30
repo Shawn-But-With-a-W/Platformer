@@ -4,7 +4,7 @@ var groundTimer = 0;
 var gravTimer = 0;
 var airTimer = 0;
 var _gravChanged = false;
-var _gravReverted = false;
+// var _gravReverted = false;
 var gravRevert = gravDir;
 var changeGravDir = null;
 var _isAlive = true;
@@ -39,6 +39,8 @@ var _checkOutOfBounds = true;
 pause();
 
 function mainLoop() {
+	player.render.fillStyle = "#f5d3598f";
+
 	// Check if it's on the ground
 	_onGround = isOnGround();
 	_onCeiling = isOnCeiling();
@@ -69,6 +71,98 @@ function mainLoop() {
 	// Deceleration and capping max velocity
 	if (isNeutral()) {
 		decel(type);
+	}
+
+	// Gravity
+	if (_gravChanged) {
+		gravTimer++;
+		player.render.fillStyle = "#71aff8";
+
+		// Cancel velocity on secondary axis to not move diagonally
+		switch (changeGravDir) {
+			case "up":
+			case "down":
+				cancelVel("x");
+				break;
+			case "left":
+			case "right":
+				cancelVel("y");
+				break;
+		}
+
+		// Switching gravity back after 10 ticks
+		if (gravTimer >= 10) {
+			_gravReverted = true;
+			changeGrav(gravRevert);
+			_gravChanged = false;
+		}
+
+		// Sticking to the direction gravity changed in while going upwards
+		if (_onGround) {
+			neutral();
+			gravRevert = gravDir;
+			changeGrav(gravDir);
+			_gravChanged = false;
+			_gravReverted = false;
+			gravTimer = 0;
+		}
+	} else {
+		engine.gravity.scale = 0.001;
+	}
+
+	if (_gravReverted) {
+		player.render.fillStyle = "#71b0f837";
+
+		// Still sticking to the direction gravity previously changed in after revert
+		switch (changeGravDir) {
+			case "up":
+				if (isOnUpObst()) {
+					changeGrav("up");
+					_gravReverted = false;
+					neutral();
+				}
+				break;
+			case "down":
+				if (isOnDownObst()) {
+					changeGrav("down");
+					_gravReverted = false;
+					neutral();
+				}
+				break;
+			case "left":
+				if (isOnLeftObst()) {
+					changeGrav("left");
+					_gravReverted = false;
+					neutral();
+				}
+				break;
+			case "right":
+				if (isOnRightObst()) {
+					changeGrav("right");
+					_gravReverted = false;
+					neutral();
+				}
+				break;
+		}
+
+		// Updating keysPressed record so keys/directions aren't incorrectly buffered after gravity change
+		for (const key of Object.keys(keysPressed)) {
+			if (!keysPressed[key]) {
+				directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
+			}
+		}
+
+		// Resetting values specifically after gravity change
+		if (_onGround) {
+			type = "hor";
+			_grav = true;
+			_gravReverted = false;
+			_gravChanged = false;
+			gravTimer = 0;
+			gravRevert = gravDir;
+			changeGravDir = null;
+			groundTimer = 18;
+		}
 	}
 
 	// When on ground for long enough
@@ -136,8 +230,6 @@ function mainLoop() {
 			changeGravDir = "down";
 			engine.gravity.scale = 0.002;
 		}
-	} else {
-		player.render.fillStyle = "#f5d3598f";
 	}
 
 	// Move the box according to keyboard inputs
@@ -158,97 +250,6 @@ function mainLoop() {
 		wallJump("left");
 	} else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
 		wallJump("right");
-	}
-
-	if (_gravChanged) {
-		gravTimer++;
-		player.render.fillStyle = "#71aff8";
-
-		// Cancel velocity on secondary axis to not move diagonally
-		switch (changeGravDir) {
-			case "up":
-			case "down":
-				cancelVel("x");
-				break;
-			case "left":
-			case "right":
-				cancelVel("y");
-				break;
-		}
-
-		// Switching gravity back after 10 ticks
-		if (gravTimer >= 10) {
-			changeGrav(gravRevert);
-			_gravReverted = true;
-			_gravChanged = false;
-		}
-
-		// Sticking to the direction gravity changed in while going upwards
-		if (_onGround) {
-			gravRevert = gravDir;
-			changeGrav(gravDir);
-			_gravChanged = false;
-			_gravReverted = false;
-			gravTimer = 0;
-			neutral();
-		}
-	} else {
-		engine.gravity.scale = 0.001;
-	}
-
-	if (_gravReverted) {
-		player.render.fillStyle = "#71b0f837";
-
-		// Still sticking to the direction gravity previously changed in after revert
-		switch (changeGravDir) {
-			case "up":
-				if (isOnUpObst()) {
-					changeGrav("up");
-					_gravReverted = false;
-					neutral();
-				}
-				break;
-			case "down":
-				if (isOnDownObst()) {
-					changeGrav("down");
-					_gravReverted = false;
-					neutral();
-				}
-				break;
-			case "left":
-				if (isOnLeftObst()) {
-					changeGrav("left");
-					_gravReverted = false;
-					neutral();
-				}
-				break;
-			case "right":
-				if (isOnRightObst()) {
-					changeGrav("right");
-					_gravReverted = false;
-					neutral();
-				}
-				break;
-		}
-
-		// Updating keysPressed record so keys/directions aren't incorrectly buffered after gravity change
-		for (const key of Object.keys(keysPressed)) {
-			if (!keysPressed[key]) {
-				directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
-			}
-		}
-
-		// Resetting values specifically after gravity change
-		if (_onGround) {
-			type = "hor";
-			_grav = true;
-			_gravReverted = false;
-			_gravChanged = false;
-			gravTimer = 0;
-			gravRevert = gravDir;
-			changeGravDir = null;
-			groundTimer = 18;
-		}
 	}
 
 	const endObj = currentLevel.checkLevelComplete();
