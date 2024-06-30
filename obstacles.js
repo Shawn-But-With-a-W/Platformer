@@ -285,10 +285,10 @@ Sleeping.set(testFallPlat.platform, true);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
-var testFallSpike1 = new FallingSpike(-980, 100, "up", (level = 1));
+var testFallSpike1 = new FallingSpike(-980, 175, "up", (level = 1));
 Sleeping.set(testFallSpike1.spike, true);
 
-var testFallSpike2 = new FallingSpike(-300, 100, "up", (level = 1));
+var testFallSpike2 = new FallingSpike(-300, 175, "up", (level = 1));
 Sleeping.set(testFallSpike2.spike, true);
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
