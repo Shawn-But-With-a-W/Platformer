@@ -21,20 +21,20 @@ var _boundsSet = false;
 var _gameComplete = false;
 var _checkOutOfBounds = true;
 
-// add mouse control (I have no idea how this works)
-var mouse = Mouse.create(document.body),
-	mouseConstraint = MouseConstraint.create(engine, {
-		mouse: mouse,
-		constraint: {
-			stiffness: 0.2,
-			render: {
-				visible: true,
-			},
-		},
-	});
-// keep the mouse in sync with rendering
-render.mouse = mouse;
-Composite.add(engine.world, [mouseConstraint]);
+// // add mouse control (I have no idea how this works)
+// var mouse = Mouse.create(document.body),
+// 	mouseConstraint = MouseConstraint.create(engine, {
+// 		mouse: mouse,
+// 		constraint: {
+// 			stiffness: 0.2,
+// 			render: {
+// 				visible: true,
+// 			},
+// 		},
+// 	});
+// // keep the mouse in sync with rendering
+// render.mouse = mouse;
+// Composite.add(engine.world, [mouseConstraint]);
 
 pause();
 

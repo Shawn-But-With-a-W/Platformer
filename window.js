@@ -25,7 +25,7 @@ var render = Render.create({
 		pixelRatio: "auto",
 		wireframes: false,
 		hasBounds: true,
-		showDebug: true,
+		// showDebug: true,
 		// showAngleIndicator : true,
 		// showAxes : true,
 		// showBounds : true,

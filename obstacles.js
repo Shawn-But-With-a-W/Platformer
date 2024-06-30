@@ -321,8 +321,8 @@ var room2RightSpikes1 = new Spike({ x: -840, y: -1000 }, { x: -840, y: -780 }, "
 // var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
 // var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
 
-var room2Platform1 = new Platform(-840, -540, 3, 50);
-var room2Platform2 = new Platform(-840, -755, 3, 50);
+var room2Platform1 = new Platform(-840, -540, 1, 50);
+var room2Platform2 = new Platform(-840, -755, 1, 50);
 var room2Platform3 = new Platform(-155, -535, 30, 100);
 var room2Platform4 = new Platform(-155, -760, 30, 100);
 var room2Platform5 = new Platform(-150, -825, 100, 30);
