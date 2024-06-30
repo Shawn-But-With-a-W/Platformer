@@ -46,6 +46,14 @@ class Level {
 	nextLevel(end) {
 		return LEVELS[end.next];
 	}
+
+	checkGameComplete(end) {
+		if (this.nextLevelIndex(end) == 0 && levelIndex == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 var LEVELS = [
@@ -56,6 +64,7 @@ var LEVELS = [
 	]),
 	new Level({ x: -1080, y: -1000 }, { x: 200, y: -350 }, { x: -120, y: -900 }, [
 		{ range: transitioner2To1, next: 1 },
+		{ range: transitionerEnd, next: 0 },
 	]),
 ];
 var levelIndex = 0;

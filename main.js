@@ -1,5 +1,3 @@
-// TODO: build a new level
-
 // Initialise a bunch of variables before the main loop
 var _grav = false;
 var groundTimer = 0;
@@ -20,6 +18,7 @@ var xDisp, yDisp, lmx, lmy, lxx, lxy;
 var timeCurrent = null;
 var timePrev, timeDiff;
 var _boundsSet = false;
+var _gameComplete = false;
 
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(document.body),
@@ -289,12 +288,18 @@ function mainLoop() {
 			gravTimer = 0;
 			gravRevert = gravDir;
 			changeGravDir = null;
-			groundTimer = 17;
+			groundTimer = 18;
 		}
 	}
 
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
+		if (currentLevel.checkGameComplete(endObj)) {
+			_gameComplete = true;
+			_pausePressed = true;
+			pause();
+		}
+
 		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
 			fallPlat.reset();
 			Sleeping.set(fallPlat.platform, true);

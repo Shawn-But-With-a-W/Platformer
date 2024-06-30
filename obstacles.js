@@ -250,7 +250,7 @@ class Transitioner {
 			isStatic: true,
 		});
 		Composite.add(engine.world, this.transitioner);
-		this.transitioner.render.visible = false;
+		// this.transitioner.render.visible = false; //* Uncomment later
 		this.transitioner.render.fillStyle = this.colour;
 		this.transitioner.render.lineWidth = 0;
 	}
@@ -285,13 +285,15 @@ Sleeping.set(testFallSpike.spike, true);
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
-var transitioner0To1 = new Transitioner(-20, 77, 25, 125);
+var transitioner0To1 = new Transitioner(-20, 77, 25, 150);
 
-var transitioner1To0 = new Transitioner(50, 77, 25, 125);
+var transitioner1To0 = new Transitioner(50, 77, 25, 150);
 
-var transitioner1To2 = new Transitioner(-90, -450, 125, 25, (colour = "red"));
+var transitioner1To2 = new Transitioner(-90, -450, 150, 25, (colour = "red"));
 
-var transitioner2To1 = new Transitioner(-90, -350, 125, 25, (colour = "blue"));
+var transitioner2To1 = new Transitioner(-90, -350, 150, 25, (colour = "blue"));
+
+var transitionerEnd = new Transitioner(-1050, -650, 25, 300, (colour = "blue"));
 
 var room2BottomSpikes = new Spike({ x: -800, y: -525 }, { x: -185, y: -525 }, "up", "x");
 

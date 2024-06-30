@@ -5,6 +5,9 @@ function pause() {
 	if (_initialBoot) {
 		document.getElementById("resume-text").innerText = "START GAME";
 		_initialBoot = false;
+	} else if (_gameComplete) {
+		document.getElementById("resume-text").innerText = "DEMO COMPLETE";
+		_gameComplete = false;
 	} else {
 		document.getElementById("resume-text").innerText = "RESUME";
 	}
