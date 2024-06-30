@@ -19,6 +19,7 @@ var timeCurrent = null;
 var timePrev, timeDiff;
 var _boundsSet = false;
 var _gameComplete = false;
+var _checkOutOfBounds = true;
 
 // add mouse control (I have no idea how this works)
 var mouse = Mouse.create(document.body),
@@ -63,48 +64,6 @@ function mainLoop() {
 		groundTimer--;
 	} else {
 		airTimer = 0;
-	}
-
-	// Dumb ways to die (and some less dumb ones)
-	if (_isAlive) {
-		respawnTimer = 0;
-		// Hitting a spike
-		for (const spikeObj of SPIKES) {
-			if (spikeObj.hitSpikes()) {
-				death();
-			}
-		}
-
-		for (const fallSpikeObj of FALLING_SPIKES[levelIndex]) {
-			if (fallSpikeObj.hitSpikes()) {
-				death();
-			}
-		}
-
-		// Falling out of bounds
-		if (currentLevel.isOutOfBounds()) {
-			death();
-		}
-	} else {
-		setBounds();
-
-		screenShakeDeath(respawnTimer, "death");
-		respawnTimer++;
-		// Respawn after set amount of time
-		if (respawnTimer >= 100) {
-			respawn(currentLevel.spawn);
-			respawnTimer = 0;
-			console.log(_pausePressed);
-			if (_pausePressed) {
-				pause();
-			}
-		}
-		// Change speed of death animation depending on amount of time after death
-		else if (respawnTimer >= 30) {
-			engine.timing.timeScale = 1;
-		} else if (respawnTimer >= 15) {
-			engine.timing.timeScale = 0.75;
-		}
 	}
 
 	// Deceleration and capping max velocity
@@ -225,9 +184,9 @@ function mainLoop() {
 		}
 
 		// Sticking to the direction gravity changed in while going upwards
-		if (_onGround && gravTimer >= 3) {
+		if (_onGround) {
 			gravRevert = gravDir;
-			changeGrav(gravRevert);
+			changeGrav(gravDir);
 			_gravChanged = false;
 			_gravReverted = false;
 			gravTimer = 0;
@@ -294,10 +253,12 @@ function mainLoop() {
 
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
+		_checkOutOfBounds = false;
+
 		if (currentLevel.checkGameComplete(endObj)) {
 			_gameComplete = true;
 			_pausePressed = true;
-			pause();
+			_checkOutOfBounds = false;
 		}
 
 		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
@@ -308,7 +269,6 @@ function mainLoop() {
 		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
 			fallSpike.reset();
 			Sleeping.set(fallSpike.spike, true);
-			console.log("should be sleeping now");
 		}
 
 		// console.log(endObj.range);
@@ -331,6 +291,7 @@ function mainLoop() {
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;
 		yDisp = currentLevel.max.y - lxy;
+		console.log(xDisp, yDisp);
 	}
 
 	if (_transition) {
@@ -345,10 +306,60 @@ function mainLoop() {
 			_grav = true;
 			_gravChanged = false;
 			_gravReverted = false;
+			_checkOutOfBounds = true;
+
+			if (_gameComplete) {
+				changeGrav("down");
+				Body.setVelocity(player, { x: 0, y: 0 });
+				Body.setPosition(player, currentLevel.spawn);
+				neutral();
+			}
 
 			if (_pausePressed) {
 				pause();
 			}
+		}
+	}
+
+	// Dumb ways to die (and some less dumb ones)
+	if (_isAlive) {
+		respawnTimer = 0;
+		// Hitting a spike
+		for (const spikeObj of SPIKES) {
+			if (spikeObj.hitSpikes()) {
+				death();
+			}
+		}
+
+		for (const fallSpikeObj of FALLING_SPIKES[levelIndex]) {
+			if (fallSpikeObj.hitSpikes()) {
+				death();
+			}
+		}
+
+		// Falling out of bounds
+		if (_checkOutOfBounds && currentLevel.isOutOfBounds()) {
+			death();
+		}
+	} else {
+		setBounds();
+
+		screenShakeDeath(respawnTimer, "death");
+		respawnTimer++;
+		// Respawn after set amount of time
+		if (respawnTimer >= 100) {
+			respawn(currentLevel.spawn);
+			respawnTimer = 0;
+			console.log(_pausePressed);
+			if (_pausePressed) {
+				pause();
+			}
+		}
+		// Change speed of death animation depending on amount of time after death
+		else if (respawnTimer >= 30) {
+			engine.timing.timeScale = 1;
+		} else if (respawnTimer >= 15) {
+			engine.timing.timeScale = 0.75;
 		}
 	}
 

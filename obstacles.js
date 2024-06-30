@@ -138,7 +138,6 @@ class FallingPlatform {
 
 	reset() {
 		Body.setPosition(this.platform, { x: this.x, y: this.y });
-		// Composite.add(engine.world, this.platform);
 	}
 }
 
@@ -234,7 +233,6 @@ class FallingSpike {
 
 	reset() {
 		Body.setAngle(this.spike, this.DIRECTION_TO_ANGLE[this.dir]);
-		console.log("reset at", this.x, this.y);
 		Body.setPosition(this.spike, { x: this.x, y: this.y });
 		// Composite.add(engine.world, this.spike);
 	}
@@ -282,16 +280,16 @@ class Transitioner {
 
 var testPlatform = new Platform(500, 500, 100, 50);
 
-var testFallPlat = new FallingPlatform(-1000, -540, 250, 15, (level = 2));
+var testFallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
 Sleeping.set(testFallPlat.platform, true);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
-var testFallSpike = new FallingSpike(-980, 100, "up", (level = 1));
-Sleeping.set(testFallSpike.spike, true);
+var testFallSpike1 = new FallingSpike(-980, 100, "up", (level = 1));
+Sleeping.set(testFallSpike1.spike, true);
 
 var testFallSpike2 = new FallingSpike(-300, 100, "up", (level = 1));
-Sleeping.set(testFallSpike.spike, true);
+Sleeping.set(testFallSpike2.spike, true);
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
@@ -323,8 +321,8 @@ var room2RightSpikes1 = new Spike({ x: -840, y: -1000 }, { x: -840, y: -780 }, "
 // var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
 // var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
 
-var room2Platform1 = new Platform(-840, -545, 3, 60);
-var room2Platform2 = new Platform(-840, -750, 3, 60);
+var room2Platform1 = new Platform(-840, -540, 3, 50);
+var room2Platform2 = new Platform(-840, -755, 3, 50);
 var room2Platform3 = new Platform(-155, -535, 30, 100);
 var room2Platform4 = new Platform(-155, -760, 30, 100);
 var room2Platform5 = new Platform(-150, -825, 100, 30);

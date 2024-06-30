@@ -1,7 +1,7 @@
 function isOnGround() {
 	var _onGround = false;
 	for (const ground of OBSTACLES.down) {
-		if (Collision.collides(player, ground) != null) {
+		if (Collision.collides(player, ground) !== null) {
 			_onGround = true;
 			break;
 		}
@@ -12,7 +12,7 @@ function isOnGround() {
 function isOnCeiling() {
 	var _onCeiling = false;
 	for (const ceiling of OBSTACLES.up) {
-		if (Collision.collides(player, ceiling) != null) {
+		if (Collision.collides(player, ceiling) !== null) {
 			_onCeiling = true;
 			break;
 		}
@@ -23,7 +23,7 @@ function isOnCeiling() {
 function isOnLeftWall() {
 	var _onLeftWall = false;
 	for (const leftWall of OBSTACLES.left) {
-		if (Collision.collides(player, leftWall) != null) {
+		if (Collision.collides(player, leftWall) !== null) {
 			_onLeftWall = true;
 			break;
 		}
@@ -34,7 +34,7 @@ function isOnLeftWall() {
 function isOnRightWall() {
 	var _onRightWall = false;
 	for (const rightWall of OBSTACLES.right) {
-		if (Collision.collides(player, rightWall) != null) {
+		if (Collision.collides(player, rightWall) !== null) {
 			_onRightWall = true;
 			break;
 		}

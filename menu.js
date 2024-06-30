@@ -7,12 +7,13 @@ function pause() {
 		_initialBoot = false;
 	} else if (_gameComplete) {
 		document.getElementById("resume-text").innerText = "DEMO COMPLETE";
-		_gameComplete = false;
 	} else {
 		document.getElementById("resume-text").innerText = "RESUME";
 	}
 	if (_isAlive && !_transition) {
 		_pausePressed = !_pausePressed;
+		_gameComplete = false;
+
 		if (_paused) {
 			document.getElementById("pause").style.display = "none";
 			_paused = false;
