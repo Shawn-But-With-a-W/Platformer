@@ -21,26 +21,28 @@ var room1WallLeft = Bodies.rectangle(-1000, 200, 30, 750, { isStatic: true });
 var room1WallRight1 = Bodies.rectangle(-15, 175, 30, 70, { isStatic: true });
 var room1WallRight2 = Bodies.rectangle(-15, -235, 30, 500, { isStatic: true });
 
-var room2Floor1 = Bodies.rectangle(-640, -500, 1000, 30, { isStatic: true });
+var room2Floor1 = Bodies.rectangle(-750, -500, 1150, 30, { isStatic: true });
 var room2WallRight1 = Bodies.rectangle(-15, -700, 30, 600, { isStatic: true });
 var room2Ceiling1 = Bodies.rectangle(-100, -1000, 200, 30, { isStatic: true });
-var room2WallLeft1 = Bodies.rectangle(-185, -900, 30, 170, { isStatic: true });
-var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
-var room2Ceiling2 = Bodies.rectangle(-600, -795, 1000, 30, { isStatic: true });
-var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
-var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
-var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
-var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
-var room2Floor3 = Bodies.rectangle(-155, -580, 30, 30, { isStatic: true });
-var room2Ceiling3 = Bodies.rectangle(-155, -715, 30, 30, { isStatic: true });
-var room2Floor4 = Bodies.rectangle(-840, -550, 30, 30, { isStatic: true });
-var room2Ceiling4 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
+var room2WallLeft1 = Bodies.rectangle(-185, -900, 30, 180, { isStatic: true });
+// var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
+var room2Ceiling2 = Bodies.rectangle(-750, -795, 1150, 30, { isStatic: true });
+
+// var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
+// var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
+// var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
+// var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
+
+// var room2Floor3 = Bodies.rectangle(-155, -580, 30, 30, { isStatic: true });
+// var room2Ceiling3 = Bodies.rectangle(-155, -715, 30, 30, { isStatic: true });
+// var room2Floor4 = Bodies.rectangle(-840, -550, 30, 30, { isStatic: true });
+// var room2Ceiling4 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
 // var room2WallLeft4 = Bodies.rectangle(-100, -810, 2, 60, { isStatic: true });
 
-var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2, room2Ceiling3, room2Ceiling4];
-var DOWNOBST = [floor, room1Floor, room2Floor1, room2Floor2, room2Floor3, room2Floor4];
-var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1, room2WallLeft2, room2WallLeft3];
-var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1, room2WallRight2, room2WallRight3];
+var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2];
+var DOWNOBST = [floor, room1Floor, room2Floor1];
+var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1];
+var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1];
 
 var PLATFORMS = [];
 var SPIKES = [];
@@ -280,7 +282,10 @@ Sleeping.set(testFallPlat.platform, true);
 
 var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
-var testFallSpike = new FallingSpike(-980, 100, "down", (level = 1));
+var testFallSpike = new FallingSpike(-980, 100, "up", (level = 1));
+Sleeping.set(testFallSpike.spike, true);
+
+var testFallSpike2 = new FallingSpike(-300, 100, "up", (level = 1));
 Sleeping.set(testFallSpike.spike, true);
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
@@ -298,3 +303,15 @@ var transitionerEnd = new Transitioner(-1050, -650, 25, 300, (colour = "blue"));
 var room2BottomSpikes = new Spike({ x: -800, y: -525 }, { x: -185, y: -525 }, "up", "x");
 
 var room2TopSpikes = new Spike({ x: -800, y: -770 }, { x: -185, y: -770 }, "down", "x");
+
+// var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
+// var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
+// var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
+// var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
+// var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
+
+var room2Platform1 = new Platform(-840, -540, 30, 50);
+var room2Platform2 = new Platform(-840, -755, 30, 50);
+var room2Platform3 = new Platform(-155, -535, 30, 100);
+var room2Platform4 = new Platform(-155, -760, 30, 100);
+var room2Platform5 = new Platform(-150, -825, 100, 30);
