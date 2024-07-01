@@ -268,39 +268,29 @@ class Transitioner {
 // All the platforms and objects
 var testPlatform = new Platform(500, 500, 100, 50);
 
-var testFallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
-Sleeping.set(testFallPlat.platform, true);
+var fallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
+Sleeping.set(fallPlat.platform, true);
 
-var testSpike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
+var room0Spike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
-var testFallSpike1 = new FallingSpike(-980, 175, "up", (level = 1));
-Sleeping.set(testFallSpike1.spike, true);
-
-var testFallSpike2 = new FallingSpike(-300, 175, "up", (level = 1));
-Sleeping.set(testFallSpike2.spike, true);
+var fallSpike1 = new FallingSpike(-980, 175, "up", (level = 1));
+Sleeping.set(fallSpike1.spike, true);
+var fallSpike2 = new FallingSpike(-300, 175, "up", (level = 1));
+Sleeping.set(fallSpike2.spike, true);
 
 var room1Spikes = new Spike({ x: -975, y: -150 }, { x: -975, y: 0 }, "right", "y");
 
 var transitioner0To1 = new Transitioner(-20, 77, 25, 150);
-
 var transitioner1To0 = new Transitioner(50, 77, 25, 150);
-
 var transitioner1To2 = new Transitioner(-90, -450, 150, 25, (colour = "red"));
-
 var transitioner2To1 = new Transitioner(-90, -350, 150, 25, (colour = "blue"));
-
 var transitionerEnd = new Transitioner(-900, -1000, 200, 30, (colour = "blue"));
 
 var room2BottomSpikes = new Spike({ x: -1200, y: -525 }, { x: -185, y: -525 }, "up", "x");
-
 var room2TopSpikes1 = new Spike({ x: -800, y: -770 }, { x: -185, y: -770 }, "down", "x");
-
 var room2TopSpikes2 = new Spike({ x: -1200, y: -770 }, { x: -975, y: -770 }, "down", "x");
-
 var room2LeftSpikes1 = new Spike({ x: -1255, y: -770 }, { x: -1255, y: -525 }, "right", "y");
-
 var room2LeftSpikes2 = new Spike({ x: -985, y: -1000 }, { x: -985, y: -780 }, "right", "y");
-
 var room2RightSpikes1 = new Spike({ x: -840, y: -1000 }, { x: -840, y: -780 }, "left", "y");
 
 var room2Platform1 = new Platform(-840, -540, 1, 50);
