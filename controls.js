@@ -2,7 +2,7 @@
 var keysPressed = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
 // Record of whether a direction is being pressed (converted from keysPressed)
 var directionsPressed = { up: false, down: false, left: false, right: false };
-var _gravPressed = false;
+var gravPressed = { W: false, A: false, S: false, D: false };
 var _pausePressed = false;
 
 // Change the key's corresponding value (get it?) to be true when pressed
@@ -16,9 +16,15 @@ window.addEventListener("keydown", (event) => {
 			keysPressed[event.key] = true;
 			directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = true;
 			break;
-
-		case " ":
-			_gravPressed = true;
+		case "W":
+		case "A":
+		case "S":
+		case "D":
+		case "w":
+		case "a":
+		case "s":
+		case "d":
+			gravPressed[event.key.toUpperCase()] = true;
 			break;
 		case "Escape":
 			_pausePressed = true;
@@ -38,8 +44,15 @@ window.addEventListener("keyup", (event) => {
 			directionsPressed[KEYSTROKE_TO_DIRECTION[event.key]] = false;
 			break;
 
-		case " ":
-			_gravPressed = false;
+		case "W":
+		case "A":
+		case "S":
+		case "D":
+		case "w":
+		case "a":
+		case "s":
+		case "d":
+			gravPressed[event.key.toUpperCase()] = false;
 			break;
 	}
 });
@@ -48,7 +61,7 @@ window.addEventListener("keyup", (event) => {
 function neutral() {
 	keysPressed = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
 	directionsPressed = { up: false, down: false, left: false, right: false };
-	_gravPressed = false;
+	gravPressed = { W: false, A: false, S: false, D: false };
 }
 
 // Returns if no keys pare being pressed

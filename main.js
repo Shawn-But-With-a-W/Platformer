@@ -200,41 +200,25 @@ function mainLoop() {
 	// Controlling gravity change
 	if (_grav && !_onGround && airTimer >= 15) {
 		player.render.fillStyle = "#f5d259";
-		if (
-			keysPressed["ArrowLeft"] &&
-			_gravPressed &&
-			!(keysPressed["ArrowRight"] || keysPressed["ArrowUp"] || keysPressed["ArrowDown"])
-		) {
+		if (gravPressed["A"]) {
 			changeGrav("left");
 			_grav = false;
 			_gravChanged = true;
 			changeGravDir = "left";
 			engine.gravity.scale = 0.002;
-		} else if (
-			keysPressed["ArrowRight"] &&
-			_gravPressed &&
-			!(keysPressed["ArrowLeft"] || keysPressed["ArrowUp"] || keysPressed["ArrowDown"])
-		) {
+		} else if (gravPressed["D"]) {
 			changeGrav("right");
 			_grav = false;
 			_gravChanged = true;
 			changeGravDir = "right";
 			engine.gravity.scale = 0.002;
-		} else if (
-			keysPressed["ArrowUp"] &&
-			_gravPressed &&
-			!(keysPressed["ArrowRight"] || keysPressed["ArrowLeft"] || keysPressed["ArrowDown"])
-		) {
+		} else if (gravPressed["W"]) {
 			changeGrav("up");
 			_grav = false;
 			_gravChanged = true;
 			changeGravDir = "up";
 			engine.gravity.scale = 0.002;
-		} else if (
-			keysPressed["ArrowDown"] &&
-			_gravPressed &&
-			!(keysPressed["ArrowRight"] || keysPressed["ArrowUp"] || keysPressed["ArrowLeft"])
-		) {
+		} else if (gravPressed["S"]) {
 			changeGrav("down");
 			_grav = false;
 			_gravChanged = true;
@@ -366,7 +350,6 @@ function mainLoop() {
 		if (respawnTimer >= 100) {
 			respawn(currentLevel.spawn);
 			respawnTimer = 0;
-			console.log(_pausePressed);
 			if (_pausePressed) {
 				pause();
 			}
