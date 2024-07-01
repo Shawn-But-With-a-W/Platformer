@@ -10,12 +10,14 @@ function pause() {
 	} else {
 		document.getElementById("resume-text").innerText = "RESUME";
 	}
+
 	if (_isAlive && !_transition) {
 		if (_pausePressed) {
 			_pausePressed = false;
 		}
 		_gameComplete = false;
 
+		// Displaying the pause menu and pausing the physics
 		if (_paused) {
 			document.getElementById("pause").style.display = "none";
 			_paused = false;

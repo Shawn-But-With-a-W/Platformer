@@ -1,4 +1,5 @@
-var PARAMETERS = {
+// Parameters used for various movement options
+const PARAMETERS = {
 	acc: { hor: 0.5, air: 0.6, jump: 7, fall: 1, wall: 10, grav: 0.5 },
 	dec: { hor: 0.4, air: 0.5 },
 	max: { hor: 3, air: 6, ver: 15 },
@@ -105,6 +106,7 @@ function death() {
 	let particle;
 	particles = [];
 
+	// A loop to create many particles with random velocity
 	for (let i = 0; i < 50; i++) {
 		particle = Bodies.rectangle(player.position.x, player.position.y, 8, 8, {
 			friction: 0.1,
@@ -128,11 +130,11 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	neutral();
 
 	Composite.remove(engine.world, particles);
-	// console.log("attempted to clear particles");
 
 	Body.setPosition(player, spawnpoint);
 	Composite.add(engine.world, player);
 
+	// Resetting obstacles upon death
 	for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
 		Body.setVelocity(fallPlat.platform, { x: 0, y: 0 });
 		fallPlat.reset();

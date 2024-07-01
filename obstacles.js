@@ -1,5 +1,6 @@
 var Bodies = Matter.Bodies;
 
+// The player box
 var player = Bodies.rectangle(640, 100, 40, 40, {
 	friction: 0,
 	frictionAir: 0,
@@ -9,6 +10,8 @@ var player = Bodies.rectangle(640, 100, 40, 40, {
 player.render.fillStyle = "#f5d259";
 player.render.lineWidth = 2;
 player.timeScale = 1;
+
+// Walls
 
 var floor = Bodies.rectangle(640, 650, 1280, 30, { isStatic: true });
 var ceiling = Bodies.rectangle(640, 0, 1280, 30, { isStatic: true });
@@ -25,24 +28,12 @@ var room2Floor1 = Bodies.rectangle(-750, -500, 1150, 30, { isStatic: true });
 var room2WallRight1 = Bodies.rectangle(-15, -700, 30, 600, { isStatic: true });
 var room2Ceiling1 = Bodies.rectangle(-100, -1000, 200, 30, { isStatic: true });
 var room2WallLeft1 = Bodies.rectangle(-185, -900, 30, 180, { isStatic: true });
-// var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
 var room2Ceiling2 = Bodies.rectangle(-490, -795, 700, 30, { isStatic: true });
 var room2Ceiling3 = Bodies.rectangle(-1200, -795, 430, 30, { isStatic: true });
 var room2WallLeft2 = Bodies.rectangle(-1280, -650, 30, 700, { isStatic: true });
 
 var room2WallLeft3 = Bodies.rectangle(-1000, -1060, 30, 500, { isStatic: true });
 var room2WallRight2 = Bodies.rectangle(-825, -1060, 30, 500, { isStatic: true });
-
-// var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
-// var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
-// var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
-// var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
-
-// var room2Floor3 = Bodies.rectangle(-155, -580, 30, 30, { isStatic: true });
-// var room2Ceiling3 = Bodies.rectangle(-155, -715, 30, 30, { isStatic: true });
-// var room2Floor4 = Bodies.rectangle(-840, -550, 30, 30, { isStatic: true });
-// var room2Ceiling4 = Bodies.rectangle(-840, -745, 30, 30, { isStatic: true });
-// var room2WallLeft4 = Bodies.rectangle(-100, -810, 2, 60, { isStatic: true });
 
 var UPOBST = [ceiling, room1Ceiling1, room2Ceiling1, room2Ceiling2, room2Ceiling3];
 var DOWNOBST = [floor, room1Floor, room2Floor1];
@@ -234,10 +225,10 @@ class FallingSpike {
 	reset() {
 		Body.setAngle(this.spike, this.DIRECTION_TO_ANGLE[this.dir]);
 		Body.setPosition(this.spike, { x: this.x, y: this.y });
-		// Composite.add(engine.world, this.spike);
 	}
 }
 
+// The rectangle with hitbox for range of triggering level transition
 class Transitioner {
 	constructor(x, y, width, height, colour = "transparent") {
 		this.x = x;
@@ -261,23 +252,20 @@ class Transitioner {
 	}
 
 	remove() {
-		// console.log(this.transitioner);
 		this.transitioner.render.fillStyle = "#71aff8";
 		Composite.remove(engine.world, this.transitioner);
-		// console.log("attempted to remove");
 	}
 
 	checkCollision() {
 		if (this.transitioner && Collision.collides(player, this.transitioner) !== null) {
-			// console.log("true");
 			return true;
 		} else {
-			// console.log("false");
 			return false;
 		}
 	}
 }
 
+// All the platforms and objects
 var testPlatform = new Platform(500, 500, 100, 50);
 
 var testFallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
@@ -314,12 +302,6 @@ var room2LeftSpikes1 = new Spike({ x: -1255, y: -770 }, { x: -1255, y: -525 }, "
 var room2LeftSpikes2 = new Spike({ x: -985, y: -1000 }, { x: -985, y: -780 }, "right", "y");
 
 var room2RightSpikes1 = new Spike({ x: -840, y: -1000 }, { x: -840, y: -780 }, "left", "y");
-
-// var room2WallLeft2 = Bodies.rectangle(-840, -540, 30, 50, { isStatic: true });
-// var room2WallLeft3 = Bodies.rectangle(-840, -755, 30, 50, { isStatic: true });
-// var room2WallRight2 = Bodies.rectangle(-155, -555, 30, 80, { isStatic: true });
-// var room2WallRight3 = Bodies.rectangle(-155, -740, 30, 80, { isStatic: true });
-// var room2Floor2 = Bodies.rectangle(-150, -825, 100, 30, { isStatic: true });
 
 var room2Platform1 = new Platform(-840, -540, 1, 50);
 var room2Platform2 = new Platform(-840, -755, 1, 50);

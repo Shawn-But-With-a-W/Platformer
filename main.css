@@ -35,7 +35,7 @@ h1 {
 }
 
 p {
-	font-size: 1vw;
+	font-size: 1.25vw;
 }
 
 button {
@@ -49,6 +49,7 @@ button {
 	border-radius: 0.5vh;
 	background-color: transparent;
 	transition: background-color 0.2s ease;
+	border-bottom: #7a71f8 3px solid;
 }
 
 button:hover > span {

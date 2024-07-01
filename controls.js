@@ -51,6 +51,7 @@ function neutral() {
 	_gravPressed = false;
 }
 
+// Returns if no keys pare being pressed
 function isNeutral() {
 	var directions = Object.keys(directionsPressed);
 	var _isNeutral = true;

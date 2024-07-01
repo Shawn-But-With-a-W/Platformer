@@ -30,9 +30,7 @@ class Level {
 	 */
 	checkLevelComplete() {
 		for (const endObj of this.ends) {
-			// console.log(range);
 			if (endObj.range.checkCollision()) {
-				// console.log(endObj.next);
 				return endObj;
 			}
 		}
@@ -48,6 +46,7 @@ class Level {
 	}
 
 	checkGameComplete(end) {
+		// Checking if it is on the last level and transitioning towards the first
 		if (this.nextLevelIndex(end) == 0 && levelIndex == 2) {
 			return true;
 		} else {
@@ -56,7 +55,8 @@ class Level {
 	}
 }
 
-var LEVELS = [
+// Array of all Level objects
+const LEVELS = [
 	new Level({ x: 0, y: 0 }, { x: 1280, y: 650 }, { x: 640, y: 100 }, [{ range: transitioner0To1, next: 1 }]),
 	new Level({ x: -1080, y: -450 }, { x: 200, y: 200 }, { x: -100, y: -50 }, [
 		{ range: transitioner1To0, next: 0 },

@@ -1,3 +1,5 @@
+// All of these functions do basically the same thing, just for different objects
+
 function isOnGround() {
 	var _onGround = false;
 	for (const ground of OBSTACLES.down) {

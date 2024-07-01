@@ -1,3 +1,9 @@
+// TODO: Change the level 2 right most block to a platform
+
+// TODO: Add timer delay for 60fps on all screens
+
+// TODO: Back to WASD gravity change
+
 // Initialise a bunch of variables before the main loop
 var _grav = false;
 var groundTimer = 0;
@@ -36,12 +42,14 @@ var _checkOutOfBounds = true;
 // render.mouse = mouse;
 // Composite.add(engine.world, [mouseConstraint]);
 
+// Pause the game at the beginning as the start screen
 pause();
 
 function mainLoop() {
+	// Default colour, overridden later depending on conditions
 	player.render.fillStyle = "#f5d3598f";
 
-	// Check if it's on the ground
+	// Check if it's on the ground and other obstacles
 	_onGround = isOnGround();
 	_onCeiling = isOnCeiling();
 	_onLeftWall = isOnLeftWall();
@@ -68,12 +76,14 @@ function mainLoop() {
 		airTimer = 0;
 	}
 
-	// Deceleration and capping max velocity
+	// Deceleration and capping max velocity when no keystrokes are pressed
 	if (isNeutral()) {
 		decel(type);
 	}
 
 	// Gravity
+
+	// When gravity is changed temporarily in a direction
 	if (_gravChanged) {
 		gravTimer++;
 		player.render.fillStyle = "#71aff8";
@@ -90,13 +100,6 @@ function mainLoop() {
 				break;
 		}
 
-		// Switching gravity back after 10 ticks
-		if (gravTimer >= 10) {
-			_gravReverted = true;
-			changeGrav(gravRevert);
-			_gravChanged = false;
-		}
-
 		// Sticking to the direction gravity changed in while going upwards
 		if (_onGround) {
 			neutral();
@@ -106,10 +109,18 @@ function mainLoop() {
 			_gravReverted = false;
 			gravTimer = 0;
 		}
+
+		// Switching gravity back after 10 ticks
+		if (gravTimer >= 10) {
+			_gravReverted = true;
+			changeGrav(gravRevert);
+			_gravChanged = false;
+		}
 	} else {
 		engine.gravity.scale = 0.001;
 	}
 
+	// After gravity switched back
 	if (_gravReverted) {
 		player.render.fillStyle = "#71b0f837";
 
@@ -165,7 +176,7 @@ function mainLoop() {
 		}
 	}
 
-	// When on ground for long enough
+	// Implementing velocity cap if on ground for long enough
 	if (groundTimer < 0) {
 		maxVel(type);
 		_waveDash = false;
@@ -186,7 +197,7 @@ function mainLoop() {
 		}
 	}
 
-	// Gravity takes priority over other movement
+	// Controlling gravity change
 	if (_grav && !_onGround && airTimer >= 15) {
 		player.render.fillStyle = "#f5d259";
 		if (
@@ -232,7 +243,7 @@ function mainLoop() {
 		}
 	}
 
-	// Move the box according to keyboard inputs
+	// Basic movement
 	if (directionsPressed["up"] && _onGround) {
 		jump();
 	}
@@ -246,12 +257,14 @@ function mainLoop() {
 		move("left", type);
 	}
 
+	// Walljump
 	if (directionsPressed["up"] && directionsPressed["left"] && _onRightWall) {
 		wallJump("left");
 	} else if (directionsPressed["up"] && directionsPressed["right"] && _onLeftWall) {
 		wallJump("right");
 	}
 
+	// Checking level completion
 	const endObj = currentLevel.checkLevelComplete();
 	if (endObj !== null) {
 		_checkOutOfBounds = false;
@@ -262,6 +275,7 @@ function mainLoop() {
 			_checkOutOfBounds = false;
 		}
 
+		// Resetting and sleeping falling obstacles of previous level
 		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
 			fallPlat.reset();
 			Sleeping.set(fallPlat.platform, true);
@@ -272,13 +286,12 @@ function mainLoop() {
 			Sleeping.set(fallSpike.spike, true);
 		}
 
-		// console.log(endObj.range);
-		// endObj.range.remove();
 		levelIndex = currentLevel.nextLevelIndex(endObj);
 		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
 		transitionTimer = 0;
 
+		// Waking up obstacles of current level
 		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
 			fallPlat.reset();
 			Sleeping.set(fallPlat.platform, false);
@@ -289,12 +302,13 @@ function mainLoop() {
 			Sleeping.set(fallSpike.spike, false);
 		}
 
+		// Setting values for camera movement later
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;
 		yDisp = currentLevel.max.y - lxy;
-		console.log(xDisp, yDisp);
 	}
 
+	// Level transition
 	if (_transition) {
 		engine.timing.timeScale = 0;
 		tween(transitionTimer, 40, xDisp, yDisp, easeInOutSine);
@@ -303,12 +317,12 @@ function mainLoop() {
 		if (transitionTimer >= 42) {
 			_transition = false;
 			engine.timing.timeScale = 1;
-			console.log("switched rooms", _boundsSet);
 			_grav = true;
 			_gravChanged = false;
 			_gravReverted = false;
 			_checkOutOfBounds = true;
 
+			// Level transition after final level
 			if (_gameComplete) {
 				changeGrav("down");
 				Body.setVelocity(player, { x: 0, y: 0 });
@@ -316,6 +330,7 @@ function mainLoop() {
 				neutral();
 			}
 
+			// Pause after the transition occurs (buffered pause)
 			if (_pausePressed) {
 				pause();
 			}
@@ -325,7 +340,7 @@ function mainLoop() {
 	// Dumb ways to die (and some less dumb ones)
 	if (_isAlive) {
 		respawnTimer = 0;
-		// Hitting a spike
+		// Hitting spikes
 		for (const spikeObj of SPIKES) {
 			if (spikeObj.hitSpikes()) {
 				death();
@@ -370,11 +385,13 @@ function mainLoop() {
 		shakeTimer++;
 	}
 
+	// Pausing when tabbed out
 	if (document.hasFocus() == false && _paused == false) {
 		_pausePressed = true;
 		pause();
 	}
 
+	// TODO: Calculating time between frames for 60fps
 	timePrev = timeCurrent;
 	timeCurrent = new Date().getTime();
 	timeDiff = timeCurrent - timePrev;

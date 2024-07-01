@@ -4,6 +4,7 @@ var _gravReverted = false;
 
 // Initialise directions
 
+// These records will change depending on direction of gravity
 var DIRECTION_TO_VALUE = {
 	up: { axis: "y", sign: -1 },
 	down: { axis: "y", sign: 1 },
