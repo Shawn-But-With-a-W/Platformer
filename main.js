@@ -21,8 +21,7 @@ var shakeTimer;
 var _transition = false;
 var transitionTimer = 0;
 var xDisp, yDisp, lmx, lmy, lxx, lxy;
-var timeCurrent = null;
-var timePrev, timeDiff;
+var timeCurrent, timePrev, timeDiff;
 var _boundsSet = false;
 var _gameComplete = false;
 var _checkOutOfBounds = true;
@@ -374,13 +373,12 @@ function mainLoop() {
 		pause();
 	}
 
-	// TODO: Calculating time between frames for 60fps
 	timePrev = timeCurrent;
 	timeCurrent = new Date().getTime();
-	timeDiff = timeCurrent - timePrev;
+	// timeDiff is set differently for first iteration
 	timeDiff = typeof timePrev === "number" ? timeCurrent - timePrev : 1000 / 60;
 
+	requestAnimationFrame(mainLoop);
 	Engine.update(engine, timeDiff);
-	animationFrame = requestAnimationFrame(mainLoop);
 }
-animationFrame = requestAnimationFrame(mainLoop);
+mainLoop();
