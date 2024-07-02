@@ -302,11 +302,7 @@ function checkHitSpikes() {
 }
 
 // All the platforms and objects
-var testPlatform = new Platform(500, 500, 100, 50);
-
-var fallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
-Sleeping.set(fallPlat.platform, true);
-
+var room0Platform = new Platform(500, 500, 100, 50);
 var room0Spike = new Spike({ x: 750, y: 500 }, { x: 1000, y: 500 }, "up", "x");
 
 var fallSpike1 = new FallingSpike(-980, 175, "up", (level = 1));
@@ -334,3 +330,6 @@ var room2Platform2 = new Platform(-840, -755, 1, 50);
 var room2Platform3 = new Platform(-155, -535, 30, 100);
 var room2Platform4 = new Platform(-155, -760, 30, 100);
 var room2Platform5 = new Platform(-150, -825, 100, 30);
+
+var fallPlat = new FallingPlatform(-1000, -550, 250, 15, (level = 2));
+Sleeping.set(fallPlat.platform, true);
