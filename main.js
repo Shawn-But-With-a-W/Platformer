@@ -10,7 +10,6 @@ var groundTimer = 0;
 var gravTimer = 0;
 var airTimer = 0;
 var _gravChanged = false;
-// var _gravReverted = false;
 var gravRevert = gravDir;
 var changeGravDir = null;
 var _isAlive = true;
@@ -292,6 +291,7 @@ function mainLoop() {
 			// Level transition after final level
 			if (_gameComplete) {
 				changeGrav("down");
+				gravRevert = "down";
 				Body.setVelocity(player, { x: 0, y: 0 });
 				Body.setPosition(player, currentLevel.spawn);
 				neutral();
