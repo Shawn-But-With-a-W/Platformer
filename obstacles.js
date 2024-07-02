@@ -265,6 +265,42 @@ class Transitioner {
 	}
 }
 
+function resetFalling(_sleep = null) {
+	for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
+		Body.setVelocity(fallPlat.platform, { x: 0, y: 0 });
+		fallPlat.reset();
+		if (_sleep === true) {
+			Sleeping.set(fallPlat.platform, true);
+		} else if (_sleep === false) {
+			Sleeping.set(fallPlat.platform, false);
+		}
+	}
+
+	for (const fallSpike of FALLING_SPIKES[levelIndex]) {
+		Body.setVelocity(fallSpike.spike, { x: 0, y: 0 });
+		fallSpike.reset();
+		if (_sleep === true) {
+			Sleeping.set(fallSpike.spike, true);
+		} else if (_sleep === false) {
+			Sleeping.set(fallSpike.spike, false);
+		}
+	}
+}
+
+function checkHitSpikes() {
+	for (const spikeObj of SPIKES) {
+		if (spikeObj.hitSpikes()) {
+			death();
+		}
+	}
+
+	for (const fallSpikeObj of FALLING_SPIKES[levelIndex]) {
+		if (fallSpikeObj.hitSpikes()) {
+			death();
+		}
+	}
+}
+
 // All the platforms and objects
 var testPlatform = new Platform(500, 500, 100, 50);
 

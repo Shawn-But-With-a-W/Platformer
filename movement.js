@@ -135,14 +135,6 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	Composite.add(engine.world, player);
 
 	// Resetting obstacles upon death
-	for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
-		Body.setVelocity(fallPlat.platform, { x: 0, y: 0 });
-		fallPlat.reset();
-	}
-
-	for (const fallSpike of FALLING_SPIKES[levelIndex]) {
-		Body.setVelocity(fallSpike.spike, { x: 0, y: 0 });
-		fallSpike.reset();
-	}
+	resetFalling();
 	engine.gravity.scale = 0.001;
 }

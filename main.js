@@ -259,15 +259,7 @@ function mainLoop() {
 		}
 
 		// Resetting and sleeping falling obstacles of previous level
-		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
-			fallPlat.reset();
-			Sleeping.set(fallPlat.platform, true);
-		}
-
-		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
-			fallSpike.reset();
-			Sleeping.set(fallSpike.spike, true);
-		}
+		resetFalling(true);
 
 		levelIndex = currentLevel.nextLevelIndex(endObj);
 		currentLevel = currentLevel.nextLevel(endObj);
@@ -275,15 +267,7 @@ function mainLoop() {
 		transitionTimer = 0;
 
 		// Waking up obstacles of current level
-		for (const fallPlat of FALLING_PLATFORMS[levelIndex]) {
-			fallPlat.reset();
-			Sleeping.set(fallPlat.platform, false);
-		}
-
-		for (const fallSpike of FALLING_SPIKES[levelIndex]) {
-			fallSpike.reset();
-			Sleeping.set(fallSpike.spike, false);
-		}
+		resetFalling(false);
 
 		// Setting values for camera movement later
 		setBounds();
@@ -324,17 +308,7 @@ function mainLoop() {
 	if (_isAlive) {
 		respawnTimer = 0;
 		// Hitting spikes
-		for (const spikeObj of SPIKES) {
-			if (spikeObj.hitSpikes()) {
-				death();
-			}
-		}
-
-		for (const fallSpikeObj of FALLING_SPIKES[levelIndex]) {
-			if (fallSpikeObj.hitSpikes()) {
-				death();
-			}
-		}
+		checkHitSpikes();
 
 		// Falling out of bounds
 		if (_checkOutOfBounds && currentLevel.isOutOfBounds()) {

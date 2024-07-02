@@ -30,7 +30,6 @@ function changeGrav(dir) {
 			cancelVel("x");
 			if (player.velocity.y < PARAMETERS.acc.grav && !_gravReverted) {
 				Body.setVelocity(player, { x: player.velocity.x, y: PARAMETERS.acc.grav });
-				console.log("force velocity down");
 			}
 
 			DIRECTION_TO_VALUE = {
@@ -63,7 +62,6 @@ function changeGrav(dir) {
 			cancelVel("x");
 			if (player.velocity.y > -PARAMETERS.acc.grav && !_gravReverted) {
 				Body.setVelocity(player, { x: player.velocity.x, y: -PARAMETERS.acc.grav });
-				console.log("force velocity up");
 			}
 
 			DIRECTION_TO_VALUE = {
@@ -96,7 +94,6 @@ function changeGrav(dir) {
 			cancelVel("y");
 			if (player.velocity.x > -PARAMETERS.acc.grav && !_gravReverted) {
 				Body.setVelocity(player, { x: -PARAMETERS.acc.grav, y: player.velocity.y });
-				console.log("force velocity left");
 			}
 
 			DIRECTION_TO_VALUE = {
@@ -129,7 +126,6 @@ function changeGrav(dir) {
 			cancelVel("y");
 			if (player.velocity.x < PARAMETERS.acc.grav && !_gravReverted) {
 				Body.setVelocity(player, { x: PARAMETERS.acc.grav, y: player.velocity.y });
-				console.log("force velocity right");
 			}
 
 			DIRECTION_TO_VALUE = {
