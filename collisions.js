@@ -1,5 +1,7 @@
 // All of these functions do basically the same thing, just for different objects
 
+// Relative direction obstacles (from box's point of view assuming gravity always pulls downwards)
+
 function isOnGround() {
 	var _onGround = false;
 	for (const ground of OBSTACLES.down) {
@@ -43,6 +45,8 @@ function isOnRightWall() {
 	}
 	return _onRightWall;
 }
+
+// Absoulte direction obstacles
 
 function isOnUpObst() {
 	var _onUpObst = false;

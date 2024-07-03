@@ -11,6 +11,7 @@ class Level {
 		this.yMax = max.y;
 	}
 
+	// If the player is off screen
 	isOutOfBounds() {
 		if (
 			player.position.x > this.xMax ||
@@ -24,7 +25,7 @@ class Level {
 		}
 	}
 
-	// Jarrett wrote this comment can you tell?
+	// Jarrett wrote this comment
 	/**
 	 * @returns end object or null if not colliding
 	 */

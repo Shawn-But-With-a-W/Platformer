@@ -2,6 +2,7 @@ var _paused = false;
 var _initialBoot = true;
 
 function pause() {
+	// Changing the "resume" text
 	if (_initialBoot) {
 		document.getElementById("resume-text").innerText = "START GAME";
 		_initialBoot = false;

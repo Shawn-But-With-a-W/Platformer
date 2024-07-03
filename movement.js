@@ -48,6 +48,7 @@ function wallJump(dir) {
 	});
 }
 
+// Caps velocity
 function maxVel(type) {
 	var horAxis = DIRECTION_TO_VALUE["right"].axis;
 	var verAxis = DIRECTION_TO_VALUE["up"].axis;
@@ -66,6 +67,7 @@ function maxVel(type) {
 	}
 }
 
+// Decelerates velocity in horizontal axis
 function decel(type) {
 	var horAxis = DIRECTION_TO_VALUE["right"].axis;
 	var verAxis = DIRECTION_TO_VALUE["up"].axis;
@@ -82,11 +84,13 @@ function decel(type) {
 		});
 	}
 
+	// Stop movement completely if player is too slow
 	if (-0.5 <= player.velocity[horAxis] && player.velocity[horAxis] <= 0.5) {
 		Body.setVelocity(player, { [horAxis]: 0, [verAxis]: player.velocity[verAxis] });
 	}
 }
 
+// Cancels the velocity of a given axis
 function cancelVel(axis) {
 	switch (axis) {
 		case "x":
@@ -129,6 +133,7 @@ function respawn(spawnpoint = { x: 640, y: 100 }, defaultGravDir = "down") {
 	changeGrav(defaultGravDir);
 	neutral();
 
+	// Removing particles from death
 	Composite.remove(engine.world, particles);
 
 	Body.setPosition(player, spawnpoint);

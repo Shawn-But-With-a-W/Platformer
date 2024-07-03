@@ -1,9 +1,3 @@
-// TODO: Change the level 2 right most block to a platform
-
-// TODO: Add timer delay for 60fps on all screens
-
-// TODO: Back to WASD gravity change
-
 // Initialise a bunch of variables before the main loop
 var _grav = false;
 var groundTimer = 0;
@@ -24,21 +18,6 @@ var timeCurrent, timePrev, timeDiff;
 var _boundsSet = false;
 var _gameComplete = false;
 var _checkOutOfBounds = true;
-
-// // add mouse control (I have no idea how this works)
-// var mouse = Mouse.create(document.body),
-// 	mouseConstraint = MouseConstraint.create(engine, {
-// 		mouse: mouse,
-// 		constraint: {
-// 			stiffness: 0.2,
-// 			render: {
-// 				visible: true,
-// 			},
-// 		},
-// 	});
-// // keep the mouse in sync with rendering
-// render.mouse = mouse;
-// Composite.add(engine.world, [mouseConstraint]);
 
 // Pause the game at the beginning as the start screen
 pause();
@@ -155,13 +134,9 @@ function mainLoop() {
 		}
 
 		// Updating keysPressed record so keys/directions aren't incorrectly buffered after gravity change
-		for (const key of Object.keys(keysPressed)) {
-			if (!keysPressed[key]) {
-				directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
-			}
-		}
+		setDirectionsPressed();
 
-		// Resetting values specifically after gravity change
+		// Resetting values specifically after landing from gravity reversion
 		if (_onGround) {
 			type = "hor";
 			_grav = true;
@@ -181,7 +156,7 @@ function mainLoop() {
 		PARAMETERS.acc.hor = 0.5;
 		PARAMETERS.acc.air = 0.6;
 	}
-	// Modifying values for wavedashing for short period of time on ground
+	// Modifying values for wavedashing for short period of time
 	else {
 		if (directionsPressed["up"] == false) {
 			_waveDash = true;
@@ -251,6 +226,7 @@ function mainLoop() {
 	if (endObj !== null) {
 		_checkOutOfBounds = false;
 
+		// Checking if the entire demo has been completed
 		if (currentLevel.checkGameComplete(endObj)) {
 			_gameComplete = true;
 			_pausePressed = true;
@@ -258,17 +234,18 @@ function mainLoop() {
 		}
 
 		// Resetting and sleeping falling obstacles of previous level
-		resetFalling(true);
+		resetFalling(sleep=true);
 
+		// Moving to the next level in the LEVELS array
 		levelIndex = currentLevel.nextLevelIndex(endObj);
 		currentLevel = currentLevel.nextLevel(endObj);
 		_transition = true;
 		transitionTimer = 0;
 
 		// Waking up obstacles of current level
-		resetFalling(false);
+		resetFalling(sleep=false);
 
-		// Setting values for camera movement later
+		// Setting values for moving camera later
 		setBounds();
 		xDisp = currentLevel.max.x - lxx;
 		yDisp = currentLevel.max.y - lxy;
@@ -280,6 +257,7 @@ function mainLoop() {
 		tween(transitionTimer, 40, xDisp, yDisp, easeInOutSine);
 		transitionTimer++;
 
+		// Transition ends after 42 frames
 		if (transitionTimer >= 42) {
 			_transition = false;
 			engine.timing.timeScale = 1;
@@ -352,6 +330,7 @@ function mainLoop() {
 	// timeDiff is set differently for first iteration
 	timeDiff = typeof timePrev === "number" ? timeCurrent - timePrev : 1000 / 60;
 
+	// Updating physics and looping again
 	requestAnimationFrame(mainLoop);
 	Engine.update(engine, timeDiff);
 }

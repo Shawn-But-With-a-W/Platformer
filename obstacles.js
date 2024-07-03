@@ -40,11 +40,13 @@ var DOWNOBST = [floor, room1Floor, room2Floor1];
 var LEFTOBST = [wallLeft, room1WallLeft, room2WallLeft1, room2WallLeft2, room2WallLeft3];
 var RIGHTOBST = [wallRight, room1WallRight1, room1WallRight2, room2WallRight1, room2WallRight2];
 
+// Array of various platforms/spikes
 var PLATFORMS = [];
 var SPIKES = [];
 var FALLING_PLATFORMS = [[], [], []];
 var FALLING_SPIKES = [[], [], []];
 
+// Record linking relative direction and absolute direction obstacles
 var OBSTACLES = {
 	up: UPOBST,
 	down: DOWNOBST,
@@ -52,7 +54,7 @@ var OBSTACLES = {
 	right: RIGHTOBST,
 };
 
-// add all of the bodies to the world
+// Add all of the bodies to the world
 Composite.add(engine.world, player);
 Composite.add(engine.world, UPOBST);
 Composite.add(engine.world, DOWNOBST);
@@ -86,7 +88,7 @@ class Platform {
 
 		Matter.Composite.add(engine.world, [this.top, this.bottom, this.left, this.right]);
 
-		// Update obstacles
+		// Update arrays
 		UPOBST.push(this.bottom);
 		DOWNOBST.push(this.top);
 		LEFTOBST.push(this.right);
@@ -228,7 +230,7 @@ class FallingSpike {
 	}
 }
 
-// The rectangle with hitbox for range of triggering level transition
+// The rectangle that when collided with, triggers room transition animation
 class Transitioner {
 	constructor(x, y, width, height, colour = "transparent") {
 		this.x = x;

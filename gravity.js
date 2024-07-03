@@ -32,6 +32,7 @@ function changeGrav(dir) {
 				Body.setVelocity(player, { x: player.velocity.x, y: PARAMETERS.acc.grav });
 			}
 
+			// Swapping directions and other records around for movement and collision to be consistent after gravity changes
 			DIRECTION_TO_VALUE = {
 				up: { axis: "y", sign: -1 },
 				down: { axis: "y", sign: 1 },

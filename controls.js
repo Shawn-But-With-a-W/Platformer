@@ -57,6 +57,16 @@ window.addEventListener("keyup", (event) => {
 	}
 });
 
+// Manually syncing directionsPressed with keysPressed
+function setDirectionsPressed() {
+	for (const key of Object.keys(keysPressed)) {
+		if (!keysPressed[key]) {
+			directionsPressed[KEYSTROKE_TO_DIRECTION[key]] = false;
+		}
+	}
+}
+
+
 // Removes all keystrokes and directions
 function neutral() {
 	keysPressed = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
@@ -64,7 +74,7 @@ function neutral() {
 	gravPressed = { W: false, A: false, S: false, D: false };
 }
 
-// Returns if no keys pare being pressed
+// Determines if no keys are currently being pressed
 function isNeutral() {
 	var directions = Object.keys(directionsPressed);
 	var gravKeys = Object.keys(gravPressed);
