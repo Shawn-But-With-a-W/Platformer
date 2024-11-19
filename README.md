@@ -1,5 +1,7 @@
 # Platformer
 
+This is a very janky platformer... Be warned.
+
 ## Starting the Game
 
 1. Download all files
